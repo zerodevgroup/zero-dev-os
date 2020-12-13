@@ -20,7 +20,7 @@ program
   .option("--core", "Install Zero Dev OS Core")
   .option("--desktop", "Install Zero Dev OS Desktop")
   .option("--bashrc", "Install Zero Dev OS Bashrc")
-  .option("--vim", "Install Zero Dev OS Vim")
+  .option("--vimrc", "Install Zero Dev OS Vimrc")
   .description("Install Zero Dev OS")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
@@ -28,7 +28,7 @@ program
       bashrc: options.bashrc,
       core: options.core,
       desktop: options.desktop,
-      vim: options.vim,
+      vimrc: options.vimrc,
     })
 
     zeroDevOS.install()

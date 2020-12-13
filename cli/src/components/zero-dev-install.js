@@ -14,10 +14,10 @@ class ZeroDevInstall extends ComponentBase {
 
     this.operations = [
       "all",
-      "bashrc",
       "core",
       "desktop",
-      "vim",
+      "bashrc",
+      "vimrc",
     ]
 
     this.validate()
@@ -87,6 +87,9 @@ class ZeroDevInstall extends ComponentBase {
     this.utils.shell("apt install --yes libcurl4")
     this.utils.shell("apt install --yes libcurl4-openssl-dev")
 
+    this.utils.shell("apt install --yes vim")
+    this.utils.shell("apt install --yes vim-gtk")
+
     this.utils.shell("apt install --yes openssh-server")
     this.utils.shell("apt install --yes libpcre3 libpcre3-dev")
     this.utils.shell("apt install --yes zlib1g zlib1g-dev")
@@ -137,12 +140,10 @@ alias zero-dev-os='zero-dev-os.sh'
     this.utils.shell(`cp /tmp/bashrc ${this.options.home}/.bashrc`)
   }
 
-  vim() {
-    this.utils.title("Installing Zero Dev OS Vim")
+  vimrc() {
+    this.utils.title("Installing Zero Dev OS Vimrc")
 
     this.utils.shell(`git clone https://github.com/VundleVim/Vundle.vim.git ${this.options.home}/.vim/bundle/Vundle.vim`)
-    this.utils.shell("apt install --yes vim")
-    this.utils.shell("apt install --yes vim-gtk")
 
     let vimrcContent = `
 set nocompatible              " be iMproved, required
@@ -208,7 +209,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
     fs.writeFileSync("/tmp/vimrc", vimrcContent)
     this.utils.shell(`cp /tmp/vimrc ${this.options.home}/.vimrc`)
-    this.utils.shell(`cp /tmp/vimrc /root/.vimrc`)
 
     this.utils.shell(`vi -c "PluginInstall" ~/.vimrc -c "qa"`)
   }
