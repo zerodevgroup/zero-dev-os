@@ -24,3 +24,9 @@ zip -r ubuntu-20.10-preinstalled-desktop-arm64+raspi.zip ubuntu-20.10-preinstall
 ### Chromebook
 
 Use Recovery utility to create bootable SD Card
+
+* Insert an SD Card
+* Open the "Recovery" utility
+* Select "Use Local Image" from the gear icon
+* Choose the zip file from the previous step
+* Select SD Card
