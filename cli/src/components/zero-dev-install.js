@@ -14,9 +14,11 @@ class ZeroDevInstall extends ComponentBase {
 
     this.operations = [
       "all",
+      "bashrc",
       "core",
       "desktop",
-      "bashrc",
+      "essential",
+      "mongo",
       "vimrc",
     ]
 
@@ -26,8 +28,17 @@ class ZeroDevInstall extends ComponentBase {
   exec() {
     let promise = new Promise((resolve, reject) => {
       this.operations.forEach((operation) => {
+        let shouldInstall = false
+
         if(this.options.all || this.options[operation]) {
+          shouldInstall = true
           console.log(operation)
+        }
+        else if(this.options.essential && (operation.test(/^(core|bashrc|vimrc)$/))) {
+          shouldInstall = true
+        }
+
+        if(shouldInstall) {
           this[operation]()
         }
       })
@@ -41,6 +52,36 @@ class ZeroDevInstall extends ComponentBase {
     })
 
     return(promise)
+  }
+
+  bashrc() {
+    this.utils.title("Installing Zero Dev OS Bashrc")
+
+    let bashrcContent = `
+# Set up vi options
+set -o vi
+export EDITOR=vi
+export VISUAL=vi
+
+# Set prompt
+export PS1='
+\\e[35m$USER\\e[0m@$HOSTNAME [\\D{%H:%M:%S}] $PWD
+$> '
+
+export PATH="$PATH:/snap/bin:$HOME/zero-dev-os:$HOME/zero-dev-os/tools"
+
+function title {
+echo -ne "\\033]0;"$*"\\007"
+}
+
+export LC_ALL=en_US.utf-8 
+export LANG="$LC_ALL"
+
+alias zero-dev-os='zero-dev-os.sh'
+`
+
+    fs.writeFileSync("/tmp/bashrc", bashrcContent)
+    this.utils.shell(`cp /tmp/bashrc ${this.options.home}/.bashrc`)
   }
 
   core() {
@@ -110,34 +151,26 @@ class ZeroDevInstall extends ComponentBase {
     this.utils.shell("pip3 install weasyprint")
   }
 
-  bashrc() {
-    this.utils.title("Installing Zero Dev OS Bashrc")
+  desktop() {
+    this.utils.title("Installing Zero Dev OS Desktop")
 
-    let bashrcContent = `
-# Set up vi options
-set -o vi
-export EDITOR=vi
-export VISUAL=vi
+    this.utils.shell("echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections")
+    this.utils.shell("apt install --yes ttf-mscorefonts-installer")
+    this.utils.shell("apt install --yes chromium-browser")
+    this.utils.shell("apt install --yes terminator")
+    this.utils.shell("apt install --yes gnome-tweak-tool")
+    this.utils.shell("apt install --yes ubuntu-restricted-extras")
+  }
 
-# Set prompt
-export PS1='
-\\e[35m$USER\\e[0m@$HOSTNAME [\\D{%H:%M:%S}] $PWD
-$> '
+  mongo() {
+    this.utils.title("Installing MongoDB")
 
-export PATH="$PATH:/snap/bin:$HOME/zero-dev-os:$HOME/zero-dev-os/tools"
-
-function title {
-echo -ne "\\033]0;"$*"\\007"
-}
-
-export LC_ALL=en_US.utf-8 
-export LANG="$LC_ALL"
-
-alias zero-dev-os='zero-dev-os.sh'
-`
-
-    fs.writeFileSync("/tmp/bashrc", bashrcContent)
-    this.utils.shell(`cp /tmp/bashrc ${this.options.home}/.bashrc`)
+    this.utils.shell("wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -")
+    this.utils.shell("echo 'deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main' | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list")
+    this.utils.shell("apt update")
+    this.utils.shell("apt install --yes mongodb-org")
+    this.utils.shell("systemctl enable mongod")
+    this.utils.shell("systemctl start mongod")
   }
 
   vimrc() {
@@ -211,17 +244,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
     this.utils.shell(`cp /tmp/vimrc ${this.options.home}/.vimrc`)
 
     this.utils.shell(`vi -c "PluginInstall" ~/.vimrc -c "qa"`)
-  }
-
-  desktop() {
-    this.utils.title("Installing Zero Dev OS Desktop")
-
-    this.utils.shell("echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections")
-    this.utils.shell("apt install --yes ttf-mscorefonts-installer")
-    this.utils.shell("apt install --yes chromium-browser")
-    this.utils.shell("apt install --yes terminator")
-    this.utils.shell("apt install --yes gnome-tweak-tool")
-    this.utils.shell("apt install --yes ubuntu-restricted-extras")
   }
 
   validate() {

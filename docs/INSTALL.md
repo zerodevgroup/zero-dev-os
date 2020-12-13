@@ -126,11 +126,9 @@ Open the "Tweaks" tool
 
 In the "Appearance" tab:
   * Change "Applications" to "Adwaita-dark"
-  * Change "Cursor" to "Communitheme"
-  * Change "Icons" to "Communitheme"
 
-In the "Desktop" tab:
-  * Change "Show Icons" to "Off"
+In the "Extensions" tab:
+  * Click the gear next to Desktop Icons and change "Show ..." to "Off" for all
 
 In the "Top Bar" tab:
   * Change "Clock Seconds" to "On"
@@ -145,7 +143,8 @@ Open the "Settings" tool
 
 In the "Power" tab:
   * Change "Power Saving - Blank Screen" to "Never"
-  * Change "Suspend & Power Button - Automatic Suspend" to "Off"
+  * Change "Power Saving - Wi-Fi can be turned off..." to "Never"
+  * Change "Suspend & Power Button - Automatic Suspend" to "Off" (if present)
 
 In the "Background" tab:
-  * Change "Background" to "Solid Color" or the background of your choice
+  * Change "Background" to the background of your choice

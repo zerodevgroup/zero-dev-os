@@ -17,9 +17,11 @@ program
 program
   .command("install")
   .option("--all", "Install Zero Dev OS with everything")
+  .option("--bashrc", "Install Zero Dev OS Bashrc")
   .option("--core", "Install Zero Dev OS Core")
   .option("--desktop", "Install Zero Dev OS Desktop")
-  .option("--bashrc", "Install Zero Dev OS Bashrc")
+  .option("--essential", "Install Zero Dev OS Essentials (core, bashrc, vimrc)")
+  .option("--mongo", "Install Zero Dev OS Mongo")
   .option("--vimrc", "Install Zero Dev OS Vimrc")
   .description("Install Zero Dev OS")
   .action((options) => {
@@ -28,6 +30,8 @@ program
       bashrc: options.bashrc,
       core: options.core,
       desktop: options.desktop,
+      essential: options.essential,
+      mongo: options.mongo,
       vimrc: options.vimrc,
     })
 
