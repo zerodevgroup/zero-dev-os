@@ -78,6 +78,11 @@ sudo ./node-js-install.sh
 
 ```
 cd ~/zero-dev-os
-sudo ./zero-dev-os.sh install
+sudo ./zero-dev-os.sh install --all
 ```
 
+### Reboot
+
+```
+sudo reboot
+```
