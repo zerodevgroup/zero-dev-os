@@ -11,7 +11,7 @@ class ZeroDevOS {
 
     this.options.workDir = process.env["PWD"]
     this.options.zeroDevOSDir = __dirname.replace(/\/cli\/src$/, "")
-    this.options.home = process.env["HOME"]
+    this.options.home = this.options.zeroDevOSDir.replace(/\/zero-dev-os/, "")
     this.options.user = process.env["USER"]
   }
 
