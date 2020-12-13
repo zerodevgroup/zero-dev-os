@@ -6,15 +6,16 @@ const ComponentBase = require("../base/component-base.js")
 class ZeroDevInstall extends ComponentBase {
   constructor(options) {
     super(options);
-    this.command = "environment"
+    this.command = "install"
 
     console.log()
     this.utils.message("Options:")
     console.log(this.options);
 
     this.operations = [
-      "install",
-      "installDesktop",
+      "all",
+      "core",
+      "desktop",
     ]
 
     this.validate()
@@ -23,7 +24,7 @@ class ZeroDevInstall extends ComponentBase {
   exec() {
     let promise = new Promise((resolve, reject) => {
       this.operations.forEach((operation) => {
-        if(this.options[operation]) {
+        if(this.options.all || this.options[operation]) {
           console.log(operation)
           this[operation]()
         }
@@ -40,8 +41,8 @@ class ZeroDevInstall extends ComponentBase {
     return(promise)
   }
 
-  install() {
-    this.utils.title("Installing Zero Dev OS")
+  core() {
+    this.utils.title("Installing Zero Dev OS Core")
 
     // Upgrade OS
     this.utils.shell("apt update")
@@ -201,7 +202,7 @@ alias zero-dev-os='zero-dev-os.sh'
   }
 
 
-  installDesktop() {
+  desktop() {
     this.utils.title("Installing Zero Dev OS Desktop")
 
     this.utils.shell("echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections")

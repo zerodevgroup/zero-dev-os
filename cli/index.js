@@ -16,12 +16,15 @@ program
 
 program
   .command("install")
-  .option("--with-desktop", "Install Zero Dev OS with Desktop")
+  .option("--all", "Install Zero Dev OS with everything")
+  .option("--core", "Install Zero Dev OS Core")
+  .option("--desktop", "Install Zero Dev OS Desktop")
   .description("Install Zero Dev OS")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
-      install: true,
-      installDesktop: options.withDesktop,
+      all: options.all,
+      core: options.core,
+      desktop: options.desktop,
     })
 
     zeroDevOS.install()
