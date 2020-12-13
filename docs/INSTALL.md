@@ -7,11 +7,20 @@ Download Ubuntu Desktop 20.10 64-bit for Raspberry Pi 4
 
 https://ubuntu.com/download/raspberry-pi
 
+## Uncompress Image
 
-### Uncompress Image
-
+```
 unxz ubuntu-20.10-preinstalled-desktop-arm64+raspi.img.xz
+```
 
-### Zip Image
+## Zip Image
 
+```
 zip -r ubuntu-20.10-preinstalled-desktop-arm64+raspi.zip ubuntu-20.10-preinstalled-desktop-arm64+raspi.img
+```
+
+## Create Bootable SD Card
+
+### Chromebook
+
+Use Recovery utility to create bootable SD Card
