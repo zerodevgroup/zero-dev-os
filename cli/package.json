@@ -1,0 +1,38 @@
+{
+  "name": "zero-dev-os-cli",
+  "version": "1.0.0",
+  "description": "ZeroDevOS CLI",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "photon": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zerodevgroup/zero-dev-os.git"
+  },
+  "keywords": [
+    "zero-dev-os",
+    "lockalpha",
+    "automation",
+    "cli"
+  ],
+  "author": "zerodevgroup",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zerodevgroup/zero-dev-os/issues"
+  },
+  "homepage": "https://github.com/zerodevgroup/zero-dev-os#readme",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^6.2.0",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.0",
+    "pluralize": "^8.0.0",
+    "shelljs": "^0.8.4"
+  }
+}
