@@ -86,3 +86,66 @@ sudo ./zero-dev-os.sh install --all
 ```
 sudo reboot
 ```
+
+## Post Install Tweaks
+
+### Fix menu favorites
+
+Remove default favorites from the left menu and add the following:
+
+* Terminator
+* Chromium
+* Files
+* Settings
+* Tweaks
+
+### Change Terminator defaults
+
+Launch "Terminator"
+
+In the Terminator window, right click and select "Preferences"
+
+In the Global tab:
+  * Under "Appearance" change the "Unfocused terminal font brightnes" to 100% (the blinking cursor will be your indication of the focused terminal)
+  * Under "Terminal Titlebar" change the "Background" color from red to something a little less intense, say blue
+
+In the Profiles tab (default profile):
+  * Select the "Global" tab and change "Font" to the font of your choice, like "Monospace Regular 13"
+  * Select the "Colors" tab and change "Foreground and Background" to the scheme of your choice, like "White on Black" or "Green on Black"
+  * Select the "Scrolling" tab and select "Infinite Scrollback"
+
+In the Keybindings tab:
+  * Change the keybinding "next_tab" to "Shift+Ctrl+Right"
+  * Change the keybinding "prev_tab" to "Shift+Ctrl+Left"
+  * Change the keybinding "resize_right" to "Ctrl+Super+Right"
+  * Change the keybinding "resize_left" to "Ctrl+Super+Left"
+
+### Apply Tweaks
+
+Open the "Tweaks" tool
+
+In the "Appearance" tab:
+  * Change "Applications" to "Adwaita-dark"
+  * Change "Cursor" to "Communitheme"
+  * Change "Icons" to "Communitheme"
+
+In the "Desktop" tab:
+  * Change "Show Icons" to "Off"
+
+In the "Top Bar" tab:
+  * Change "Clock Seconds" to "On"
+  * Change "Date" to "On"
+
+In the "Workspaces" tab:
+  * Change to "Static Workspaces" and leave the "Number of Workspaces" set to "4"
+
+### Change Settings
+
+Open the "Settings" tool
+
+In the "Power" tab:
+  * Change "Power Saving - Blank Screen" to "Never"
+  * Change "Suspend & Power Button - Automatic Suspend" to "Off"
+
+In the "Background" tab:
+  * Change "Background" to "Solid Color" or the background of your choice
