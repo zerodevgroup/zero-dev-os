@@ -14,8 +14,10 @@ class ZeroDevInstall extends ComponentBase {
 
     this.operations = [
       "all",
+      "bashrc",
       "core",
       "desktop",
+      "vim",
     ]
 
     this.validate()
@@ -74,12 +76,9 @@ class ZeroDevInstall extends ComponentBase {
     this.utils.shell("apt install --yes ntp")
     this.utils.shell("apt install --yes unzip")
     this.utils.shell("timedatectl set-timezone US/Eastern")
-    this.utils.shell(`git clone https://github.com/VundleVim/Vundle.vim.git ${this.options.home}/.vim/bundle/Vundle.vim`)
     this.utils.shell("git config --global push.default simple")
     this.utils.shell("git config --global pull.rebase false")
 
-    this.utils.shell("apt install --yes vim")
-    this.utils.shell("apt install --yes vim-gtk")
     this.utils.shell("apt install --yes sudo")
     this.utils.shell("apt install --yes gnupg gnupg2 gnupg1")
 
@@ -106,6 +105,44 @@ class ZeroDevInstall extends ComponentBase {
     this.utils.shell("apt install --yes nginx")
     this.utils.shell("apt install --yes python3-pip")
     this.utils.shell("pip3 install weasyprint")
+  }
+
+  bashrc() {
+    this.utils.title("Installing Zero Dev OS Bashrc")
+
+    let bashrcContent = `
+# Set up vi options
+set -o vi
+export EDITOR=vi
+export VISUAL=vi
+
+# Set prompt
+export PS1='
+\\e[35m$USER\\e[0m@$HOSTNAME [\\D{%H:%M:%S}] $PWD
+$> '
+
+export PATH="$PATH:/snap/bin:$HOME/zero-dev-os:$HOME/zero-dev-os/tools"
+
+function title {
+echo -ne "\\033]0;"$*"\\007"
+}
+
+export LC_ALL=en_US.utf-8 
+export LANG="$LC_ALL"
+
+alias zero-dev-os='zero-dev-os.sh'
+`
+
+    fs.writeFileSync("/tmp/bashrc", bashrcContent)
+    this.utils.shell(`cp /tmp/bashrc ${this.options.home}/.bashrc`)
+  }
+
+  vim() {
+    this.utils.title("Installing Zero Dev OS Vim")
+
+    this.utils.shell(`git clone https://github.com/VundleVim/Vundle.vim.git ${this.options.home}/.vim/bundle/Vundle.vim`)
+    this.utils.shell("apt install --yes vim")
+    this.utils.shell("apt install --yes vim-gtk")
 
     let vimrcContent = `
 set nocompatible              " be iMproved, required
@@ -171,36 +208,10 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
     fs.writeFileSync("/tmp/vimrc", vimrcContent)
     this.utils.shell(`cp /tmp/vimrc ${this.options.home}/.vimrc`)
+    this.utils.shell(`cp /tmp/vimrc /root/.vimrc`)
 
     this.utils.shell(`vi -c "PluginInstall" ~/.vimrc -c "qa"`)
-
-    let bashrcContent = `
-# Set up vi options
-set -o vi
-export EDITOR=vi
-export VISUAL=vi
-
-# Set prompt
-export PS1='
-\\e[35m$USER\\e[0m@$HOSTNAME [\\D{%H:%M:%S}] $PWD
-$> '
-
-export PATH="$PATH:/snap/bin:$HOME/zero-dev-os:$HOME/zero-dev-os/tools"
-
-function title {
-echo -ne "\\033]0;"$*"\\007"
-}
-
-export LC_ALL=en_US.utf-8 
-export LANG="$LC_ALL"
-
-alias zero-dev-os='zero-dev-os.sh'
-`
-
-    fs.writeFileSync("/tmp/bashrc", bashrcContent)
-    this.utils.shell(`cp /tmp/bashrc ${this.options.home}/.bashrc`)
   }
-
 
   desktop() {
     this.utils.title("Installing Zero Dev OS Desktop")
