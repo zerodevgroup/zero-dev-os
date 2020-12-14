@@ -23,7 +23,7 @@ program
   .option("--bashrc", "Install Zero Dev OS Bashrc")
   .option("--vimrc", "Install Zero Dev OS Vimrc")
   .option("--mongo", "Install Zero Dev OS Mongo")
-  .option("--developent", "Install Zero Dev OS Development")
+  .option("--development", "Install Zero Dev OS Development")
   .option("--graphics", "Install Zero Dev OS Graphics")
   .description("Install Zero Dev OS")
   .action((options) => {
