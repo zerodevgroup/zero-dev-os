@@ -13,13 +13,14 @@ class ZeroDevInstall extends ComponentBase {
     console.log(this.options);
 
     this.operations = [
-      "all",
-      "bashrc",
       "core",
       "desktop",
       "essential",
-      "mongo",
+      "all",
+      "bashrc",
       "vimrc",
+      "mongo",
+      "graphics",
     ]
 
     this.validate()
@@ -162,8 +163,20 @@ alias zero-dev-os='zero-dev-os.sh'
     this.utils.shell("apt install --yes ubuntu-restricted-extras")
   }
 
+  developer() {
+    this.utils.shell("wget -O /tmp/vs-code-install.sh https://code.headmelted.com/installers/apt.sh")
+  }
+
+  graphics() {
+    this.utils.title("Installing Zero Dev OS Graphics")
+
+    this.utils.shell("apt install --yes gimp")
+
+    // TODO: Install Imagemagick
+  }
+
   mongo() {
-    this.utils.title("Installing MongoDB")
+    this.utils.title("Installing Zero Dev OS MongoDB")
 
     this.utils.shell("wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -")
     this.utils.shell("echo 'deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main' | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list")

@@ -16,23 +16,25 @@ program
 
 program
   .command("install")
-  .option("--all", "Install Zero Dev OS with everything")
-  .option("--bashrc", "Install Zero Dev OS Bashrc")
   .option("--core", "Install Zero Dev OS Core")
   .option("--desktop", "Install Zero Dev OS Desktop")
   .option("--essential", "Install Zero Dev OS Essentials (core, bashrc, vimrc)")
-  .option("--mongo", "Install Zero Dev OS Mongo")
+  .option("--all", "Install Zero Dev OS with everything")
+  .option("--bashrc", "Install Zero Dev OS Bashrc")
   .option("--vimrc", "Install Zero Dev OS Vimrc")
+  .option("--mongo", "Install Zero Dev OS Mongo")
+  .option("--graphics", "Install Zero Dev OS Graphics")
   .description("Install Zero Dev OS")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
-      all: options.all,
-      bashrc: options.bashrc,
       core: options.core,
       desktop: options.desktop,
       essential: options.essential,
-      mongo: options.mongo,
+      all: options.all,
+      bashrc: options.bashrc,
       vimrc: options.vimrc,
+      mongo: options.mongo,
+      graphics: options.graphics,
     })
 
     zeroDevOS.install()
