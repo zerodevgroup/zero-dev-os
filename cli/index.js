@@ -53,13 +53,23 @@ program
 
 program
   .command("container")
-  .option("--operation <operation>", "[list|create|delete|stop|start|restart] (REQUIRED)")
+  .option("--list", "List Containers")
+  .option("--create", "Create a Container")
+  .option("--delete", "Delete a Containers")
+  .option("--stop", "Stop a Container")
+  .option("--start", "Start a Container")
+  .option("--restart", "Restart a Container")
   .option("--container-name <containerName>", "Container name (REQUIRED)")
   .option("--image-name <image name>", "Image name (defaults to zero-dev-os)")
   .description("LXC container operations")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
-      operation: options.operation,
+      list: options.list,
+      create: options.create,
+      delete: options.delete,
+      stop: options.stop,
+      start: options.start,
+      restart: options.restart,
       containerName: options.containerName,
       imageName: options.imageName
     })
