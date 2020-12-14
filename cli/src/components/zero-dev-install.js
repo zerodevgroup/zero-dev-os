@@ -165,7 +165,10 @@ alias zero-dev-os='zero-dev-os.sh'
   }
 
   development() {
+    // VS Code
     this.utils.shell("wget -O /tmp/vs-code-install.sh https://code.headmelted.com/installers/apt.sh")
+    this.utils.shell("chmod +x /tmp/vs-code-install.sh")
+    this.utils.shell("/tmp/vs-code-install.sh")
   }
 
   graphics() {
