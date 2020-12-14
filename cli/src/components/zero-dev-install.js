@@ -15,6 +15,7 @@ class ZeroDevInstall extends ComponentBase {
     this.operations = [
       "core",
       "desktop",
+      "development",
       "essential",
       "all",
       "bashrc",
@@ -163,7 +164,7 @@ alias zero-dev-os='zero-dev-os.sh'
     this.utils.shell("apt install --yes ubuntu-restricted-extras")
   }
 
-  developer() {
+  development() {
     this.utils.shell("wget -O /tmp/vs-code-install.sh https://code.headmelted.com/installers/apt.sh")
   }
 
