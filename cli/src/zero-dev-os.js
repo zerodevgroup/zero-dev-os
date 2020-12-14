@@ -11,8 +11,22 @@ class ZeroDevOS {
 
     this.options.workDir = process.env["PWD"]
     this.options.zeroDevOSDir = __dirname.replace(/\/cli\/src$/, "")
-    this.options.home = this.options.zeroDevOSDir.replace(/\/zero-dev-os/, "")
-    this.options.user = process.env["USER"]
+
+    if(process.env["EUID"] === 0) {
+      // root user
+      this.options.user = "root"
+      this.options.home = "/root"
+    }
+    else if(process.env["SUDO_USER"]) {
+      // sudo user
+      this.options.user = process.env["SUDO_USER"]
+      this.options.home = `/home/${this.options.user}`
+    }
+    else {
+      // user
+      this.options.user = process.env["USER"]
+      this.options.home = process.env["HOME"]
+    }
   }
 
   init() {

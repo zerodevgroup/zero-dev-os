@@ -27,6 +27,8 @@ class ZeroDevContainer extends ComponentBase {
 
   exec() {
     let promise = new Promise((resolve, reject) => {
+      resolve()
+
       /*
       // Delete any existing image/container
       this.utils.message("Clean up any existing images/containers")
@@ -210,11 +212,11 @@ alias la='zero-dev-os.sh'
 
         // publish image
         this.utils.shell(`/snap/bin/lxc publish --alias ${this.options.containerName} ${this.options.containerName} description="An image of ${this.options.containerName}"`)
-        */
 
         resolve()
 
       }, 10000)
+      */
     })
     .catch((error) => {
       this.utils.error(error)
