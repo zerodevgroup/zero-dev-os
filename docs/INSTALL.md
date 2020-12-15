@@ -79,7 +79,18 @@ sudo ./node-js-install.sh
 
 ```
 cd /opt/zero-dev-os
-sudo ./zero-dev-os.sh install --all
+sudo ./zero-dev-os.sh install --core
+sudo ./zero-dev-os.sh install --bashrc
+sudo ./zero-dev-os.sh install --vimrc
+```
+
+### Configure "root" account
+
+```
+sudo su -
+cd /opt/zero-dev-os
+./zero-dev-os.sh install --bashrc
+./zero-dev-os.sh install --vimrc
 ```
 
 ### Reboot
