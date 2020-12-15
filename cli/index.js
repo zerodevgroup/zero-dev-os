@@ -6,15 +6,6 @@ const fs = require("fs")
 const ZeroDevOS = require("./src/zero-dev-os")
 
 program
-  .command("init")
-  .description("Initialize zero-dev-os")
-  .action((options) => {
-    let zeroDevOS = new ZeroDevOS({})
-
-    zeroDevOS.init()
-  })
-
-program
   .command("container")
   .option("--operation <operation>", "[list|create|delete|stop|start|restart] (REQUIRED)")
   .option("--container-name <containerName>", "Container name (REQUIRED)")
@@ -30,6 +21,14 @@ program
     zeroDevOS.container()
   })
 
+program
+  .command("init")
+  .description("Initialize zero-dev-os")
+  .action((options) => {
+    let zeroDevOS = new ZeroDevOS({})
+
+    zeroDevOS.init()
+  })
 
 program
   .command("install")
@@ -59,6 +58,20 @@ program
     })
 
     zeroDevOS.install()
+  })
+
+program
+  .command("os")
+  .option("--base-image <base image>", "Base image for zero-dev-os (defaults to debian/10)")
+  .option("--image-name <image name>", "Image name (defaults to zero-dev-os)")
+  .description("Create zero-dev-os lxc image")
+  .action((options) => {
+    let zeroDevOS = new ZeroDevOS({
+      baseImage: options.baseImage,
+      imageName: options.imageName
+    })
+
+    zeroDevOS.containerOS()
   })
 
 program
