@@ -15,28 +15,47 @@ program
   })
 
 program
+  .command("container")
+  .option("--operation <operation>", "[list|create|delete|stop|start|restart] (REQUIRED)")
+  .option("--container-name <containerName>", "Container name (REQUIRED)")
+  .option("--image-name <image name>", "Image name (defaults to zero-dev-os)")
+  .description("LXC container operations")
+  .action((options) => {
+    let zeroDevOS = new ZeroDevOS({
+      operation: options.operation,
+      containerName: options.containerName,
+      imageName: options.imageName
+    })
+
+    zeroDevOS.container()
+  })
+
+
+program
   .command("install")
-  .option("--core", "Install Zero Dev OS Core")
-  .option("--desktop", "Install Zero Dev OS Desktop")
-  .option("--essential", "Install Zero Dev OS Essentials (core, bashrc, vimrc)")
   .option("--all", "Install Zero Dev OS with everything")
   .option("--bashrc", "Install Zero Dev OS Bashrc")
-  .option("--vimrc", "Install Zero Dev OS Vimrc")
-  .option("--mongo", "Install Zero Dev OS Mongo")
+  .option("--core", "Install Zero Dev OS Core")
+  .option("--desktop", "Install Zero Dev OS Desktop")
   .option("--development", "Install Zero Dev OS Development")
+  .option("--essential", "Install Zero Dev OS Essentials (core, bashrc, vimrc)")
   .option("--graphics", "Install Zero Dev OS Graphics")
+  .option("--lxd", "Install Zero Dev OS LXD")
+  .option("--mongo", "Install Zero Dev OS Mongo")
+  .option("--vimrc", "Install Zero Dev OS Vimrc")
   .description("Install Zero Dev OS")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
-      core: options.core,
-      desktop: options.desktop,
-      essential: options.essential,
       all: options.all,
       bashrc: options.bashrc,
-      vimrc: options.vimrc,
-      mongo: options.mongo,
-      graphics: options.graphics,
+      core: options.core,
+      desktop: options.desktop,
       development: options.development,
+      essential: options.essential,
+      graphics: options.graphics,
+      lxd: options.lxd,
+      mongo: options.mongo,
+      vimrc: options.vimrc,
     })
 
     zeroDevOS.install()
