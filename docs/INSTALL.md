@@ -52,20 +52,20 @@ zip -r ubuntu-20.10-preinstalled-desktop-arm64+raspi.zip ubuntu-20.10-preinstall
 
 * Open Terminal
 
-### Clone Zero Dev OS
-
-```
-sudo mkdir -p /opt
-cd /opt
-sudo git clone https://github.com/zerodevgroup/zero-dev-os.git
-```
-
 ### Install git, curl
 
 ```
 sudo apt update
 sudo apt install --yes git
 sudo apt install --yes curl
+```
+
+### Clone Zero Dev OS
+
+```
+sudo mkdir -p /opt
+cd /opt
+sudo git clone https://github.com/zerodevgroup/zero-dev-os.git
 ```
 
 ### Install node
