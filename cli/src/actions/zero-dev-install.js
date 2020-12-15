@@ -185,7 +185,7 @@ alias root='sudo su -'
     this.utils.title("Installing Zero Dev OS MongoDB")
 
     this.utils.shell("wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -")
-    this.utils.shell("echo 'deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main' | tee /etc/apt/sources.list.d/mongodb-org-4.4.list")
+    this.utils.shell("echo \"deb [ arch=arm64 ] https://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main\" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list")
     this.utils.shell("apt update")
     this.utils.shell("apt install --yes mongodb-org")
     this.utils.shell("systemctl enable mongod")

@@ -6,7 +6,7 @@ const ComponentBase = require("../base/component-base.js")
 class ZeroDevUpdate extends ComponentBase {
   constructor(options) {
     super(options);
-    this.command = "init"
+    this.command = "update"
 
     this.utils.message("Options")
     console.log(this.options);

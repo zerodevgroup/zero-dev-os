@@ -77,12 +77,6 @@ class ZeroDevContainer extends ComponentBase {
   }
 
   delete() {
-    let stopCommand = `/snap/bin/lxc stop --force ${this.options.containerName}`
-    this.utils.message(stopCommand)
-
-    let stopResult = execSync(stopCommand)
-    console.log(stopResult.toString())
-
     let deleteCommand = `/snap/bin/lxc delete --force ${this.options.containerName}`
     this.utils.message(deleteCommand)
 
