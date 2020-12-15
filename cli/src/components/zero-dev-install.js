@@ -90,91 +90,91 @@ alias zero-dev-os='zero-dev-os.sh'
     this.utils.title("Installing Zero Dev OS Core")
 
     // Upgrade OS
-    this.utils.shell("apt update")
-    this.utils.shell("apt --yes upgrade")
+    this.utils.shell("sudo apt update")
+    this.utils.shell("sudo apt --yes upgrade")
 
     // Install zip, git
-    this.utils.shell("apt install --yes zip")
-    this.utils.shell("apt install --yes git")
+    this.utils.shell("sudo apt install --yes zip")
+    this.utils.shell("sudo apt install --yes git")
 
     // Add github to known_hosts
     this.utils.shell("bash -c 'ssh-keyscan github.com >> ~/.ssh/known_hosts'")
 
     // configure keyboard
-    this.utils.shell("apt install --yes apt-utils")
-    this.utils.shell("apt install --yes debconf-utils")
-    this.utils.shell(`bash -c 'debconf-set-selections < ${this.options.zeroDevOSDir}/configurations/keyboard-configuration.conf'`)
-    this.utils.shell("apt install --yes keyboard-configuration")
-    this.utils.shell("dpkg-reconfigure keyboard-configuration -f noninteractive")
+    this.utils.shell("sudo apt install --yes apt-utils")
+    this.utils.shell("sudo apt install --yes debconf-utils")
+    this.utils.shell(`sudo bash -c 'debconf-set-selections < ${this.options.zeroDevOSDir}/configurations/keyboard-configuration.conf'`)
+    this.utils.shell("sudo apt install --yes keyboard-configuration")
+    this.utils.shell("sudo dpkg-reconfigure keyboard-configuration -f noninteractive")
 
-    this.utils.shell("apt install --yes wget")
-    this.utils.shell("apt install --yes curl")
-    this.utils.shell("apt install --yes locales")
+    this.utils.shell("sudo apt install --yes wget")
+    this.utils.shell("sudo apt install --yes curl")
+    this.utils.shell("sudo apt install --yes locales")
 
-    this.utils.shell("apt install --yes net-tools")
-    this.utils.shell("apt install --yes inotify-tools")
-    this.utils.shell("apt install --yes ntpdate")
-    this.utils.shell("apt install --yes htop")
-    this.utils.shell("apt install --yes build-essential")
-    this.utils.shell("apt install --yes ntp")
-    this.utils.shell("apt install --yes unzip")
-    this.utils.shell("timedatectl set-timezone US/Eastern")
+    this.utils.shell("sudo apt install --yes net-tools")
+    this.utils.shell("sudo apt install --yes inotify-tools")
+    this.utils.shell("sudo apt install --yes ntpdate")
+    this.utils.shell("sudo apt install --yes htop")
+    this.utils.shell("sudo apt install --yes build-essential")
+    this.utils.shell("sudo apt install --yes ntp")
+    this.utils.shell("sudo apt install --yes unzip")
+    this.utils.shell("sudo timedatectl set-timezone US/Eastern")
     this.utils.shell("git config --global push.default simple")
     this.utils.shell("git config --global pull.rebase false")
 
-    this.utils.shell("apt install --yes sudo")
-    this.utils.shell("apt install --yes gnupg gnupg2 gnupg1")
+    this.utils.shell("sudo apt install --yes sudo")
+    this.utils.shell("sudo apt install --yes gnupg gnupg2 gnupg1")
 
-    this.utils.shell("apt install --yes cmake")
-    this.utils.shell("apt install --yes libssl-dev")
-    this.utils.shell("apt install --yes libcurl4")
-    this.utils.shell("apt install --yes libcurl4-openssl-dev")
+    this.utils.shell("sudo apt install --yes cmake")
+    this.utils.shell("sudo apt install --yes libssl-dev")
+    this.utils.shell("sudo apt install --yes libcurl4")
+    this.utils.shell("sudo apt install --yes libcurl4-openssl-dev")
 
-    this.utils.shell("apt install --yes vim")
-    this.utils.shell("apt install --yes vim-gtk")
+    this.utils.shell("sudo apt install --yes vim")
+    this.utils.shell("sudo apt install --yes vim-gtk")
 
-    this.utils.shell("apt install --yes openssh-server")
-    this.utils.shell("apt install --yes libpcre3 libpcre3-dev")
-    this.utils.shell("apt install --yes zlib1g zlib1g-dev")
-    this.utils.shell("apt install --yes uuid-dev")
+    this.utils.shell("sudo apt install --yes openssh-server")
+    this.utils.shell("sudo apt install --yes libpcre3 libpcre3-dev")
+    this.utils.shell("sudo apt install --yes zlib1g zlib1g-dev")
+    this.utils.shell("sudo apt install --yes uuid-dev")
 
-    this.utils.shell(`echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen`)
-    this.utils.shell("/usr/sbin/locale-gen")
+    this.utils.shell(`sudo echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen`)
+    this.utils.shell("sudo /usr/sbin/locale-gen")
 
-    this.utils.shell("apt install --yes software-properties-common")
-    this.utils.shell("bash -c 'curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -'")
-    this.utils.shell("apt install --yes nodejs")
-    this.utils.shell("npm install -g pm2")
-    this.utils.shell("npm install -g apidoc")
-    this.utils.shell("npm install -g typescript")
-    this.utils.shell("npm install -g @angular/cli > /dev/null")
-    this.utils.shell("apt install --yes nginx")
-    this.utils.shell("apt install --yes python3-pip")
-    this.utils.shell("pip3 install weasyprint")
+    this.utils.shell("sudo apt install --yes software-properties-common")
+    this.utils.shell("sudo bash -c 'curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -'")
+    this.utils.shell("sudo apt install --yes nodejs")
+    this.utils.shell("sudo npm install -g pm2")
+    this.utils.shell("sudo npm install -g apidoc")
+    this.utils.shell("sudo npm install -g typescript")
+    this.utils.shell("sudo npm install -g @angular/cli > /dev/null")
+    this.utils.shell("sudo apt install --yes nginx")
+    this.utils.shell("sudo apt install --yes python3-pip")
+    this.utils.shell("sudo pip3 install weasyprint")
   }
 
   desktop() {
     this.utils.title("Installing Zero Dev OS Desktop")
 
     this.utils.shell("echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections")
-    this.utils.shell("apt install --yes ttf-mscorefonts-installer")
-    this.utils.shell("apt install --yes chromium-browser")
-    this.utils.shell("apt install --yes terminator")
-    this.utils.shell("apt install --yes gnome-tweak-tool")
-    this.utils.shell("apt install --yes ubuntu-restricted-extras")
+    this.utils.shell("sudo apt install --yes ttf-mscorefonts-installer")
+    this.utils.shell("sudo apt install --yes chromium-browser")
+    this.utils.shell("sudo apt install --yes terminator")
+    this.utils.shell("sudo apt install --yes gnome-tweak-tool")
+    this.utils.shell("sudo apt install --yes ubuntu-restricted-extras")
   }
 
   development() {
     // VS Code
-    this.utils.shell("wget -O /tmp/vs-code-install.sh https://code.headmelted.com/installers/apt.sh")
-    this.utils.shell("chmod +x /tmp/vs-code-install.sh")
-    this.utils.shell("/tmp/vs-code-install.sh")
+    this.utils.shell("sudo wget -O /tmp/vs-code-install.sh https://code.headmelted.com/installers/apt.sh")
+    this.utils.shell("sudo chmod +x /tmp/vs-code-install.sh")
+    this.utils.shell("sudo /tmp/vs-code-install.sh")
   }
 
   graphics() {
     this.utils.title("Installing Zero Dev OS Graphics")
 
-    this.utils.shell("apt install --yes gimp")
+    this.utils.shell("sudo apt install --yes gimp")
 
     // TODO: Install Imagemagick
   }
@@ -184,10 +184,10 @@ alias zero-dev-os='zero-dev-os.sh'
 
     this.utils.shell("wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -")
     this.utils.shell("echo 'deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main' | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list")
-    this.utils.shell("apt update")
-    this.utils.shell("apt install --yes mongodb-org")
-    this.utils.shell("systemctl enable mongod")
-    this.utils.shell("systemctl start mongod")
+    this.utils.shell("sudo apt update")
+    this.utils.shell("sudo apt install --yes mongodb-org")
+    this.utils.shell("sudo systemctl enable mongod")
+    this.utils.shell("sudo systemctl start mongod")
   }
 
   vimrc() {
