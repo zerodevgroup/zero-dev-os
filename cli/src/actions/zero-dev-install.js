@@ -145,8 +145,6 @@ alias root='sudo su -'
     this.utils.shell("/usr/sbin/locale-gen")
 
     this.utils.shell("apt install --yes software-properties-common")
-    this.utils.shell("bash -c 'curl -sL https://deb.nodesource.com/setup_14.x | bash -'")
-    this.utils.shell("apt install --yes nodejs")
     this.utils.shell("npm install -g pm2")
     this.utils.shell("npm install -g apidoc")
     this.utils.shell("npm install -g typescript")
