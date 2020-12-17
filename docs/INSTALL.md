@@ -185,3 +185,9 @@ Open the "Settings" tool
 
 In the "Power" tab:
   * Change "Power Saving - Blank Screen" to "Never"
+
+## Create zero-dev-os (Container OS)
+
+```
+zero-dev-os os
+```

@@ -151,6 +151,8 @@ alias root='sudo su -'
     this.utils.shell("npm install -g @angular/cli > /dev/null")
     this.utils.shell("apt install --yes nginx")
     this.utils.shell("apt install --yes python3-pip")
+
+    this.utils.shell("echo 'vm.swappiness = 1' > /etc/sysctl.conf")
   }
 
   desktop() {
