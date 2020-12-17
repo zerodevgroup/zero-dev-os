@@ -9,7 +9,7 @@ class ZeroDevContainerOS extends ComponentBase {
 
     // Set the default base image to debian/buster unless otherwise specified
     if(!this.options.baseImage) {
-      this.options.baseImage = "debian/10"
+      this.options.baseImage = "ubuntu:20.04"
     }
 
     // Set the default image to zero-dev-os unless otherwise specified
@@ -35,7 +35,7 @@ class ZeroDevContainerOS extends ComponentBase {
 
       // Create container
       this.utils.message("Create container")
-      this.utils.execSync(`/snap/bin/lxc launch images:${this.options.baseImage} ${this.options.containerName}`)
+      this.utils.execSync(`/snap/bin/lxc launch ${this.options.baseImage} ${this.options.containerName}`)
 
       this.utils.shell(`/snap/bin/lxc exec ${this.options.containerName} -- mkdir -p ${this.options.home}/.ssh`)
       this.utils.shell(`/snap/bin/lxc exec ${this.options.containerName} -- mkdir -p /opt`)
