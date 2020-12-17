@@ -121,7 +121,7 @@ In the Terminator window, right click and select "Preferences"
 
 In the Global tab:
   * Under "Appearance" change the "Unfocused terminal font brightnes" to 100% (the blinking cursor will be your indication of the focused terminal)
-  * Under "Terminal Titlebar" change the "Background" color from red to something a little less intense, say blue
+  * Under "Terminal Titlebar" change the "Background" color from red to Custom "1C1C1C"
 
 In the Profiles tab (default profile):
   * Select the "Global" tab and change "Font" to the font of your choice, like "Monospace Regular 13"
@@ -129,10 +129,14 @@ In the Profiles tab (default profile):
   * Select the "Scrolling" tab and select "Infinite Scrollback"
 
 In the Keybindings tab:
+  * Change the keybinding "go_down" to "Shift+Ctrl+Down"
+  * Change the keybinding "go_up" to "Shift+Ctrl+Up"
   * Change the keybinding "next_tab" to "Shift+Ctrl+Right"
   * Change the keybinding "prev_tab" to "Shift+Ctrl+Left"
-  * Change the keybinding "resize_right" to "Ctrl+Super+Right"
+  * Change the keybinding "resize_down" to "Ctrl+Super+Down"
   * Change the keybinding "resize_left" to "Ctrl+Super+Left"
+  * Change the keybinding "resize_right" to "Ctrl+Super+Right"
+  * Change the keybinding "resize_up" to "Ctrl+Super+Up"
 
 ### Apply Tweaks
 
@@ -140,6 +144,7 @@ Open the "Tweaks" tool
 
 In the "Appearance" tab:
   * Change "Applications" to "Adwaita-dark"
+  * Change "Background -> Image" to "Gorilla_Wallpaper_Grey_4096x2304.png"
 
 In the "Extensions" tab:
   * Click the gear next to Desktop Icons and change "Show ..." to "Off" for all
@@ -157,8 +162,3 @@ Open the "Settings" tool
 
 In the "Power" tab:
   * Change "Power Saving - Blank Screen" to "Never"
-  * Change "Power Saving - Wi-Fi can be turned off..." to "Never"
-  * Change "Suspend & Power Button - Automatic Suspend" to "Off" (if present)
-
-In the "Background" tab:
-  * Change "Background" to the background of your choice
