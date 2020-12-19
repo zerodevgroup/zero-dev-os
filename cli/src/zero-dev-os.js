@@ -13,7 +13,6 @@ class ZeroDevOS {
     this.options.workDir = process.env["PWD"]
     this.options.zeroDevOSDir = __dirname.replace(/\/cli\/src$/, "")
 
-    console.log(process.env["EUID"])
     console.log(process.env["SUDO_USER"])
     console.log(process.env["USER"])
 
@@ -30,6 +29,9 @@ class ZeroDevOS {
     else {
       // user
       this.options.user = process.env["USER"]
+      if(!this.options.user) {
+        this.options.user = "root"
+      }
       this.options.home = process.env["HOME"]
     }
   }

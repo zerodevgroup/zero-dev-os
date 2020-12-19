@@ -9,7 +9,7 @@ class ZeroDevUpdate extends ComponentBase {
     this.command = "update"
 
     this.utils.message("Options")
-    console.log(this.options);
+    console.log(this.options)
   }
 
   exec() {

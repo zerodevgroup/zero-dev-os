@@ -9,7 +9,7 @@ class ZeroDevInit extends ComponentBase {
     this.command = "init"
 
     this.utils.message("Options")
-    console.log(this.options);
+    console.log(this.options)
   }
 
   exec() {
