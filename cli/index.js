@@ -40,6 +40,7 @@ program
   .option("--essential", "Install Zero Dev OS Essentials (core, bashrc, vimrc)")
   .option("--graphics", "Install Zero Dev OS Graphics")
   .option("--lxd", "Install Zero Dev OS LXD")
+  .option("--limit-swap", "Limit Swappiness")
   .option("--mongo", "Install Zero Dev OS Mongo")
   .option("--vimrc", "Install Zero Dev OS Vimrc")
   .description("Install Zero Dev OS")
@@ -53,6 +54,7 @@ program
       essential: options.essential,
       graphics: options.graphics,
       lxd: options.lxd,
+      limitSwap: options.limitSwap,
       mongo: options.mongo,
       vimrc: options.vimrc,
     })

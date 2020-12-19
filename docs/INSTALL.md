@@ -80,6 +80,7 @@ sudo ./node-js-install.sh
 ```
 cd /opt/zero-dev-os
 sudo ./zero-dev-os.sh install --core
+sudo ./zero-dev-os.sh install --limit-swap
 sudo ./zero-dev-os.sh install --desktop
 sudo ./zero-dev-os.sh install --graphics
 sudo ./zero-dev-os.sh install --lxd

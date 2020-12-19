@@ -21,6 +21,7 @@ class ZeroDevInstall extends ComponentBase {
       "essential",
       "graphics",
       "lxd",
+      "limitSwap",
       "mongo",
       "vimrc",
     ]
@@ -153,8 +154,6 @@ alias root='sudo su -'
     this.utils.shell("npm install -g @angular/cli > /dev/null")
     this.utils.shell("apt install --yes nginx")
     this.utils.shell("apt install --yes python3-pip")
-
-    this.utils.shell("echo 'vm.swappiness = 1' > /etc/sysctl.conf")
   }
 
   desktop() {
@@ -194,10 +193,13 @@ alias root='sudo su -'
     this.utils.shell("systemctl start mongod")
   }
 
+  limitSwap() {
+    this.utils.shell("echo 'vm.swappiness = 1' > /etc/sysctl.conf")
+  }
+
   lxd() {
     this.utils.shell("snap install lxd")
   }
-
 
   vimrc() {
     this.utils.title("Installing Zero Dev OS Vimrc")
