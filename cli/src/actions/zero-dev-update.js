@@ -14,6 +14,23 @@ class ZeroDevUpdate extends ComponentBase {
 
   exec() {
     let promise = new Promise((resolve, reject) => {
+      // Go to the zero-dev-os directory
+      this.utils.cd(this.options.zeroDevOSDir)
+
+      // Compare local and remote commit ids
+      let localCommitId = this.utils.chomp(shell.exec('git rev-parse HEAD', {silent:true}).stdout)
+      let remoteCommitId = this.utils.chomp(shell.exec("git ls-remote | grep HEAD  | awk '{print $1}'", {silent:true}).stdout)
+
+      this.utils.message(`Local  Commit ID: ${localCommitId}`)
+      this.utils.message(`Remote Commit ID: ${remoteCommitId}`)
+
+      if(localCommitId !== remoteCommitId) {
+        this.utils.message(`Updating ${this.options.zeroDevOSDir}...`)
+        this.utils.shell("git pull")
+      }
+
+      this.utils.cd(this.options.workDir)
+
       resolve()
     })
     .catch((error) => {

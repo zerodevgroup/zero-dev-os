@@ -81,6 +81,13 @@ class ZeroDevUtils {
       return null
     }
   }
+
+  static chomp(text) {
+    let result = text.replace(/[\n\r]+/g, "")
+
+    return result
+  }
+
 } 
 
 module.exports = ZeroDevUtils
