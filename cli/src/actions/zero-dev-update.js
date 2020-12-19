@@ -28,6 +28,9 @@ class ZeroDevUpdate extends ComponentBase {
         this.utils.message(`Updating ${this.options.zeroDevOSDir}...`)
         this.utils.shell("git pull")
       }
+      else {
+        this.utils.message(`No update required for ${this.options.zeroDevOSDir}...`)
+      }
 
       this.utils.cd(this.options.workDir)
 
