@@ -66,9 +66,11 @@ set -o vi
 export EDITOR=vi
 export VISUAL=vi
 
+export IP_ADDRESS=\`ifconfig wlan0 | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\\.){3}[0-9]*).*/\\2/p'\`
+
 # Set prompt
 export PS1='
-\\e[35m$USER\\e[0m@$HOSTNAME [\\D{%H:%M:%S}] $PWD
+\\e[35m$USER\\e[0m@$HOSTNAME [\\D{%H:%M:%S}] [$IP_ADDRESS] $PWD
 $> '
 
 export PATH="$PATH:/snap/bin:${this.options.zeroDevOSDir}/tools"
