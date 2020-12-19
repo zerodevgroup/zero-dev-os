@@ -27,6 +27,12 @@ class ZeroDevUpdate extends ComponentBase {
       if(localCommitId !== remoteCommitId) {
         this.utils.message(`Updating ${this.options.zeroDevOSDir}...`)
         this.utils.shell("git pull")
+
+        // Update core
+        this.utils.shell(`${this.options.zeroDevOSDir}/zero-dev-os.sh install --core`)
+
+        // Update container os
+        this.utils.shell(`${this.options.zeroDevOSDir}/zero-dev-os.sh os`)
       }
       else {
         this.utils.message(`No update required for ${this.options.zeroDevOSDir}...`)
