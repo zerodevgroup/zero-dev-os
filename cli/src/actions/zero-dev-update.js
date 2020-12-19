@@ -32,6 +32,8 @@ class ZeroDevUpdate extends ComponentBase {
         this.utils.message(`No update required for ${this.options.zeroDevOSDir}...`)
       }
 
+      // Run scripts associated with Commit ID
+
       this.utils.cd(this.options.workDir)
 
       resolve()
