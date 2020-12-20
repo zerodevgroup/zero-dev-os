@@ -38,7 +38,7 @@ zip -r ubuntu-20.10-preinstalled-desktop-arm64+raspi.zip ubuntu-20.10-preinstall
 * Enter user name and password
   * username: `developer`
   * computer: `pi`
-  * password: <generated>
+  * password: &lt;generated&gt;
 * Continue with System Configuration
 * Restart
 * Login
@@ -82,6 +82,7 @@ cd /opt/zero-dev-os
 sudo ./zero-dev-os.sh install --core
 sudo ./zero-dev-os.sh install --limit-swap
 sudo ./zero-dev-os.sh install --desktop
+sudo ./zero-dev-os.sh install --disable-sudo-password
 sudo ./zero-dev-os.sh install --graphics
 sudo ./zero-dev-os.sh install --lxd
 sudo ./zero-dev-os.sh install --bashrc

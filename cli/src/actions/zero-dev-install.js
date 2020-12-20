@@ -18,6 +18,7 @@ class ZeroDevInstall extends ComponentBase {
       "core",
       "desktop",
       "development",
+      "disableSudoPassword",
       "essential",
       "graphics",
       "lxd",
@@ -71,7 +72,7 @@ export IP_ADDRESS=\`ifconfig wlan0 | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([
 
 # Set prompt
 export PS1='
-\\e[35m$USER\\e[0m@$IP_ADDRESS [\\D{%H:%M:%S}] $PWD
+\\e[35m$USER\\e[0m@pi->$IP_ADDRESS [\\D{%H:%M:%S}] $PWD
 $> '
 
 export PATH="$PATH:/snap/bin:${this.options.zeroDevOSDir}/tools"
@@ -165,6 +166,46 @@ alias root='sudo su -'
     this.utils.shell("apt install --yes terminator")
     this.utils.shell("apt install --yes gnome-tweak-tool")
     this.utils.shell("apt install --yes ubuntu-restricted-extras")
+  }
+
+  disableSudoPassword() {
+
+    let sudoersContent = `\
+#
+# This file MUST be edited with the 'visudo' command as root.
+#
+# Please consider adding local content in /etc/sudoers.d/ instead of
+# directly modifying this file.
+#
+# See the man page for details on how to write a sudoers file.
+#
+Defaults	env_reset
+Defaults	mail_badpass
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+
+# Host alias specification
+
+# User alias specification
+
+# Cmnd alias specification
+
+# User privilege specification
+root	ALL=(ALL:ALL) ALL
+
+# Members of the admin group may gain root privileges
+%admin ALL=(ALL) ALL
+
+# Allow members of group sudo to execute any command
+%sudo	ALL=(ALL:ALL) ALL
+
+# See sudoers(5) for more information on "#include" directives:
+
+#includedir /etc/sudoers.d
+
+developer ALL=(ALL:ALL) NOPASSWD: ALL
+`
+    fs.writeFileSync("/tmp/sudoers", sudoersContent)
+    this.utils.shell(`cp /tmp/sudoers /etc/sudoers`)
   }
 
   development() {

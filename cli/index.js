@@ -37,6 +37,7 @@ program
   .option("--core", "Install Zero Dev OS Core")
   .option("--desktop", "Install Zero Dev OS Desktop")
   .option("--development", "Install Zero Dev OS Development")
+  .option("--disable-sudo-password", "Disable sudo password for admin user (developer)")
   .option("--essential", "Install Zero Dev OS Essentials (core, bashrc, vimrc)")
   .option("--graphics", "Install Zero Dev OS Graphics")
   .option("--lxd", "Install Zero Dev OS LXD")
@@ -51,6 +52,7 @@ program
       core: options.core,
       desktop: options.desktop,
       development: options.development,
+      disableSudoPassword: options.disableSudoPassword,
       essential: options.essential,
       graphics: options.graphics,
       lxd: options.lxd,
