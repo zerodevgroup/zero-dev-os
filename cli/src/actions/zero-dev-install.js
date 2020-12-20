@@ -71,7 +71,7 @@ export IP_ADDRESS=\`ifconfig wlan0 | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([
 
 # Set prompt
 export PS1='
-\\e[35m$USER\\e[0m@$HOSTNAME [\\D{%H:%M:%S}] [$IP_ADDRESS] $PWD
+\\e[35m$USER\\e[0m@$IP_ADDRESS [\\D{%H:%M:%S}] $PWD
 $> '
 
 export PATH="$PATH:/snap/bin:${this.options.zeroDevOSDir}/tools"
@@ -194,7 +194,8 @@ alias root='sudo su -'
   }
 
   limitSwap() {
-    this.utils.shell("echo 'vm.swappiness = 1' > /etc/sysctl.conf")
+    // TODO: Read in /etc/sysctl.conf and only modify the "vm.swapiness" value
+    this.utils.shell("echo 'vm.swappiness = 0' > /etc/sysctl.conf")
   }
 
   lxd() {
