@@ -70,6 +70,11 @@ export VISUAL=vi
 
 export IP_ADDRESS=\`ifconfig wlan0 | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\\.){3}[0-9]*).*/\\2/p'\`
 
+if [[ ! -z "$IP_ADDRESS" ]]
+then
+  export IP_ADDRESS=\`ifconfig en0 | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\\.){3}[0-9]*).*/\\2/p'\`
+fi
+
 # Set prompt
 export PS1='
 \\e[35m$USER\\e[0m@pi->$IP_ADDRESS [\\D{%H:%M:%S}] $PWD
