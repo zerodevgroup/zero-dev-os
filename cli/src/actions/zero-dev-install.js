@@ -1,5 +1,6 @@
 const fs = require("fs")
 const _ = require("lodash")
+const os = require("os")
 const shell = require("shelljs")
 const ComponentBase = require("../base/component-base.js")
 
@@ -62,18 +63,17 @@ class ZeroDevInstall extends ComponentBase {
   bashrc() {
     this.utils.title("Installing Zero Dev OS Bashrc")
 
+
+    let ipAddress = this.getIpAddress()
+    console.log(ipAddress)
+
     let bashrcContent = `\
 # Set up vi options
 set -o vi
 export EDITOR=vi
 export VISUAL=vi
 
-export IP_ADDRESS=\`ifconfig wlan0 | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\\.){3}[0-9]*).*/\\2/p'\`
-
-if [[ ! -z "$IP_ADDRESS" ]]
-then
-  export IP_ADDRESS=\`ifconfig en0 | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\\.){3}[0-9]*).*/\\2/p'\`
-fi
+export IP_ADDRESS=${ipAddress}
 
 # Set prompt
 export PS1='
@@ -156,10 +156,11 @@ alias root='sudo su -'
     this.utils.shell("apt install --yes software-properties-common")
     this.utils.shell("npm install -g pm2")
     this.utils.shell("npm install -g apidoc")
-    this.utils.shell("npm install -g typescript")
-    this.utils.shell("npm install -g @angular/cli > /dev/null")
-    this.utils.shell("apt install --yes nginx")
+    this.utils.shell("npm install -g npm-check-updates")
+
     this.utils.shell("apt install --yes python3-pip")
+
+    this.utils.shell("apt install --yes nginx")
   }
 
   desktop() {
@@ -214,6 +215,9 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
   }
 
   development() {
+    this.utils.shell("npm install -g typescript")
+    this.utils.shell("npm install -g @angular/cli > /dev/null")
+
     // VS Code
     this.utils.shell("wget -O /tmp/vs-code-install.sh https://code.headmelted.com/installers/apt.sh")
     this.utils.shell("chmod +x /tmp/vs-code-install.sh")
@@ -319,6 +323,51 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
     this.utils.shell(`cp /tmp/vimrc ${this.options.home}/.vimrc`)
 
     this.utils.shell(`sudo --user=${this.options.user} vi -c "PluginInstall" ${this.options.home}/.vimrc -c "qa"`)
+  }
+
+  //
+  // Utility methods
+  //
+
+  getIpAddress() {
+    let networkInterfacesDict = os.networkInterfaces()
+    let ipv4Addresses = []
+
+    Object.keys(networkInterfacesDict).forEach((key) => {
+      let networkInterfaces = networkInterfacesDict[key]
+
+      networkInterfaces.forEach((networkInterface) => {
+        if(!networkInterface.internal) {
+          if(networkInterface.family === "IPv4" && networkInterface.address.match(/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/)) {
+            let ipv4Address = Object.assign({}, networkInterface)
+            ipv4Address.name = key
+            ipv4Addresses.push(ipv4Address)
+          }
+        }
+      })
+    })
+
+    let ipAddress = "0.0.0.0"
+    let wlanAddress, ethAddress
+
+    ipv4Addresses.forEach((ipv4Address) => {
+      if(ipv4Address.name.match(/wlan[0-9]/)) {
+        wlanAddress = ipv4Address.address
+      }
+
+      if(ipv4Address.name.match(/eth[0-9]/)) {
+        ethAddress = ipv4Address.address
+      }
+    })
+
+    if(wlanAddress) {
+      ipAddress = wlanAddress
+    }
+    else if(ethAddress) {
+      ipAddress = ethAddress
+    }
+
+    return ipAddress
   }
 
   validate() {
