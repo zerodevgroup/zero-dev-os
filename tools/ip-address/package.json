@@ -1,0 +1,23 @@
+{
+  "name": "ip-address",
+  "version": "1.0.0",
+  "description": "ip-address",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zerodevgroup/zero-dev-os.git"
+  },
+  "keywords": [
+    "zero-dev-os",
+    "devops"
+  ],
+  "author": "zerodevgroup",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^6.2.1",
+    "shelljs": "^0.8.4"
+  }
+}

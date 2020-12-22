@@ -63,24 +63,21 @@ class ZeroDevInstall extends ComponentBase {
   bashrc() {
     this.utils.title("Installing Zero Dev OS Bashrc")
 
-
-    let ipAddress = this.getIpAddress()
-    console.log(ipAddress)
-
     let bashrcContent = `\
 # Set up vi options
 set -o vi
 export EDITOR=vi
 export VISUAL=vi
 
-export IP_ADDRESS=${ipAddress}
+export ZERO_DEV_OS="${this.options.zeroDevOSDir}"
+export PATH="$PATH:/snap/bin:$ZERO_DEV_OS:$ZERO_DEV_OS/tools"
+
+export IP_ADDRESS=$($ZERO_DEV_OS/tools/ip-address.sh)
 
 # Set prompt
 export PS1='
 \\e[35m$USER\\e[0m@pi->$IP_ADDRESS [\\D{%H:%M:%S}] $PWD
 $> '
-
-export PATH="$PATH:/snap/bin:${this.options.zeroDevOSDir}/tools"
 
 function title {
 echo -ne "\\033]0;"$*"\\007"
@@ -328,47 +325,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
   //
   // Utility methods
   //
-
-  getIpAddress() {
-    let networkInterfacesDict = os.networkInterfaces()
-    let ipv4Addresses = []
-
-    Object.keys(networkInterfacesDict).forEach((key) => {
-      let networkInterfaces = networkInterfacesDict[key]
-
-      networkInterfaces.forEach((networkInterface) => {
-        if(!networkInterface.internal) {
-          if(networkInterface.family === "IPv4" && networkInterface.address.match(/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/)) {
-            let ipv4Address = Object.assign({}, networkInterface)
-            ipv4Address.name = key
-            ipv4Addresses.push(ipv4Address)
-          }
-        }
-      })
-    })
-
-    let ipAddress = "0.0.0.0"
-    let wlanAddress, ethAddress
-
-    ipv4Addresses.forEach((ipv4Address) => {
-      if(ipv4Address.name.match(/wlan[0-9]/)) {
-        wlanAddress = ipv4Address.address
-      }
-
-      if(ipv4Address.name.match(/eth[0-9]/)) {
-        ethAddress = ipv4Address.address
-      }
-    })
-
-    if(wlanAddress) {
-      ipAddress = wlanAddress
-    }
-    else if(ethAddress) {
-      ipAddress = ethAddress
-    }
-
-    return ipAddress
-  }
 
   validate() {
     let validOptions = false
