@@ -32,28 +32,24 @@ program
 
 program
   .command("install")
-  .option("--all", "Install Zero Dev OS with everything")
-  .option("--bashrc", "Install Zero Dev OS Bashrc")
   .option("--core", "Install Zero Dev OS Core")
+  .option("--bashrc", "Install Zero Dev OS Bashrc")
+  .option("--vimrc", "Install Zero Dev OS Vimrc")
+  .option("--limit-swap", "Limit Swappiness")
+  .option("--disable-sudo-password", "Disable sudo password for admin user (developer)")
   .option("--desktop", "Install Zero Dev OS Desktop")
   .option("--development", "Install Zero Dev OS Development")
-  .option("--disable-sudo-password", "Disable sudo password for admin user (developer)")
-  .option("--essential", "Install Zero Dev OS Essentials (core, bashrc, vimrc)")
   .option("--graphics", "Install Zero Dev OS Graphics")
   .option("--lxd", "Install Zero Dev OS LXD")
-  .option("--limit-swap", "Limit Swappiness")
   .option("--mongo", "Install Zero Dev OS Mongo")
-  .option("--vimrc", "Install Zero Dev OS Vimrc")
   .description("Install Zero Dev OS")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
-      all: options.all,
       bashrc: options.bashrc,
       core: options.core,
       desktop: options.desktop,
       development: options.development,
       disableSudoPassword: options.disableSudoPassword,
-      essential: options.essential,
       graphics: options.graphics,
       lxd: options.lxd,
       limitSwap: options.limitSwap,

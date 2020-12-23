@@ -14,18 +14,16 @@ class ZeroDevInstall extends ComponentBase {
     console.log(this.options);
 
     this.operations = [
-      "all",
-      "bashrc",
       "core",
+      "limitSwap",
+      "disableSudoPassword",
+      "bashrc",
+      "vimrc",
       "desktop",
       "development",
-      "disableSudoPassword",
-      "essential",
       "graphics",
       "lxd",
-      "limitSwap",
       "mongo",
-      "vimrc",
     ]
 
     this.validate()
@@ -34,17 +32,7 @@ class ZeroDevInstall extends ComponentBase {
   exec() {
     let promise = new Promise((resolve, reject) => {
       this.operations.forEach((operation) => {
-        let shouldInstall = false
-
-        if(this.options.all || this.options[operation]) {
-          shouldInstall = true
-          console.log(operation)
-        }
-        else if(this.options.essential && (operation.test(/^(core|bashrc|vimrc)$/))) {
-          shouldInstall = true
-        }
-
-        if(shouldInstall) {
+        if(this.options[operation]) {
           this[operation]()
         }
       })
