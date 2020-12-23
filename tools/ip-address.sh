@@ -1,8 +1,8 @@
 #!/bin/bash
-if ! [ -d "/opt/zero-dev-os/tools/ip-address/node_modules" ]; then
-  cd /opt/zero-dev-os/tools/ip-address
+if ! [ -d "$ZERO_DEV_OS/tools/ip-address/node_modules" ]; then
+  cd $ZERO_DEV_OS/tools/ip-address
   npm install &> /dev/null
   > /dev/null cd -
 fi
 
-node /opt/zero-dev-os/tools/ip-address/index.js $*
+node $ZERO_DEV_OS/tools/ip-address/index.js $*
