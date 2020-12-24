@@ -16,6 +16,6 @@ if ! [ -d "$ZERO_DEV_OS_DIR/cli/node_modules" ]; then
   cd -
 fi
 
-node $ZERO_DEV_OS_DIR/cli/index.js $*
+node $ZERO_DEV_OS_DIR/cli/zero-dev-os.js $*
 
 echo ""

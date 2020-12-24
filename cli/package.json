@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "ZeroDevOS CLI",
   "files": [
-    "index.js"
+    "zero-dev-os.js"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "photon": "index.js"
+    "zero-dev-os": "zero-dev-os.js"
   },
   "repository": {
     "type": "git",

@@ -1,11 +1,12 @@
 const _ = require("lodash")
 const shell = require("shelljs")
 const { execSync } = require("child_process")
-const ComponentBase = require("../base/component-base.js")
 
-class ZeroDevContainer extends ComponentBase {
+const utils = require("../utils/zero-dev-utils.js")
+
+class ZeroDevContainer {
   constructor(options) {
-    super(options);
+    this.options = options
     this.command = "container"
 
     // Set the default image to zero-dev-os unless otherwise specified
@@ -14,7 +15,7 @@ class ZeroDevContainer extends ComponentBase {
     }
 
     console.log()
-    this.utils.message("Options:")
+    utils.message("Options:")
     console.log(JSON.stringify(this.options, null, 2))
 
     this.validate()
@@ -48,7 +49,7 @@ class ZeroDevContainer extends ComponentBase {
           resolve()
           break;
         default:
-          this.utils.error(`operation ${this.options.operation} invalid, exiting...`);
+          utils.error(`operation ${this.options.operation} invalid, exiting...`);
           process.exit(-1)
       }
     })
@@ -62,7 +63,7 @@ class ZeroDevContainer extends ComponentBase {
 
   list() {
     let command = `/snap/bin/lxc list`
-    this.utils.message(command)
+    utils.message(command)
 
     let result = execSync(command)
     console.log(result.toString())
@@ -70,7 +71,7 @@ class ZeroDevContainer extends ComponentBase {
 
   create() {
     let command = `/snap/bin/lxc launch ${this.options.imageName} ${this.options.containerName}`
-    this.utils.message(command)
+    utils.message(command)
 
     let result = execSync(command)
     console.log(result.toString())
@@ -78,7 +79,7 @@ class ZeroDevContainer extends ComponentBase {
 
   delete() {
     let deleteCommand = `/snap/bin/lxc delete --force ${this.options.containerName}`
-    this.utils.message(deleteCommand)
+    utils.message(deleteCommand)
 
     let deleteResult = execSync(deleteCommand)
     console.log(deleteResult.toString())
@@ -86,7 +87,7 @@ class ZeroDevContainer extends ComponentBase {
 
   stop() {
     let command = `/snap/bin/lxc stop --force ${this.options.containerName}`
-    this.utils.message(command)
+    utils.message(command)
 
     let result = execSync(command)
     console.log(result.toString())
@@ -94,7 +95,7 @@ class ZeroDevContainer extends ComponentBase {
 
   start() {
     let command = `/snap/bin/lxc start ${this.options.containerName}`
-    this.utils.message(command)
+    utils.message(command)
 
     let result = execSync(command)
     console.log(result.toString())
@@ -102,13 +103,13 @@ class ZeroDevContainer extends ComponentBase {
 
   restart() {
     let stopCommand = `/snap/bin/lxc stop --force ${this.options.containerName}`
-    this.utils.message(stopCommand)
+    utils.message(stopCommand)
 
     let stopResult = execSync(stopCommand)
     console.log(stopResult.toString())
 
     let startCommand = `/snap/bin/lxc start ${this.options.containerName}`
-    this.utils.message(startCommand)
+    utils.message(startCommand)
 
     let startResult = execSync(startCommand)
     console.log(startResult.toString())
@@ -130,14 +131,14 @@ class ZeroDevContainer extends ComponentBase {
 
     if(!validOptions) {
       console.log()
-      this.utils.message("Hmmm...")
+      utils.message("Hmmm...")
 
       messages.forEach((message) => {
-        this.utils.error(message)
+        utils.error(message)
       })
 
       console.log()
-      this.utils.message("Please resolve and try again.")
+      utils.message("Please resolve and try again.")
 
       console.log()
       shell.exec(`${this.options.zeroDevOSDir}/zero-dev-os container --help`)

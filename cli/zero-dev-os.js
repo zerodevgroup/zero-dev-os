@@ -3,7 +3,81 @@ const program = require("commander")
 const shell = require("shelljs")
 const _ = require("lodash")
 const fs = require("fs")
-const ZeroDevOS = require("./src/zero-dev-os")
+
+const ZeroDevContainer = require("./src/actions/zero-dev-container")
+const ZeroDevContainerOS = require("./src/actions/zero-dev-container-os")
+const ZeroDevInit = require("./src/actions/zero-dev-init")
+const ZeroDevInstall = require("./src/actions/zero-dev-install")
+const ZeroDevUpdate = require("./src/actions/zero-dev-update")
+
+const utils = require("./src/utils/zero-dev-utils")
+
+class ZeroDevOS {
+  constructor(options) {
+    this.options = options
+
+    this.options.workDir = process.env["PWD"]
+    this.options.zeroDevOSDir = __dirname.replace(/\/cli$/, "")
+
+    if(process.env["SUDO_USER"]) {
+      // sudo user
+      this.options.user = process.env["SUDO_USER"]
+      if(process.env["SUDO_USER"] === "root") {
+        this.options.home = "/root"
+      }
+      else {
+        this.options.home = `/home/${this.options.user}`
+      }
+    }
+    else {
+      // user
+      this.options.user = process.env["USER"]
+
+      if(!this.options.user) {
+        this.options.user = "root"
+      }
+
+      this.options.home = process.env["HOME"]
+    }
+  }
+
+  container() {
+    let zeroDevContainer = new ZeroDevContainer(this.options)
+    zeroDevContainer.exec().then(() => {
+      utils.message("Done...")
+    })
+  }
+
+  init() {
+    let zeroDevInit = new ZeroDevInit(this.options)
+    zeroDevInit.exec().then(() => {
+      utils.message("Done...")
+    })
+  }
+
+  install() {
+    this.options.install = true
+
+    let zeroDevInstall = new ZeroDevInstall(this.options)
+    zeroDevInstall.exec().then(() => {
+      utils.message("Done...")
+    })
+  }
+
+  containerOS() {
+    let zeroDevContainerOS = new ZeroDevContainerOS(this.options)
+    zeroDevContainerOS.exec().then(() => {
+      utils.message("Done...")
+    })
+  }
+
+  update() {
+    let zeroDevUpdate = new ZeroDevUpdate(this.options)
+    zeroDevUpdate.exec().then(() => {
+      utils.message("Done...")
+    })
+  }
+}
 
 program
   .command("container")

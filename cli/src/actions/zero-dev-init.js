@@ -1,14 +1,15 @@
 const _ = require("lodash")
 const shell = require("shelljs")
 const { execSync } = require("child_process")
-const ComponentBase = require("../base/component-base.js")
 
-class ZeroDevInit extends ComponentBase {
+const utils = require("../utils/zero-dev-utils.js")
+
+class ZeroDevInit {
   constructor(options) {
-    super(options);
+    this.options = options
     this.command = "init"
 
-    this.utils.message("Options")
+    utils.message("Options")
     console.log(this.options)
   }
 

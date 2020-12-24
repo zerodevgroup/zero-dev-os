@@ -30,29 +30,6 @@ class ZeroDevUtils {
     console.log(chalk.magenta("--------------------------------------------------------"))
   }
 
-  static indentify(object, indents, indentFirstLine) {
-		let objectString = JSON.stringify(object, null, 2)
-		let lines = objectString.split(/\n/)
-
-		let newLines = []
-		let spaces = ""
-
-		lines.forEach((line, index) => {
-			if(index === 0 && !indentFirstLine) {
-				spaces = ""
-			}   
-			else {
-				spaces =  " ".repeat(2 * indents)
-			}   
-
-			newLines.push(`${spaces}${line}`)
-		})  
-
-		let returnString = newLines.join("\n")
-
-		return returnString
-  }
-
   static shell(command) {
     this.message(command)
 
@@ -71,23 +48,11 @@ class ZeroDevUtils {
     let result = shell.cd(directory)
   }
 
-  static getProject(projectFile) {
-    if(fs.existsSync(projectFile)) {
-      let project = JSON.parse(fs.readFileSync(projectFile, "utf8"))
-
-      return(project)
-    }
-    else {
-      return null
-    }
-  }
-
   static chomp(text) {
     let result = text.replace(/[\n\r]+/g, "")
 
     return result
   }
-
 } 
 
 module.exports = ZeroDevUtils

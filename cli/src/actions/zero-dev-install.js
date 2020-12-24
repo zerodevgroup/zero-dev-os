@@ -2,15 +2,16 @@ const fs = require("fs")
 const _ = require("lodash")
 const os = require("os")
 const shell = require("shelljs")
-const ComponentBase = require("../base/component-base.js")
 
-class ZeroDevInstall extends ComponentBase {
+const utils = require("../utils/zero-dev-utils.js")
+
+class ZeroDevInstall {
   constructor(options) {
-    super(options);
+    this.options = options
     this.command = "install"
 
     console.log()
-    this.utils.message("Options:")
+    utils.message("Options:")
     console.log(this.options);
 
     this.operations = [
@@ -41,7 +42,7 @@ class ZeroDevInstall extends ComponentBase {
 
     })
     .catch((error) => {
-      this.utils.error(error)
+      utils.error(error)
       process.exit(-1)
     })
 
@@ -49,7 +50,7 @@ class ZeroDevInstall extends ComponentBase {
   }
 
   bashrc() {
-    this.utils.title("Installing Zero Dev OS Bashrc")
+    utils.title("Installing Zero Dev OS Bashrc")
 
     let bashrcContent = `\
 # Set up vi options
@@ -78,84 +79,84 @@ alias root='sudo su -'
 `
 
     fs.writeFileSync("/tmp/bashrc", bashrcContent)
-    this.utils.shell(`sudo --user=${this.options.user} cp /tmp/bashrc ${this.options.home}/.bashrc`)
+    utils.shell(`sudo --user=${this.options.user} cp /tmp/bashrc ${this.options.home}/.bashrc`)
   }
 
   core() {
-    this.utils.title("Installing Zero Dev OS Core")
+    utils.title("Installing Zero Dev OS Core")
 
     // Upgrade OS
-    this.utils.shell("apt update")
-    this.utils.shell("apt --yes upgrade")
+    utils.shell("apt update")
+    utils.shell("apt --yes upgrade")
 
     // Install zip, git
-    this.utils.shell("apt install --yes zip")
-    this.utils.shell("apt install --yes git")
+    utils.shell("apt install --yes zip")
+    utils.shell("apt install --yes git")
 
     // Add github to known_hosts
-    this.utils.shell(`sudo --user=${this.options.user} bash -c 'ssh-keyscan github.com >> ${this.options.home}/.ssh/known_hosts'`)
+    utils.shell(`sudo --user=${this.options.user} bash -c 'ssh-keyscan github.com >> ${this.options.home}/.ssh/known_hosts'`)
 
     // configure keyboard
-    this.utils.shell("apt install --yes apt-utils")
-    this.utils.shell("apt install --yes debconf-utils")
-    this.utils.shell(`bash -c 'debconf-set-selections < ${this.options.zeroDevOSDir}/configurations/keyboard-configuration.conf'`)
-    this.utils.shell("apt install --yes keyboard-configuration")
-    this.utils.shell("dpkg-reconfigure keyboard-configuration -f noninteractive")
+    utils.shell("apt install --yes apt-utils")
+    utils.shell("apt install --yes debconf-utils")
+    utils.shell(`bash -c 'debconf-set-selections < ${this.options.zeroDevOSDir}/configurations/keyboard-configuration.conf'`)
+    utils.shell("apt install --yes keyboard-configuration")
+    utils.shell("dpkg-reconfigure keyboard-configuration -f noninteractive")
 
-    this.utils.shell("apt install --yes wget")
-    this.utils.shell("apt install --yes curl")
-    this.utils.shell("apt install --yes locales")
+    utils.shell("apt install --yes wget")
+    utils.shell("apt install --yes curl")
+    utils.shell("apt install --yes locales")
 
-    this.utils.shell("apt install --yes net-tools")
-    this.utils.shell("apt install --yes inotify-tools")
-    this.utils.shell("apt install --yes ntpdate")
-    this.utils.shell("apt install --yes htop")
-    this.utils.shell("apt install --yes build-essential")
-    this.utils.shell("apt install --yes ntp")
-    this.utils.shell("apt install --yes unzip")
-    this.utils.shell("timedatectl set-timezone US/Eastern")
+    utils.shell("apt install --yes net-tools")
+    utils.shell("apt install --yes inotify-tools")
+    utils.shell("apt install --yes ntpdate")
+    utils.shell("apt install --yes htop")
+    utils.shell("apt install --yes build-essential")
+    utils.shell("apt install --yes ntp")
+    utils.shell("apt install --yes unzip")
+    utils.shell("timedatectl set-timezone US/Eastern")
 
-    this.utils.shell(`sudo --user=${this.options.user} git config --global push.default simple`)
-    this.utils.shell(`sudo --user=${this.options.user} git config --global pull.rebase false`)
+    utils.shell(`sudo --user=${this.options.user} git config --global push.default simple`)
+    utils.shell(`sudo --user=${this.options.user} git config --global pull.rebase false`)
 
-    this.utils.shell("apt install --yes sudo")
-    this.utils.shell("apt install --yes gnupg gnupg2 gnupg1")
+    utils.shell("apt install --yes sudo")
+    utils.shell("apt install --yes gnupg gnupg2 gnupg1")
 
-    this.utils.shell("apt install --yes cmake")
-    this.utils.shell("apt install --yes libssl-dev")
-    this.utils.shell("apt install --yes libcurl4")
-    this.utils.shell("apt install --yes libcurl4-openssl-dev")
+    utils.shell("apt install --yes cmake")
+    utils.shell("apt install --yes libssl-dev")
+    utils.shell("apt install --yes libcurl4")
+    utils.shell("apt install --yes libcurl4-openssl-dev")
 
-    this.utils.shell("apt install --yes vim")
-    this.utils.shell("apt install --yes vim-gtk")
+    utils.shell("apt install --yes vim")
+    utils.shell("apt install --yes vim-gtk")
 
-    this.utils.shell("apt install --yes openssh-server")
-    this.utils.shell("apt install --yes libpcre3 libpcre3-dev")
-    this.utils.shell("apt install --yes zlib1g zlib1g-dev")
-    this.utils.shell("apt install --yes uuid-dev")
+    utils.shell("apt install --yes openssh-server")
+    utils.shell("apt install --yes libpcre3 libpcre3-dev")
+    utils.shell("apt install --yes zlib1g zlib1g-dev")
+    utils.shell("apt install --yes uuid-dev")
 
-    this.utils.shell(`echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen`)
-    this.utils.shell("/usr/sbin/locale-gen")
+    utils.shell(`echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen`)
+    utils.shell("/usr/sbin/locale-gen")
 
-    this.utils.shell("apt install --yes software-properties-common")
-    this.utils.shell("npm install -g pm2")
-    this.utils.shell("npm install -g apidoc")
-    this.utils.shell("npm install -g npm-check-updates")
+    utils.shell("apt install --yes software-properties-common")
+    utils.shell("npm install -g pm2")
+    utils.shell("npm install -g apidoc")
+    utils.shell("npm install -g npm-check-updates")
 
-    this.utils.shell("apt install --yes python3-pip")
+    utils.shell("apt install --yes python3-pip")
 
-    this.utils.shell("apt install --yes nginx")
+    utils.shell("apt install --yes nginx")
   }
 
   desktop() {
-    this.utils.title("Installing Zero Dev OS Desktop")
+    utils.title("Installing Zero Dev OS Desktop")
 
-    this.utils.shell("echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections")
-    this.utils.shell("apt install --yes ttf-mscorefonts-installer")
-    this.utils.shell("apt install --yes chromium-browser")
-    this.utils.shell("apt install --yes terminator")
-    this.utils.shell("apt install --yes gnome-tweak-tool")
-    this.utils.shell("apt install --yes ubuntu-restricted-extras")
+    utils.shell("echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections")
+    utils.shell("apt install --yes ttf-mscorefonts-installer")
+    utils.shell("apt install --yes chromium-browser")
+    utils.shell("apt install --yes terminator")
+    utils.shell("apt install --yes gnome-tweak-tool")
+    utils.shell("apt install --yes ubuntu-restricted-extras")
   }
 
   disableSudoPassword() {
@@ -195,51 +196,51 @@ root	ALL=(ALL:ALL) ALL
 developer ALL=(ALL:ALL) NOPASSWD: ALL
 `
     fs.writeFileSync("/tmp/sudoers", sudoersContent)
-    this.utils.shell(`cp /tmp/sudoers /etc/sudoers`)
+    utils.shell(`cp /tmp/sudoers /etc/sudoers`)
   }
 
   development() {
-    this.utils.shell("npm install -g typescript")
-    this.utils.shell("npm install -g @angular/cli > /dev/null")
+    utils.shell("npm install -g typescript")
+    utils.shell("npm install -g @angular/cli > /dev/null")
 
     // VS Code
-    this.utils.shell("wget -O /tmp/vs-code-install.sh https://code.headmelted.com/installers/apt.sh")
-    this.utils.shell("chmod +x /tmp/vs-code-install.sh")
-    this.utils.shell("/tmp/vs-code-install.sh")
+    utils.shell("wget -O /tmp/vs-code-install.sh https://code.headmelted.com/installers/apt.sh")
+    utils.shell("chmod +x /tmp/vs-code-install.sh")
+    utils.shell("/tmp/vs-code-install.sh")
   }
 
   graphics() {
-    this.utils.title("Installing Zero Dev OS Graphics")
+    utils.title("Installing Zero Dev OS Graphics")
 
-    this.utils.shell("apt install --yes gimp")
+    utils.shell("apt install --yes gimp")
 
     // TODO: Install Imagemagick
   }
 
   mongo() {
-    this.utils.title("Installing Zero Dev OS MongoDB")
+    utils.title("Installing Zero Dev OS MongoDB")
 
-    this.utils.shell("wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -")
-    this.utils.shell("echo \"deb [ arch=arm64 ] https://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main\" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list")
-    this.utils.shell("apt update")
-    this.utils.shell("apt install --yes mongodb-org")
-    this.utils.shell("systemctl enable mongod")
-    this.utils.shell("systemctl start mongod")
+    utils.shell("wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -")
+    utils.shell("echo \"deb [ arch=arm64 ] https://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main\" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list")
+    utils.shell("apt update")
+    utils.shell("apt install --yes mongodb-org")
+    utils.shell("systemctl enable mongod")
+    utils.shell("systemctl start mongod")
   }
 
   limitSwap() {
     // TODO: Read in /etc/sysctl.conf and only modify the "vm.swapiness" value
-    this.utils.shell("echo 'vm.swappiness = 0' > /etc/sysctl.conf")
+    utils.shell("echo 'vm.swappiness = 0' > /etc/sysctl.conf")
   }
 
   lxd() {
-    this.utils.shell("snap install lxd")
+    utils.shell("snap install lxd")
   }
 
   vimrc() {
-    this.utils.title("Installing Zero Dev OS Vimrc")
+    utils.title("Installing Zero Dev OS Vimrc")
 
-    this.utils.shell(`sudo --user=${this.options.user} git clone https://github.com/VundleVim/Vundle.vim.git ${this.options.home}/.vim/bundle/Vundle.vim`)
+    utils.shell(`sudo --user=${this.options.user} git clone https://github.com/VundleVim/Vundle.vim.git ${this.options.home}/.vim/bundle/Vundle.vim`)
 
     let vimrcContent = `\
 set nocompatible              " be iMproved, required
@@ -304,9 +305,9 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 `
 
     fs.writeFileSync("/tmp/vimrc", vimrcContent)
-    this.utils.shell(`cp /tmp/vimrc ${this.options.home}/.vimrc`)
+    utils.shell(`cp /tmp/vimrc ${this.options.home}/.vimrc`)
 
-    this.utils.shell(`sudo --user=${this.options.user} vi -c "PluginInstall" ${this.options.home}/.vimrc -c "qa"`)
+    utils.shell(`sudo --user=${this.options.user} vi -c "PluginInstall" ${this.options.home}/.vimrc -c "qa"`)
   }
 
   //
@@ -325,7 +326,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
     if(!validOptions) {
       console.log()
-      this.utils.warn("No operations were specified.")
+      utils.warn("No operations were specified.")
 
       console.log()
       shell.exec(`${this.options.zeroDevOSDir}/zero-dev-os ${this.command} --help`)
