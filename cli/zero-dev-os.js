@@ -5,7 +5,6 @@ const _ = require("lodash")
 const fs = require("fs")
 
 const ZeroDevContainer = require("./src/actions/zero-dev-container")
-const ZeroDevContainerOS = require("./src/actions/zero-dev-container-os")
 const ZeroDevInit = require("./src/actions/zero-dev-init")
 const ZeroDevInstall = require("./src/actions/zero-dev-install")
 const ZeroDevUpdate = require("./src/actions/zero-dev-update")
@@ -64,13 +63,6 @@ class ZeroDevOS {
     })
   }
 
-  containerOS() {
-    let zeroDevContainerOS = new ZeroDevContainerOS(this.options)
-    zeroDevContainerOS.exec().then(() => {
-      utils.message("Done...")
-    })
-  }
-
   update() {
     let zeroDevUpdate = new ZeroDevUpdate(this.options)
     zeroDevUpdate.exec().then(() => {
@@ -81,15 +73,23 @@ class ZeroDevOS {
 
 program
   .command("container")
-  .option("--operation <operation>", "[list|create|delete|stop|start|restart] (REQUIRED)")
-  .option("--container-name <containerName>", "Container name (REQUIRED)")
-  .option("--image-name <image name>", "Image name (defaults to zero-dev-os)")
+  .option("--list", "List containers")
+  .option("--create [containerName]", "Create container")
+  .option("--delete <containerName>", "Delete container")
+  .option("--start <containerName>", "Start container")
+  .option("--stop <containerName>", "Stop container")
+  .option("--restart <containerName>", "Restart container")
+  .option("--create-os-image", "Create zero-dev-os image")
   .description("LXC container operations")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
-      operation: options.operation,
-      containerName: options.containerName,
-      imageName: options.imageName
+      list: options.list,
+      create: options.create,
+      delete: options.delete,
+      start: options.start,
+      stop: options.stop,
+      restart: options.restart,
+      createOSImage: options.createOsImage,
     })
 
     zeroDevOS.container()
@@ -135,20 +135,6 @@ program
   })
 
 program
-  .command("os")
-  .option("--base-image <base image>", "Base image for zero-dev-os (defaults to debian/10)")
-  .option("--image-name <image name>", "Image name (defaults to zero-dev-os)")
-  .description("Create zero-dev-os lxc image")
-  .action((options) => {
-    let zeroDevOS = new ZeroDevOS({
-      baseImage: options.baseImage,
-      imageName: options.imageName
-    })
-
-    zeroDevOS.containerOS()
-  })
-
-program
   .command("update")
   .option("--git-repo", "Pull latest from zero-dev-os git repository")
   .option("--host-os", "Update Host OS")
@@ -160,32 +146,6 @@ program
     })
 
     zeroDevOS.update()
-  })
-
-program
-  .command("container")
-  .option("--list", "List Containers")
-  .option("--create", "Create a Container")
-  .option("--delete", "Delete a Containers")
-  .option("--stop", "Stop a Container")
-  .option("--start", "Start a Container")
-  .option("--restart", "Restart a Container")
-  .option("--container-name <containerName>", "Container name (REQUIRED)")
-  .option("--image-name <image name>", "Image name (defaults to zero-dev-os)")
-  .description("LXC container operations")
-  .action((options) => {
-    let zeroDevOS = new ZeroDevOS({
-      list: options.list,
-      create: options.create,
-      delete: options.delete,
-      stop: options.stop,
-      start: options.start,
-      restart: options.restart,
-      containerName: options.containerName,
-      imageName: options.imageName
-    })
-
-    zeroDevOS.container()
   })
 
 program

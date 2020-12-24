@@ -34,12 +34,14 @@ class ZeroDevUtils {
     this.message(command)
 
     let result = shell.exec(command)
+    return result
   }
 
   static execSync(command) {
     this.message(command)
 
     let result = execSync(command)
+    return result
   }
 
   static cd(directory) {
