@@ -80,6 +80,7 @@ program
   .option("--stop <containerName>", "Stop container")
   .option("--restart <containerName>", "Restart container")
   .option("--create-os-image", "Create zero-dev-os image")
+  .option("--update-hosts", "Update /etc/hosts with container info")
   .description("LXC container operations")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
@@ -90,6 +91,7 @@ program
       stop: options.stop,
       restart: options.restart,
       createOSImage: options.createOsImage,
+      updateHosts: options.updateHosts,
     })
 
     zeroDevOS.container()

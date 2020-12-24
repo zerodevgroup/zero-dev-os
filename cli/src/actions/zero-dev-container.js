@@ -18,13 +18,14 @@ class ZeroDevContainer {
     console.log(this.options)
 
     this.operations = [
-      "createOSImage",
       "list",
       "create",
       "delete",
       "start",
       "stop",
       "restart",
+      "createOSImage",
+      "updateHosts",
     ]
 
     this.validate()
@@ -165,6 +166,43 @@ class ZeroDevContainer {
     let startResult = execSync(startCommand)
     console.log(startResult.toString())
   }
+
+  updateHosts() {
+    let content = `\
+127.0.0.1	localhost
+127.0.1.1	pi
+
+`
+
+    let containers = JSON.parse(shell.exec("lxc list --format json", {silent:true}).stdout)
+
+    containers.forEach((container) => {
+      if(container.status.match(/running/i)) {
+        console.log(container.name)
+
+        if(container.state && container.state.network && container.state.network.eth0 && container.state.network.eth0.addresses && container.state.network.eth0.addresses.length > 0) {
+          container.state.network.eth0.addresses.forEach((address) => {
+            if(address.family === "inet") {
+              console.log(address)
+              content += `${address.address} ${container.name}\n`
+            }
+          })
+        }
+      }
+    })
+
+    content += `
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+`
+
+    fs.writeFileSync("/etc/hosts", content)
+  }
+
 
   validate() {
     let validOptions = false
