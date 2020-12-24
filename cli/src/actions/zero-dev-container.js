@@ -68,6 +68,10 @@ class ZeroDevContainer {
 
   createOSImage() {
     let containerName = "zero-dev-os"
+
+    // Update to latest zero-dev-os git repo commit
+    utils.shell(`${this.options.zeroDevOSDir}/zero-dev-os update --git-repo`)
+
     // Delete any existing image/container
     utils.message("Clean up any existing images/containers")
     utils.shell(`/snap/bin/lxc image delete ${this.imageName}`)

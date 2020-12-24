@@ -89,9 +89,10 @@ alias root='sudo su -'
     utils.shell("apt update")
     utils.shell("apt --yes upgrade")
 
-    // Install zip, git
+    // Install zip, git, sudo
     utils.shell("apt install --yes zip")
     utils.shell("apt install --yes git")
+    utils.shell("apt install --yes sudo")
 
     // Add github to known_hosts
     utils.shell(`sudo --user=${this.options.user} bash -c 'ssh-keyscan github.com >> ${this.options.home}/.ssh/known_hosts'`)
@@ -119,7 +120,6 @@ alias root='sudo su -'
     utils.shell(`sudo --user=${this.options.user} git config --global push.default simple`)
     utils.shell(`sudo --user=${this.options.user} git config --global pull.rebase false`)
 
-    utils.shell("apt install --yes sudo")
     utils.shell("apt install --yes gnupg gnupg2 gnupg1")
 
     utils.shell("apt install --yes cmake")
