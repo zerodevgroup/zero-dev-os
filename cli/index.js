@@ -76,9 +76,14 @@ program
 
 program
   .command("update")
+  .option("--git-repo", "Pull latest from zero-dev-os git repository")
+  .option("--host-os", "Update Host OS")
   .description("Update zero-dev-os")
   .action((options) => {
-    let zeroDevOS = new ZeroDevOS({})
+    let zeroDevOS = new ZeroDevOS({
+      gitRepo: options.gitRepo,
+      hostOS: options.hostOs
+    })
 
     zeroDevOS.update()
   })
