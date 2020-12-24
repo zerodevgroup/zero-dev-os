@@ -153,7 +153,6 @@ alias root='sudo su -'
 
     utils.shell("echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections")
     utils.shell("apt install --yes ttf-mscorefonts-installer")
-    utils.shell("apt install --yes chromium-browser")
     utils.shell("apt install --yes terminator")
     utils.shell("apt install --yes gnome-tweak-tool")
     utils.shell("apt install --yes ubuntu-restricted-extras")
@@ -221,7 +220,7 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
     utils.title("Installing Zero Dev OS MongoDB")
 
     utils.shell("wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -")
-    utils.shell("echo \"deb [ arch=arm64 ] https://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main\" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list")
+    utils.shell("echo \"deb [ arch=arm64 ] https://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main\" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list")
     utils.shell("apt update")
     utils.shell("apt install --yes mongodb-org")
     utils.shell("systemctl enable mongod")

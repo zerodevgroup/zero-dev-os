@@ -133,7 +133,7 @@ sudo reboot
 Remove default favorites from the left menu and add the following:
 
 * Terminator
-* Chromium
+* Firefox
 * Files
 * Settings
 * Tweaks
