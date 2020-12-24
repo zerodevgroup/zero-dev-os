@@ -74,7 +74,6 @@ echo -ne "\\033]0;"$*"\\007"
 export LC_ALL=en_US.utf-8 
 export LANG="$LC_ALL"
 
-alias zero-dev-os='sudo ${this.options.zeroDevOSDir}/zero-dev-os.sh'
 alias root='sudo su -'
 `
 
@@ -329,7 +328,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
       this.utils.warn("No operations were specified.")
 
       console.log()
-      shell.exec(`${this.options.zeroDevOSDir}/zero-dev-os.sh ${this.command} --help`)
+      shell.exec(`${this.options.zeroDevOSDir}/zero-dev-os ${this.command} --help`)
 
       process.exit(-1)
     }

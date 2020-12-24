@@ -63,10 +63,10 @@ class ZeroDevContainerOS extends ComponentBase {
 
         // install node
         this.utils.shell(`/snap/bin/lxc exec ${this.options.containerName} -- /opt/zero-dev-os/tools/node-js-install.sh`)
-        this.utils.shell(`/snap/bin/lxc exec ${this.options.containerName} -- /opt/zero-dev-os/zero-dev-os.sh install --core`)
-        this.utils.shell(`/snap/bin/lxc exec ${this.options.containerName} -- /opt/zero-dev-os/zero-dev-os.sh install --limit-swap`)
-        this.utils.shell(`/snap/bin/lxc exec ${this.options.containerName} -- /opt/zero-dev-os/zero-dev-os.sh install --bashrc`)
-        this.utils.shell(`/snap/bin/lxc exec ${this.options.containerName} -- /opt/zero-dev-os/zero-dev-os.sh install --vimrc`)
+        this.utils.shell(`/snap/bin/lxc exec ${this.options.containerName} -- /opt/zero-dev-os/zero-dev-os install --core`)
+        this.utils.shell(`/snap/bin/lxc exec ${this.options.containerName} -- /opt/zero-dev-os/zero-dev-os install --limit-swap`)
+        this.utils.shell(`/snap/bin/lxc exec ${this.options.containerName} -- /opt/zero-dev-os/zero-dev-os install --bashrc`)
+        this.utils.shell(`/snap/bin/lxc exec ${this.options.containerName} -- /opt/zero-dev-os/zero-dev-os install --vimrc`)
 
         // stop container
         this.utils.shell(`/snap/bin/lxc stop ${this.options.containerName} --force`)

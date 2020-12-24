@@ -140,7 +140,7 @@ class ZeroDevContainer extends ComponentBase {
       this.utils.message("Please resolve and try again.")
 
       console.log()
-      shell.exec(`${this.options.zeroDevOSDir}/zero-dev-os.sh container --help`)
+      shell.exec(`${this.options.zeroDevOSDir}/zero-dev-os container --help`)
 
       process.exit(-1)
     }
