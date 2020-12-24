@@ -11,7 +11,7 @@ class ZeroDevContainer {
     this.command = "container"
 
     this.imageName = "zero-dev-os"
-    this.baseImage = "images:debian/buster"
+    this.baseImage = "ubuntu:20.04"
 
     console.log()
     utils.message("Options:")
@@ -70,7 +70,7 @@ class ZeroDevContainer {
     let containerName = "zero-dev-os"
 
     // Update to latest zero-dev-os git repo commit
-    utils.shell(`${this.options.zeroDevOSDir}/zero-dev-os update --git-repo`)
+    utils.shell(`${this.options.zeroDevOSDir}/zeros update --git-repo`)
 
     // Delete any existing image/container
     utils.message("Clean up any existing images/containers")
@@ -108,10 +108,10 @@ class ZeroDevContainer {
 
       // install node
       utils.shell(`/snap/bin/lxc exec ${containerName} -- /opt/zero-dev-os/tools/node-js-install.sh`)
-      utils.shell(`/snap/bin/lxc exec ${containerName} -- /opt/zero-dev-os/zero-dev-os install --core`)
-      utils.shell(`/snap/bin/lxc exec ${containerName} -- /opt/zero-dev-os/zero-dev-os install --limit-swap`)
-      utils.shell(`/snap/bin/lxc exec ${containerName} -- /opt/zero-dev-os/zero-dev-os install --bashrc`)
-      utils.shell(`/snap/bin/lxc exec ${containerName} -- /opt/zero-dev-os/zero-dev-os install --vimrc`)
+      utils.shell(`/snap/bin/lxc exec ${containerName} -- /opt/zero-dev-os/zeros install --core`)
+      utils.shell(`/snap/bin/lxc exec ${containerName} -- /opt/zero-dev-os/zeros install --limit-swap`)
+      utils.shell(`/snap/bin/lxc exec ${containerName} -- /opt/zero-dev-os/zeros install --bashrc`)
+      utils.shell(`/snap/bin/lxc exec ${containerName} -- /opt/zero-dev-os/zeros install --vimrc`)
 
       // stop container
       utils.shell(`/snap/bin/lxc stop ${containerName} --force`)
@@ -181,7 +181,7 @@ class ZeroDevContainer {
       utils.warn("No operations were specified.")
 
       console.log()
-      shell.exec(`${this.options.zeroDevOSDir}/zero-dev-os ${this.command} --help`)
+      shell.exec(`${this.options.zeroDevOSDir}/zeros ${this.command} --help`)
 
       process.exit(-1)
     }

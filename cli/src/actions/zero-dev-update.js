@@ -88,7 +88,7 @@ class ZeroDevUpdate {
       utils.warn("No operations were specified.")
 
       console.log()
-      shell.exec(`${this.options.zeroDevOSDir}/zero-dev-os ${this.command} --help`)
+      shell.exec(`${this.options.zeroDevOSDir}/zeros ${this.command} --help`)
 
       process.exit(-1)
     }
