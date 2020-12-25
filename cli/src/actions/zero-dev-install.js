@@ -63,9 +63,11 @@ export PATH="$PATH:/snap/bin:$ZERO_DEV_OS:$ZERO_DEV_OS/tools"
 
 export IP_ADDRESS=$($ZERO_DEV_OS/tools/ip-address.sh)
 
+export HOSTNAME=$(hostname)
+
 # Set prompt
 export PS1='
-\\e[35m$USER\\e[0m@pi->$IP_ADDRESS [\\D{%H:%M:%S}] $PWD
+\\e[35m$USER\\e[0m@$HOSTNAME->$IP_ADDRESS [\\D{%H:%M:%S}] $PWD
 $> '
 
 function title {
