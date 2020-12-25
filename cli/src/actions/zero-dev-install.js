@@ -11,7 +11,7 @@ class ZeroDevInstall {
     this.command = "install"
 
     console.log()
-    utils.message("Options:")
+    utils.message("options:")
     console.log(this.options);
 
     this.operations = [
@@ -325,7 +325,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
     if(!validOptions) {
       console.log()
-      utils.warn("No operations were specified.")
+      utils.warn("no operations were specified")
 
       console.log()
       shell.exec(`${this.options.zeroDevOSDir}/zed ${this.command} --help`)

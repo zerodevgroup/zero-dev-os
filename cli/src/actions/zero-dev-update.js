@@ -10,7 +10,7 @@ class ZeroDevUpdate {
     this.command = "update"
 
     console.log()
-    utils.message("Options:")
+    utils.message("options:")
     console.log(this.options)
 
     this.operations = [
@@ -48,15 +48,15 @@ class ZeroDevUpdate {
     let localCommitId = utils.chomp(shell.exec('git rev-parse HEAD', {silent:true}).stdout)
     let remoteCommitId = utils.chomp(shell.exec("git ls-remote | grep HEAD  | awk '{print $1}'", {silent:true}).stdout)
 
-    utils.message(`Local  Commit ID: ${localCommitId}`)
-    utils.message(`Remote Commit ID: ${remoteCommitId}`)
+    utils.message(`local  commit id: ${localCommitId}`)
+    utils.message(`remote commit id: ${remoteCommitId}`)
 
     if(localCommitId !== remoteCommitId) {
-      utils.message(`Pulling ${this.options.zeroDevOSDir}.`)
+      utils.message(`pulling ${this.options.zeroDevOSDir}`)
       utils.shell("git pull")
     }
     else {
-      utils.message(`${this.options.zeroDevOSDir} is up to date.`)
+      utils.message(`${this.options.zeroDevOSDir} is up to date`)
     }
 
     utils.cd(this.options.workDir)
@@ -85,7 +85,7 @@ class ZeroDevUpdate {
 
     if(!validOptions) {
       console.log()
-      utils.warn("No operations were specified.")
+      utils.warn("no operations were specified...")
 
       console.log()
       shell.exec(`${this.options.zeroDevOSDir}/zed ${this.command} --help`)

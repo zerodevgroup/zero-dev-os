@@ -42,7 +42,7 @@ class ZeroDevOS {
   container() {
     let zeroDevContainer = new ZeroDevContainer(this.options)
     zeroDevContainer.exec().then(() => {
-      utils.message("Done...")
+      utils.message("done.")
     })
   }
 
@@ -52,28 +52,28 @@ class ZeroDevOS {
 
     let zeroDevInstall = new ZeroDevInstall(this.options)
     zeroDevInstall.exec().then(() => {
-      utils.message("Done...")
+      utils.message("done.")
     })
   }
 
   update() {
     let zeroDevUpdate = new ZeroDevUpdate(this.options)
     zeroDevUpdate.exec().then(() => {
-      utils.message("Done...")
+      utils.message("done.")
     })
   }
 }
 
 program
   .command("container")
-  .option("--list", "List containers")
-  .option("--create [containerName]", "Create container")
-  .option("--delete <containerName>", "Delete container")
-  .option("--start <containerName>", "Start container")
-  .option("--stop <containerName>", "Stop container")
-  .option("--restart <containerName>", "Restart container")
-  .option("--create-os-image", "Create zero-dev-os image")
-  .option("--update-hosts", "Update /etc/hosts with container info")
+  .option("--list", "list containers")
+  .option("--create [containerName]", "create container")
+  .option("--delete <containerName>", "delete container")
+  .option("--start <containerName>", "start container")
+  .option("--stop <containerName>", "stop container")
+  .option("--restart <containerName>", "restart container")
+  .option("--create-os-image", "create zero-dev-os image")
+  .option("--update-hosts", "update /etc/hosts with container info")
   .description("container operations")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
@@ -92,16 +92,16 @@ program
 
 program
   .command("install")
-  .option("--core", "Install zero-dev-os Core")
-  .option("--bashrc", "Install zero-dev-os Bashrc")
-  .option("--vimrc", "Install zero-dev-os Vimrc")
-  .option("--limit-swap", "Limit Swappiness")
-  .option("--disable-sudo-password", "Disable sudo password for admin user (developer)")
-  .option("--desktop", "Install zero-dev-os Desktop")
-  .option("--development", "Install zero-dev-os Development")
-  .option("--graphics", "Install zero-dev-os Graphics")
-  .option("--lxd", "Install zero-dev-os LXD")
-  .option("--mongo", "Install zero-dev-os Mongo")
+  .option("--core", "install zero-dev-os core")
+  .option("--bashrc", "install zero-dev-os bashrc")
+  .option("--vimrc", "install zero-dev-os vimrc")
+  .option("--limit-swap", "limit swappiness")
+  .option("--disable-sudo-password", "disable sudo password for admin user (developer)")
+  .option("--desktop", "install zero-dev-os desktop")
+  .option("--development", "install zero-dev-os development")
+  .option("--graphics", "install zero-dev-os graphics")
+  .option("--lxd", "install zero-dev-os lxd")
+  .option("--mongo", "install zero-dev-os mongo")
   .description("install zero-dev-os")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
@@ -122,8 +122,8 @@ program
 
 program
   .command("update")
-  .option("--git-repo", "Pull latest from zero-dev-os git repository")
-  .option("--host-os", "Update Host OS")
+  .option("--git-repo", "pull latest from zero-dev-os git repository")
+  .option("--host-os", "update host os")
   .description("update zero-dev-os")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({

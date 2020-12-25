@@ -14,7 +14,7 @@ class ZeroDevContainer {
     this.baseImage = "ubuntu:20.04"
 
     console.log()
-    utils.message("Options:")
+    utils.message("options:")
     console.log(this.options)
 
     this.operations = [
@@ -74,13 +74,13 @@ class ZeroDevContainer {
     utils.shell(`${this.options.zeroDevOSDir}/zed update --git-repo`)
 
     // Delete any existing image/container
-    utils.message("Clean up any existing images/containers")
+    utils.message("clean up any existing images/containers")
     utils.shell(`/snap/bin/lxc image delete ${this.imageName}`)
     utils.shell(`/snap/bin/lxc stop ${containerName} --force`)
     utils.shell(`/snap/bin/lxc delete ${containerName} --force`)
 
     // Create container
-    utils.message("Create container")
+    utils.message("create container")
     utils.execSync(`/snap/bin/lxc launch ${this.baseImage} ${containerName}`)
 
     utils.shell(`/snap/bin/lxc exec ${containerName} -- mkdir -p ${this.options.home}/.ssh`)
@@ -93,7 +93,7 @@ class ZeroDevContainer {
       utils.shell(`/snap/bin/lxc file push ${this.options.home}/.ssh/id_rsa.pub ${containerName}/root/.ssh/authorized_keys`)
     }
     // Wait for full boot of LXC container
-    utils.message("Waiting for LXC container to boot...")
+    utils.message("waiting for lxc container to boot...")
     setTimeout(() => {
 
       // Upgrade OS
@@ -216,7 +216,7 @@ ff02::2 ip6-allrouters
 
     if(!validOptions) {
       console.log()
-      utils.warn("No operations were specified.")
+      utils.warn("no operations were specified...")
 
       console.log()
       shell.exec(`${this.options.zeroDevOSDir}/zed ${this.command} --help`)
