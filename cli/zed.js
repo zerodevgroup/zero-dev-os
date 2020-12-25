@@ -5,7 +5,6 @@ const _ = require("lodash")
 const fs = require("fs")
 
 const ZeroDevContainer = require("./src/actions/zero-dev-container")
-const ZeroDevInit = require("./src/actions/zero-dev-init")
 const ZeroDevInstall = require("./src/actions/zero-dev-install")
 const ZeroDevUpdate = require("./src/actions/zero-dev-update")
 
@@ -47,12 +46,6 @@ class ZeroDevOS {
     })
   }
 
-  init() {
-    let zeroDevInit = new ZeroDevInit(this.options)
-    zeroDevInit.exec().then(() => {
-      utils.message("Done...")
-    })
-  }
 
   install() {
     this.options.install = true
@@ -81,7 +74,7 @@ program
   .option("--restart <containerName>", "Restart container")
   .option("--create-os-image", "Create zero-dev-os image")
   .option("--update-hosts", "Update /etc/hosts with container info")
-  .description("LXC container operations")
+  .description("container operations")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
       list: options.list,
@@ -98,27 +91,18 @@ program
   })
 
 program
-  .command("init")
-  .description("Initialize zero-dev-os")
-  .action((options) => {
-    let zeroDevOS = new ZeroDevOS({})
-
-    zeroDevOS.init()
-  })
-
-program
   .command("install")
-  .option("--core", "Install Zero Dev OS Core")
-  .option("--bashrc", "Install Zero Dev OS Bashrc")
-  .option("--vimrc", "Install Zero Dev OS Vimrc")
+  .option("--core", "Install zero-dev-os Core")
+  .option("--bashrc", "Install zero-dev-os Bashrc")
+  .option("--vimrc", "Install zero-dev-os Vimrc")
   .option("--limit-swap", "Limit Swappiness")
   .option("--disable-sudo-password", "Disable sudo password for admin user (developer)")
-  .option("--desktop", "Install Zero Dev OS Desktop")
-  .option("--development", "Install Zero Dev OS Development")
-  .option("--graphics", "Install Zero Dev OS Graphics")
-  .option("--lxd", "Install Zero Dev OS LXD")
-  .option("--mongo", "Install Zero Dev OS Mongo")
-  .description("Install Zero Dev OS")
+  .option("--desktop", "Install zero-dev-os Desktop")
+  .option("--development", "Install zero-dev-os Development")
+  .option("--graphics", "Install zero-dev-os Graphics")
+  .option("--lxd", "Install zero-dev-os LXD")
+  .option("--mongo", "Install zero-dev-os Mongo")
+  .description("install zero-dev-os")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
       bashrc: options.bashrc,
@@ -140,7 +124,7 @@ program
   .command("update")
   .option("--git-repo", "Pull latest from zero-dev-os git repository")
   .option("--host-os", "Update Host OS")
-  .description("Update zero-dev-os")
+  .description("update zero-dev-os")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
       gitRepo: options.gitRepo,
@@ -152,7 +136,7 @@ program
 
 program
   .command("doctor")
-  .description("Show development environment settings")
+  .description("show development environment settings")
   .action((type) => {
     const platform = process.platform
     const nodePath = _.trim(shell.which("node"))
