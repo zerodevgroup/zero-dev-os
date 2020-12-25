@@ -24,7 +24,7 @@ class ZeroDevInstall {
       "development",
       "graphics",
       "lxd",
-      "mongo",
+      "postgres",
     ]
 
     this.validate()
@@ -50,7 +50,7 @@ class ZeroDevInstall {
   }
 
   bashrc() {
-    utils.title("Installing Zero Dev OS Bashrc")
+    utils.title("installing zero-dev-os bashrc")
 
     let bashrcContent = `\
 # Set up vi options
@@ -83,7 +83,7 @@ alias root='sudo su -'
   }
 
   core() {
-    utils.title("Installing Zero Dev OS Core")
+    utils.title("installing zero-dev-os core")
 
     // Upgrade OS
     utils.shell("apt update")
@@ -149,7 +149,7 @@ alias root='sudo su -'
   }
 
   desktop() {
-    utils.title("Installing Zero Dev OS Desktop")
+    utils.title("installing zero-dev-os desktop")
 
     utils.shell("echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections")
     utils.shell("apt install --yes ttf-mscorefonts-installer")
@@ -209,22 +209,16 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
   }
 
   graphics() {
-    utils.title("Installing Zero Dev OS Graphics")
+    utils.title("installing zero-dev-os graphics")
 
     utils.shell("apt install --yes gimp")
 
     // TODO: Install Imagemagick
   }
 
-  mongo() {
-    utils.title("Installing Zero Dev OS MongoDB")
-
-    utils.shell("wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -")
-    utils.shell("echo \"deb [ arch=arm64 ] https://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main\" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list")
-    utils.shell("apt update")
-    utils.shell("apt install --yes mongodb-org")
-    utils.shell("systemctl enable mongod")
-    utils.shell("systemctl start mongod")
+  postgres() {
+    utils.title("installing postgres")
+    utils.shell("apt install --yes postgresql postgresql-contrib postgresql-client")
   }
 
   limitSwap() {

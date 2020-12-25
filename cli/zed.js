@@ -100,8 +100,8 @@ program
   .option("--desktop", "install zero-dev-os desktop")
   .option("--development", "install zero-dev-os development")
   .option("--graphics", "install zero-dev-os graphics")
-  .option("--lxd", "install zero-dev-os lxd")
-  .option("--mongo", "install zero-dev-os mongo")
+  .option("--lxd", "install lxd")
+  .option("--postgres", "install postgresql db")
   .description("install zero-dev-os")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
@@ -113,7 +113,7 @@ program
       graphics: options.graphics,
       lxd: options.lxd,
       limitSwap: options.limitSwap,
-      mongo: options.mongo,
+      postgres: options.postgres,
       vimrc: options.vimrc,
     })
 
