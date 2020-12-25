@@ -11,7 +11,7 @@ class ZeroDevContainer {
     this.command = "container"
 
     this.imageName = "zero-dev-os"
-    this.baseImage = "ubuntu:20.04"
+    this.baseImage = "ubuntu:20.10"
 
     console.log()
     utils.message("options:")
@@ -118,7 +118,7 @@ class ZeroDevContainer {
       utils.shell(`/snap/bin/lxc stop ${containerName} --force`)
 
       // publish image
-      utils.shell(`/snap/bin/lxc publish --alias ${containerName} ${containerName} description="An image of ${containerName}"`)
+      utils.shell(`/snap/bin/lxc publish --alias ${containerName} ${containerName} description="${containerName}"`)
 
       // remove container
       utils.shell(`/snap/bin/lxc delete ${containerName} --force`)
