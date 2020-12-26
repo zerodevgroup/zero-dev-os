@@ -1,5 +1,6 @@
 const fs = require("fs")
 const _ = require("lodash")
+const os = require("os")
 const shell = require("shelljs")
 const { execSync } = require("child_process")
 
@@ -170,7 +171,7 @@ class ZeroDevContainer {
   updateHosts() {
     let content = `\
 127.0.0.1	localhost
-127.0.1.1	pi
+127.0.0.1	${os.hostname()}
 
 `
 

@@ -15,7 +15,7 @@ class ZeroDevOS {
     this.options = options
 
     this.options.workDir = process.env["PWD"]
-    this.options.zeroDevOSDir = __dirname.replace(/\/cli$/, "")
+    this.options.zeroDevOSDir = __dirname.replace(/\/zed-cli$/, "")
 
     if(process.env["SUDO_USER"]) {
       // sudo user
