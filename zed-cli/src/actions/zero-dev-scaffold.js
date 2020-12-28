@@ -5,7 +5,7 @@ const { execSync } = require("child_process")
 
 const utils = require("../utils/zero-dev-utils.js")
 
-class ZeroDevBuild {
+class ZeroDevScaffold {
   constructor(options) {
     this.options = options
     this.command = "build"
@@ -140,4 +140,4 @@ class ZeroDevBuild {
   }
 } 
 
-module.exports = ZeroDevBuild
+module.exports = ZeroDevScaffold
