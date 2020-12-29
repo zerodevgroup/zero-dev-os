@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir -p ~/wip/zero-dev-os/install-server
+rm ~/wip/zero-dev-os/install-server/*.wav
+
+pico2wave -w ~/wip/zero-dev-os/install-server/01-intro.wav < 01-intro.txt
+pico2wave -w ~/wip/zero-dev-os/install-server/02-download.wav < 02-download.txt
+
+cd ~/wip/zero-dev-os/install-server
+ffmpeg -f concat -safe 0 -i <(find . -name '*.wav' -printf "file '$PWD/%p'\n") -c copy install-server.wav
+
+clear
+aplay install-server.wav

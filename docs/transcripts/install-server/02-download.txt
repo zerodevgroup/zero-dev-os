@@ -1,0 +1,9 @@
+To begin, a compressed image of the Ubuntu operating system is downloaded.
+
+Navigate to the ubuntu download page for raspberry pi.
+
+Scroll down to the "Download your Ubuntu Pi image" section.
+
+Under the Raspberry Pi 4 column, click the 64 bit button in the Ubuntu Server 20.04.1 LTS column.
+
+Ubuntu Server 20.04.1 is downloaded.

@@ -1,0 +1,10 @@
+Welcome to the Zero Dev OS channel.
+
+In this video, a new instance of the zero dev operating system will be created for the Raspberry Pi.
+
+Zero Dev OS will be installed on a Raspberry Pi 4 with 8 gigabytes of RAM.
+
+At the core of Zero Dev OS is the Ubuntu operating system.
+
+Zero Dev OS enhances Ubuntu by adding specialized configurations, tools and programs.
+
