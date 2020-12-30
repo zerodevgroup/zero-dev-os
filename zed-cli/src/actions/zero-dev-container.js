@@ -123,13 +123,12 @@ class ZeroDevContainer {
 
       // remove container
       utils.shell(`/snap/bin/lxc delete ${containerName} --force`)
-    })
+    }, 30000)
   }
 
   delete() {
     let containerName = this.options.delete
     let deleteCommand = `/snap/bin/lxc delete --force ${containerName}`
-    utils.message(deleteCommand)
 
     let deleteResult = utils.execSync(deleteCommand)
     console.log(deleteResult.toString())
@@ -138,9 +137,8 @@ class ZeroDevContainer {
   stop() {
     let containerName = this.options.stop
     let command = `/snap/bin/lxc stop --force ${containerName}`
-    utils.message(command)
 
-    let result = execSync(command)
+    let result = utils.execSync(command)
     console.log(result.toString())
   }
 
@@ -149,22 +147,20 @@ class ZeroDevContainer {
     let command = `/snap/bin/lxc start ${containerName}`
     utils.message(command)
 
-    let result = execSync(command)
+    let result = utils.execSync(command)
     console.log(result.toString())
   }
 
   restart() {
     let containerName = this.options.restart
     let stopCommand = `/snap/bin/lxc stop --force ${containerName}`
-    utils.message(stopCommand)
 
-    let stopResult = execSync(stopCommand)
+    let stopResult = utils.execSync(stopCommand)
     console.log(stopResult.toString())
 
     let startCommand = `/snap/bin/lxc start ${this.options.containerName}`
-    utils.message(startCommand)
 
-    let startResult = execSync(startCommand)
+    let startResult = utils.execSync(startCommand)
     console.log(startResult.toString())
   }
 
