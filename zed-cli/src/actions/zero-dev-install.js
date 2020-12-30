@@ -88,7 +88,8 @@ alias root='sudo su -'
     utils.title("installing zero-dev-os core")
 
     // Upgrade OS
-    utils.shell("apt update")
+    utils.shell(`echo 'deb http://loboris.eu/raspi_repo/ raspi main' > /etc/apt/sources.list.d/loboris.list`)
+    utils.shell("apt --yes update")
     utils.shell("apt --yes upgrade")
 
     // Install zip, git, sudo
@@ -158,6 +159,8 @@ alias root='sudo su -'
     utils.shell("apt install --yes terminator")
     utils.shell("apt install --yes gnome-tweak-tool")
     utils.shell("apt install --yes ubuntu-restricted-extras")
+    utils.shell("apt install --yes ffmpeg")
+    utils.shell("apt install --yes chromium")
   }
 
   disableSudoPassword() {
@@ -214,6 +217,7 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
     utils.title("installing zero-dev-os graphics")
 
     utils.shell("apt install --yes gimp")
+    utils.shell("apt install --yes ffmpeg")
 
     // TODO: Install Imagemagick
   }

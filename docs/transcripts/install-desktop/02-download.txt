@@ -4,6 +4,6 @@ Navigate to the ubuntu download page for raspberry pi.
 
 Scroll down to the "Download your Ubuntu Pi image" section.
 
-Under the Raspberry Pi 4 column, click the 64 bit button in the Ubuntu Server 20.04.1 LTS column.
+Under the Raspberry Pi 4 column, click the 64 bit button in the Ubuntu Desktop 20.10 column.
 
-Ubuntu Server 20.04.1 is downloaded.
+Ubuntu Desktop 20.10 is downloaded.

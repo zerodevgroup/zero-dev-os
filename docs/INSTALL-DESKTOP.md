@@ -188,8 +188,8 @@ Open the "Settings" tool
 In the "Power" tab:
   * Change "Power Saving - Blank Screen" to "Never"
 
-## Create zero-dev-os (Container OS)
+## Create zero-dev-os LXC image
 
 ```
-zero-dev-os os
+zed container --create-os-image
 ```

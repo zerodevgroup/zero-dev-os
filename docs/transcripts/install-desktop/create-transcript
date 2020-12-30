@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir -p ~/wip/zero-dev-os/install-desktop
+rm ~/wip/zero-dev-os/install-desktop/*.wav
+
+pico2wave -w ~/wip/zero-dev-os/install-desktop/01-intro.wav < 01-intro.txt
+pico2wave -w ~/wip/zero-dev-os/install-desktop/02-download.wav < 02-download.txt
+
+cd ~/wip/zero-dev-os/install-desktop
+ffmpeg -f concat -safe 0 -i <(find . -name '*.wav' -printf "file '$PWD/%p'\n") -c copy install-desktop.wav
+
+#clear
+aplay install-desktop.wav
