@@ -89,7 +89,7 @@ alias root='sudo su -'
 
     // Upgrade OS
     utils.shell(`echo 'deb http://loboris.eu/raspi_repo/ raspi main' > /etc/apt/sources.list.d/loboris.list`)
-    utils.shell("apt --yes update")
+    utils.shell("apt update")
     utils.shell("apt --yes upgrade")
 
     // Install zip, git, sudo
