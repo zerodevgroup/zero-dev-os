@@ -79,14 +79,14 @@ sudo ./node-js-install.sh
 
 ```
 cd /opt/zero-dev-os
-sudo ./zero-dev-os.sh install --core
-sudo ./zero-dev-os.sh install --limit-swap
-sudo ./zero-dev-os.sh install --desktop
-sudo ./zero-dev-os.sh install --disable-sudo-password
-sudo ./zero-dev-os.sh install --graphics
-sudo ./zero-dev-os.sh install --lxd
-sudo ./zero-dev-os.sh install --bashrc
-sudo ./zero-dev-os.sh install --vimrc
+sudo ./zed install --core
+sudo ./zed install --limit-swap
+sudo ./zed install --desktop
+sudo ./zed install --disable-sudo-password
+sudo ./zed install --graphics
+sudo ./zed install --lxd
+sudo ./zed install --bashrc
+sudo ./zed install --vimrc
 ```
 
 ### Configure lxd (50GB for block device based on 120GB SD Card)
@@ -116,8 +116,8 @@ Would you like a YAML "lxd init" preseed to be printed? (yes/no) [default=no]:
 ```
 sudo su -
 cd /opt/zero-dev-os
-./zero-dev-os.sh install --bashrc
-./zero-dev-os.sh install --vimrc
+./zed install --bashrc
+./zed install --vimrc
 ```
 
 ### Reboot
