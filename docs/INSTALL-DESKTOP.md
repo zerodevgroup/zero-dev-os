@@ -157,6 +157,8 @@ In the Profiles tab (default profile):
 In the Keybindings tab:
   * Change the keybinding "next_tab" to "Shift+Ctrl+Right"
   * Change the keybinding "prev_tab" to "Shift+Ctrl+Left"
+  * Change the keybinding "resize_left" to "Ctrl+Super+Left"
+  * Change the keybinding "resize_right" to "Ctrl+Super+Right"
 
 ### Apply Tweaks
 
