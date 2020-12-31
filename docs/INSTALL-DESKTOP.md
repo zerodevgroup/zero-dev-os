@@ -184,6 +184,24 @@ Open the "Settings" tool
 In the "Power" tab:
   * Change "Power Saving - Blank Screen" to "Never"
 
+### Enable Hardware Acceleration in Firefox
+
+Open Firefox
+
+In the address bar enter:
+```
+about:config
+```
+
+In the search bar enter:
+```
+layers.acceleration.force-enabled
+```
+
+Toggle the value to "true"
+
+Restart Firefox
+
 ## Create zero-dev-os LXC image
 
 ```
