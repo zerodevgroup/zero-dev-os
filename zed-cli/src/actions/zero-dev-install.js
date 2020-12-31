@@ -88,8 +88,6 @@ alias root='sudo su -'
     utils.title("installing zero-dev-os core")
 
     // Upgrade OS
-    utils.shell('echo "deb http://loboris.eu/raspi_repo/ raspi main" > /etc/apt/sources.list.d/loboris.list')
-    utils.shell('wget -O - http://loboris.eu/raspi_repo/lobo-raspi-key.gpg | apt-key add -')
     utils.shell("apt update")
     utils.shell("apt --yes upgrade")
 
@@ -161,7 +159,7 @@ alias root='sudo su -'
     utils.shell("apt install --yes gnome-tweak-tool")
     utils.shell("apt install --yes ubuntu-restricted-extras")
     utils.shell("apt install --yes ffmpeg")
-    utils.shell("apt install --yes chromium")
+    utils.shell("apt install --yes chromium-browser")
   }
 
   disableSudoPassword() {
