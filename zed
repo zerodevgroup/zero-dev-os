@@ -14,6 +14,10 @@ if ! [ -d "$ZERO_DEV_OS_DIR/zed-cli/node_modules" ]; then
   cd $ZERO_DEV_OS_DIR/zed-cli
   npm install
   cd -
+
+  cd $ZERO_DEV_OS_DIR/tools/ip-address
+  npm install
+  cd -
 fi
 
 node $ZERO_DEV_OS_DIR/zed-cli/zed.js $*

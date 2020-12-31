@@ -82,7 +82,7 @@ cd /opt/zero-dev-os
 sudo ./zed install --core
 sudo ./zed install --limit-swap
 sudo ./zed install --desktop
-sudo ./zed install --disable-sudo-password
+# Optional: sudo ./zed install --disable-sudo-password
 sudo ./zed install --graphics
 sudo ./zed install --lxd
 sudo ./zed install --bashrc
@@ -135,6 +135,7 @@ Remove default favorites from the left menu and add the following:
 * Terminator
 * Firefox
 * Files
+* Gimp
 * Settings
 * Tweaks
 
@@ -149,19 +150,13 @@ In the Global tab:
   * Under "Terminal Titlebar" change the "Background" color from red to Custom "1C1C1C"
 
 In the Profiles tab (default profile):
-  * Select the "Global" tab and change "Font" to the font of your choice, like "Monospace Regular 13"
-  * Select the "Colors" tab and change "Foreground and Background" to the scheme of your choice, like "White on Black" or "Green on Black"
+  * Select the "General" tab and change "Font" to the font of your choice, like "Monospace Regular 12"
+  * Select the "Colors" tab and change "Foreground and Background" to "White on Black"
   * Select the "Scrolling" tab and select "Infinite Scrollback"
 
 In the Keybindings tab:
-  * Change the keybinding "go_down" to "Shift+Ctrl+Down"
-  * Change the keybinding "go_up" to "Shift+Ctrl+Up"
   * Change the keybinding "next_tab" to "Shift+Ctrl+Right"
   * Change the keybinding "prev_tab" to "Shift+Ctrl+Left"
-  * Change the keybinding "resize_down" to "Ctrl+Super+Down"
-  * Change the keybinding "resize_left" to "Ctrl+Super+Left"
-  * Change the keybinding "resize_right" to "Ctrl+Super+Right"
-  * Change the keybinding "resize_up" to "Ctrl+Super+Up"
 
 ### Apply Tweaks
 
@@ -176,7 +171,6 @@ In the "Extensions" tab:
 
 In the "Top Bar" tab:
   * Change "Clock Seconds" to "On"
-  * Change "Date" to "On"
 
 In the "Workspaces" tab:
   * Change to "Static Workspaces" and leave the "Number of Workspaces" set to "4"
