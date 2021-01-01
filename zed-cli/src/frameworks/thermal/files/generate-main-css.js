@@ -29,8 +29,11 @@ class GenerateMainCss extends GenerateBase {
       let description = this.project.description ? this.project.description : ""
 
       let code = `\
-body {
+* { padding: 0; margin: 0; }
+html, body, #content {
   font-family: "Roboto";
+  min-height: 100% !important;
+  height: 100%;
 }
 `
       fs.writeFileSync(this.outputFile, code)

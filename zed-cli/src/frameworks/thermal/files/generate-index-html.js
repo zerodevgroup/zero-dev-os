@@ -27,13 +27,13 @@ class GenerateIndexHtml extends GenerateBase {
 
   generate() {
     let promise = new Promise((resolve, reject) => {
-      let description = this.project.description ? this.project.description : ""
+      let description = this.project.description ? this.project.description : this.project.name
 
       let code = `\
 <!DOCTYPE html>
 <html>
   <head>
-    <title>${this.project.name}</title>
+    <title>${description}</title>
     <link rel="stylesheet" type="text/css" href="./css/main.css" />
     <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -41,6 +41,9 @@ class GenerateIndexHtml extends GenerateBase {
   </head>
   <body>
     <div id="content"></div>
+
+    <!-- Components -->
+${this.getComponents()}
 
     <!-- Views -->
 ${this.getViews()}
@@ -68,6 +71,17 @@ ${this.getViews()}
     return promise
   }
 
+  getComponents() {
+    let code = ""
+    this.project.components.forEach((component) => {
+      code += `\
+    <script src="./components/${_.kebabCase(component.name)}.js"></script>
+`
+    })
+
+    return code
+  }
+
   getViews() {
     let code = ""
     this.project.views.forEach((view) => {
@@ -78,6 +92,7 @@ ${this.getViews()}
 
     return code
   }
+
 }
 
 module.exports = GenerateIndexHtml
