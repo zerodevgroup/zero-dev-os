@@ -2,11 +2,11 @@ const fs = require("fs")
 const shell = require("shelljs")
 const GenerateBase = require("../../../base/generate-base.js")
 
-class GenerateUtils extends GenerateBase {
+class GenerateThermal extends GenerateBase {
   constructor(project) {
     super(project)
 
-    this.outputFile = `./${this.project.name}/public/thermal/utils.js`
+    this.outputFile = `./${this.project.name}/public/thermal/thermal.js`
   }
 
   exec() {
@@ -29,17 +29,25 @@ class GenerateUtils extends GenerateBase {
       let description = this.project.description ? this.project.description : ""
 
       let code = `\
-class Utils {
-  // Convert from degrees to radians.
-  static radians(degrees) {
-    return degrees * Math.PI / 180
+class Thermal {
+  constructor() {
+    console.log("Thermal is here!")
+    this.config = new ThermalConfig()
+
+    this.content = document.getElementById("content")
   }
 
-  // Convert from radians to degrees.
-  static degrees(radians) {
-    return radians * 180 / Math.PI
+  async switchView(name) {
+
+    let viewContainer = eval(\`new \${name}()\`)
+    this.content.innerHTML = ""
+    this.content.append(viewContainer.getContent())
   }
-}\
+
+}
+
+let thermal = new Thermal()
+thermal.switchView(thermal.config.defaultView)
 `
       fs.writeFileSync(this.outputFile, code)
 
@@ -54,4 +62,4 @@ class Utils {
   }
 }
 
-module.exports = GenerateUtils
+module.exports = GenerateThermal

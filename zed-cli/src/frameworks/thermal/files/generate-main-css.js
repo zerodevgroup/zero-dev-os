@@ -2,11 +2,11 @@ const fs = require('fs')
 const shell = require("shelljs")
 const GenerateBase = require("../../../base/generate-base.js")
 
-class GenerateGitignore extends GenerateBase {
+class GenerateMainCss extends GenerateBase {
   constructor(project) {
     super(project);
 
-    this.outputFile = `./${this.project.name}/.gitignore`
+    this.outputFile = `./${this.project.name}/public/css/main.css`
   }
 
   exec() {
@@ -26,8 +26,12 @@ class GenerateGitignore extends GenerateBase {
 
   generate() {
     let promise = new Promise((resolve, reject) => {
+      let description = this.project.description ? this.project.description : ""
+
       let code = `\
-node_modules
+body {
+  font-family: "Roboto";
+}
 `
       fs.writeFileSync(this.outputFile, code)
 
@@ -42,4 +46,4 @@ node_modules
   }
 }
 
-module.exports = GenerateGitignore
+module.exports = GenerateMainCss

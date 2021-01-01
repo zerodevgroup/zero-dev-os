@@ -49,7 +49,7 @@ class ZeroDevDeploy {
       utils.message("Please resolve and try again.")
 
       console.log()
-      shell.exec(`${this.options.zeroDevOSDir}/zed build --help`)
+      shell.exec(`${this.options.zeroDevOSDir}/zed deploy --help`)
 
       process.exit(-1)
     }

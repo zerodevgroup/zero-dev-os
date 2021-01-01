@@ -8,11 +8,11 @@ const utils = require("../utils/zero-dev-utils.js")
 class ZeroDevScaffold {
   constructor(options) {
     this.options = options
-    this.command = "build"
+    this.command = "scaffold"
 
     this.validate()
     this.getProject()
-    this.frameworkPath = options.frameworkPath ? options.frameworkPath : "../frameworks"
+    this.frameworkPath = "../frameworks"
   }
 
   exec() {
@@ -105,7 +105,7 @@ class ZeroDevScaffold {
       utils.message("Please resolve and try again.")
 
       console.log()
-      shell.exec(`${this.options.zeroDevOSDir}/zed build --help`)
+      shell.exec(`${this.options.zeroDevOSDir}/zed scaffold --help`)
 
       process.exit(-1)
     }

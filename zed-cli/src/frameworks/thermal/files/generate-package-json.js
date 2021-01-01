@@ -56,7 +56,7 @@ class GeneratePackageJson extends GenerateBase {
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.20"
   }
 }
 `

@@ -28,8 +28,8 @@ class Initializer extends GenerateBase {
         this.utils.shell(`cp -r ${this.project.assets}/* ./${this.project.name}/public`)
       }
 
-      if(this.project.thermalConfig && fs.existsSync(`${this.project.thermalConfig}`)) {
-        this.utils.shell(`cp ${this.project.thermalConfig} ./${this.project.name}/public/thermal/thermal-config.js`)
+      if(this.project.framework.config && fs.existsSync(`${this.project.framework.config}`)) {
+        this.utils.shell(`cp ${this.project.framework.config} ./${this.project.name}/public/thermal/thermal-config.js`)
       }
 
       resolve()

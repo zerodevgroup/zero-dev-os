@@ -7,7 +7,7 @@ class GenerateBase {
   constructor(project) {
     this.project = project
 
-    this.utils = require(`${this.project.options.zeroDevDir}/cli/src/utils/zero-dev-utils`)
+    this.utils = require(`${this.project.options.zeroDevOSDir}/zed-cli/src/utils/zero-dev-utils`)
   }
 
   getGenerationFiles(directory) {

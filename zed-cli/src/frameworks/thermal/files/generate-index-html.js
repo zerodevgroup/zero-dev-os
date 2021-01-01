@@ -35,21 +35,15 @@ class GenerateIndexHtml extends GenerateBase {
   <head>
     <title>${this.project.name}</title>
     <link rel="stylesheet" type="text/css" href="./css/main.css" />
-    <link rel="shortcut icon" href="./images/favicon.ico?v=1" type="image/x-icon">
-
-    <script src="https://preview.babylonjs.com/babylon.js"></script>
-    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-    <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
-    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   </head>
-  <body style="margin:0;">
-    <div id = "holder">
-      <canvas id="appCanvas" touch-action="none"></canvas> <!-- touch-action="none" for best results from PEP -->
-    </div>
+  <body>
     <div id="content"></div>
 
-    <!-- Scenes -->
-${this.getScenes()}
+    <!-- Views -->
+${this.getViews()}
 
     <!-- Thermal Config -->
     <script src="./thermal/thermal-config.js"></script>
@@ -74,11 +68,11 @@ ${this.getScenes()}
     return promise
   }
 
-  getScenes() {
+  getViews() {
     let code = ""
-    this.project.scenes.forEach((scene) => {
+    this.project.views.forEach((view) => {
       code += `\
-    <script src="./scenes/${_.kebabCase(scene.name)}.js"></script>
+    <script src="./views/${_.kebabCase(view.name)}.js"></script>
 `
     })
 

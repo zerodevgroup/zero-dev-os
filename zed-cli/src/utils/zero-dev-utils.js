@@ -55,6 +55,17 @@ class ZeroDevUtils {
 
     return result
   }
+
+  static getProject(projectFile) {
+    if(fs.existsSync(projectFile)) {
+      let project = JSON.parse(fs.readFileSync(projectFile, "utf8"))
+
+      return(project)
+    }
+    else {
+      return null
+    }
+  }
 } 
 
 module.exports = ZeroDevUtils

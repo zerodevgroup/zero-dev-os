@@ -9,9 +9,9 @@ class Generator extends GenerateBase {
     let promise = new Promise((resolve, reject) => {
       this.utils.title("Generator")
 
-      console.log(`Generating for ${this.project.renderer}`)
+      console.log(`Generating for ${this.project.name}`)
 
-      let generationFiles = this.getGenerationFiles(`${this.project.options.zeroDevDir}/cli/src/frameworks/${this.project.framework.name}/${this.project.renderer}`)
+      let generationFiles = this.getGenerationFiles(`${this.project.options.zeroDevOSDir}/zed-cli/src/frameworks/${this.project.framework.name}/files`)
 
       let executeCode = async () => {
         for(let i = 0; i < generationFiles.length; i++) {
