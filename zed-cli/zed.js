@@ -5,9 +5,7 @@ const _ = require("lodash")
 const fs = require("fs")
 
 const ZeroDevContainer = require("./src/actions/zero-dev-container")
-const ZeroDevDeploy = require("./src/actions/zero-dev-deploy")
 const ZeroDevInstall = require("./src/actions/zero-dev-install")
-const ZeroDevScaffold = require("./src/actions/zero-dev-scaffold")
 const ZeroDevUpdate = require("./src/actions/zero-dev-update")
 
 const utils = require("./src/utils/zero-dev-utils")
@@ -48,25 +46,11 @@ class ZeroDevOS {
     })
   }
 
-  deploy() {
-    let zeroDevDeploy = new ZeroDevDeploy(this.options)
-    zeroDevDeploy.exec().then(() => {
-      utils.message("done.")
-    })
-  }
-
   install() {
     this.options.install = true
 
     let zeroDevInstall = new ZeroDevInstall(this.options)
     zeroDevInstall.exec().then(() => {
-      utils.message("done.")
-    })
-  }
-
-  scaffold() {
-    let zeroDevScaffold = new ZeroDevScaffold(this.options)
-    zeroDevScaffold.exec().then(() => {
       utils.message("done.")
     })
   }
@@ -106,18 +90,6 @@ program
   })
 
 program
-  .command("deploy")
-  .description("deploy application to pm2")
-  .option("--project <project file>", "Project configuration file (REQUIRED)")
-  .action((options) => {
-    let zeroDevOS = new ZeroDevOS({
-      projectFile: options.project,
-    })
-
-    zeroDevOS.deploy()
-  })
-
-program
   .command("install")
   .option("--core", "install zero-dev-os core")
   .option("--bashrc", "install zero-dev-os bashrc")
@@ -145,18 +117,6 @@ program
     })
 
     zeroDevOS.install()
-  })
-
-program
-  .command("scaffold")
-  .description("scaffold project source code")
-  .option("--project <project file>", "Project configuration file (REQUIRED)")
-  .action((options) => {
-    let zeroDevOS = new ZeroDevOS({
-      projectFile: options.project,
-    })
-
-    zeroDevOS.scaffold()
   })
 
 program

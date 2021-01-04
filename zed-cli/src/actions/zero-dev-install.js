@@ -207,9 +207,8 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
     utils.shell("npm install -g @angular/cli > /dev/null")
 
     // VS Code
-    utils.shell("wget -O /tmp/vs-code-install.sh https://code.headmelted.com/installers/apt.sh")
-    utils.shell("chmod +x /tmp/vs-code-install.sh")
-    utils.shell("/tmp/vs-code-install.sh")
+    utils.shell("wget -O /tmp/vs-code.deb 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64'")
+    utils.shell("apt install /tmp/vs-code.deb")
   }
 
   graphics() {

@@ -11,7 +11,7 @@ class Generator extends GenerateBase {
 
       console.log(`Generating for ${this.project.name}`)
 
-      let generationFiles = this.getGenerationFiles(`${this.project.options.zeroDevOSDir}/zed-cli/src/frameworks/${this.project.framework.name}/files`)
+      let generationFiles = this.getGenerationFiles(`${this.project.options.zeroDevOSDir}/dez-cli/src/frameworks/${this.project.framework.name}/files`)
 
       let executeCode = async () => {
         for(let i = 0; i < generationFiles.length; i++) {
