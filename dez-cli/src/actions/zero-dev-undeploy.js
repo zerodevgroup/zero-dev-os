@@ -49,7 +49,7 @@ class ZeroDevUndeploy {
       utils.message("Please resolve and try again.")
 
       console.log()
-      shell.exec(`${this.options.zeroDevOSDir}/zed build --help`)
+      shell.exec(`${this.options.zeroDevOSDir}/dez build --help`)
 
       process.exit(-1)
     }
@@ -77,7 +77,7 @@ class ZeroDevUndeploy {
       utils.message("Please resolve and try again.")
 
       console.log()
-      shell.exec(`${this.options.zeroDevOSDir}/zed ${this.command} --help`)
+      shell.exec(`${this.options.zeroDevOSDir}/dez ${this.command} --help`)
 
       process.exit(-1)
     }

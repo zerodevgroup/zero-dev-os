@@ -6,6 +6,7 @@ const fs = require("fs")
 
 const ZeroDevContainer = require("./src/actions/zero-dev-container")
 const ZeroDevInstall = require("./src/actions/zero-dev-install")
+const ZeroDevNginx = require("./src/actions/zero-dev-nginx")
 const ZeroDevUpdate = require("./src/actions/zero-dev-update")
 
 const utils = require("./src/utils/zero-dev-utils")
@@ -51,6 +52,13 @@ class ZeroDevOS {
 
     let zeroDevInstall = new ZeroDevInstall(this.options)
     zeroDevInstall.exec().then(() => {
+      utils.message("done.")
+    })
+  }
+
+  nginx() {
+    let zeroDevNginx = new ZeroDevNginx(this.options)
+    zeroDevNginx.exec().then(() => {
       utils.message("done.")
     })
   }
@@ -117,6 +125,19 @@ program
     })
 
     zeroDevOS.install()
+  })
+
+program
+  .command("nginx")
+  .description("configure nginx")
+  .option("--container", "configure nginx for a container")
+  .option("--port", "application port")
+  .action((options) => {
+    let zeroDevOS = new ZeroDevOS({
+      container: options.container,
+    })
+
+    zeroDevOS.nginx()
   })
 
 program
