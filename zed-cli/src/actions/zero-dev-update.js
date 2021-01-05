@@ -16,6 +16,7 @@ class ZeroDevUpdate {
     this.operations = [
       "gitRepo",
       "hostOS",
+      "hostName",
     ]
 
     this.validate()
@@ -60,6 +61,12 @@ class ZeroDevUpdate {
     }
 
     utils.cd(this.options.workDir)
+  }
+
+  hostName() {
+    // set hostname
+    utils.shell(`hostnamectl set-hostname ${this.options.hostName}`)
+    utils.shell(`${this.options.zeroDevOSDir}/zed container --update-hosts`)
   }
 
   hostOS() {

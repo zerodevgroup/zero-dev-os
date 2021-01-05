@@ -123,11 +123,13 @@ program
   .command("update")
   .option("--git-repo", "pull latest from zero-dev-os git repository")
   .option("--host-os", "update host os")
+  .option("--host-name <host name>", "set host name")
   .description("update zero-dev-os")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
       gitRepo: options.gitRepo,
-      hostOS: options.hostOs
+      hostOS: options.hostOs,
+      hostName: options.hostName,
     })
 
     zeroDevOS.update()
