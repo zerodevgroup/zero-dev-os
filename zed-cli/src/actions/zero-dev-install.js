@@ -10,10 +10,6 @@ class ZeroDevInstall {
     this.options = options
     this.command = "install"
 
-    console.log()
-    utils.message("options:")
-    console.log(this.options);
-
     this.operations = [
       "core",
       "limitSwap",

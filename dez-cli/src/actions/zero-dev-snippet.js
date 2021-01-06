@@ -13,10 +13,6 @@ class ZeroDevSnippet {
     this.options.generateFileName = `generate-${this.options.baseName}.js`
     this.options.className = _.upperFirst(_.camelCase(this.options.baseName))
 
-    console.log()
-    utils.message("Options:")
-    console.log(this.options);
-
     this.validate()
   }
 

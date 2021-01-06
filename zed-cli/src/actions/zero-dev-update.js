@@ -9,10 +9,6 @@ class ZeroDevUpdate {
     this.options = options
     this.command = "update"
 
-    console.log()
-    utils.message("options:")
-    console.log(this.options)
-
     this.operations = [
       "gitRepo",
       "hostOS",

@@ -10,10 +10,6 @@ class ZeroDevNginx {
     this.options = options
     this.command = "nginx"
 
-    console.log()
-    utils.message("options:")
-    console.log(this.options)
-
     this.operations = [
       "container",
     ]

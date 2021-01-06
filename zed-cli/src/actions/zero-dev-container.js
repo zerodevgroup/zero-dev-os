@@ -14,10 +14,6 @@ class ZeroDevContainer {
     this.imageName = "zero-dev-os"
     this.baseImage = "ubuntu:20.10"
 
-    console.log()
-    utils.message("options:")
-    console.log(this.options)
-
     this.operations = [
       "list",
       "create",
