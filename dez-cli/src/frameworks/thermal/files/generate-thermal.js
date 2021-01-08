@@ -35,12 +35,16 @@ class Thermal {
     this.config = new ThermalConfig()
 
     this.content = document.getElementById("content")
+    this.view = null
   }
 
   async switchView(name) {
     let view= eval(\`new \${name}()\`)
+    this.view = view
+
     this.content.innerHTML = ""
     this.content.append(view.getContent())
+
     window.scrollTo(0,0)
     view.animate()
   }
