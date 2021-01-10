@@ -31,7 +31,7 @@ class GenerateMainCss extends GenerateBase {
       let code = `\
 * { padding: 0; margin: 0; }
 html, body, #content {
-  font-family: "Roboto";
+  font-family: "Ubuntu";
   min-height: 100% !important;
   height: 100%;
 }
