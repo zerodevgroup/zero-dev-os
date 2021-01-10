@@ -101,14 +101,15 @@ program
   .command("install")
   .option("--core", "install zero-dev-os core")
   .option("--bashrc", "install zero-dev-os bashrc")
-  .option("--vimrc", "install zero-dev-os vimrc")
-  .option("--limit-swap", "limit swappiness")
-  .option("--disable-sudo-password", "disable sudo password for admin user (developer)")
   .option("--desktop", "install zero-dev-os desktop")
   .option("--development", "install zero-dev-os development")
+  .option("--disable-sudo-password", "disable sudo password for admin user (developer)")
+  .option("--flatpak", "install zero-dev-os flatpak")
   .option("--graphics", "install zero-dev-os graphics")
+  .option("--limit-swap", "limit swappiness")
   .option("--lxd", "install lxd")
   .option("--postgres", "install postgresql db")
+  .option("--vimrc", "install zero-dev-os vimrc")
   .description("install zero-dev-os")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
@@ -117,6 +118,7 @@ program
       desktop: options.desktop,
       development: options.development,
       disableSudoPassword: options.disableSudoPassword,
+      flatpak: options.flatpak,
       graphics: options.graphics,
       lxd: options.lxd,
       limitSwap: options.limitSwap,

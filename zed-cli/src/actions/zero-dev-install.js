@@ -11,16 +11,17 @@ class ZeroDevInstall {
     this.command = "install"
 
     this.operations = [
-      "core",
-      "limitSwap",
-      "disableSudoPassword",
       "bashrc",
-      "vimrc",
+      "core",
+      "disableSudoPassword",
       "desktop",
       "development",
+      "flatpak",
       "graphics",
+      "limitSwap",
       "lxd",
       "postgres",
+      "vimrc",
     ]
 
     this.validate()
@@ -207,6 +208,12 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
     utils.shell("apt install /tmp/vs-code.deb")
   }
 
+  flatpak() {
+    utils.title("installing zero-dev-os flatpak")
+    utils.shell("apt install --yes flatpak")
+    utils.shell("apt install --yes gnome-software-plugin-flatpak")
+    utils.shell("flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo")
+  }
   graphics() {
     utils.title("installing zero-dev-os graphics")
 
@@ -216,11 +223,6 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
     // TODO: Install Imagemagick
   }
 
-  postgres() {
-    utils.title("installing postgres")
-    utils.shell("apt install --yes postgresql postgresql-contrib postgresql-client")
-  }
-
   limitSwap() {
     // TODO: Read in /etc/sysctl.conf and only modify the "vm.swapiness" value
     utils.shell("echo 'vm.swappiness = 0' > /etc/sysctl.conf")
@@ -228,6 +230,11 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
 
   lxd() {
     utils.shell("snap install lxd")
+  }
+
+  postgres() {
+    utils.title("installing postgres")
+    utils.shell("apt install --yes postgresql postgresql-contrib postgresql-client")
   }
 
   vimrc() {
