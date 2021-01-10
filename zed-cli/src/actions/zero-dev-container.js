@@ -154,7 +154,7 @@ class ZeroDevContainer {
     let stopResult = utils.execSync(stopCommand)
     console.log(stopResult.toString())
 
-    let startCommand = `/snap/bin/lxc start ${this.options.containerName}`
+    let startCommand = `/snap/bin/lxc start ${containerName}`
 
     let startResult = utils.execSync(startCommand)
     console.log(startResult.toString())
