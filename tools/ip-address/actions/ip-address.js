@@ -45,12 +45,12 @@ class IpAddress {
       })
     })
 
-    // Select the first address, preferring wlan over eth
-    if(wlanAddresses.length > 0) {
-      ipAddress = wlanAddresses[0]
-    }
-    else if(ethAddresses.length > 0) {
+    // Select the first address, preferring eth over wlan
+    if(ethAddresses.length > 0) {
       ipAddress = ethAddresses[0]
+    }
+    else if(wlanAddresses.length > 0) {
+      ipAddress = wlanAddresses[0]
     }
 
     return ipAddress
