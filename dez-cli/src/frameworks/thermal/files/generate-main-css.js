@@ -35,6 +35,25 @@ html, body, #content {
   min-height: 100% !important;
   height: 100%;
 }
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px white;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+input {
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+input:focus{
+  outline: none;
+  box-shadow: 0 0 0 2px white;
+}
 `
       fs.writeFileSync(this.outputFile, code)
 

@@ -39,7 +39,11 @@ class Thermal {
   }
 
   async switchView(name) {
-    let view= eval(\`new \${name}()\`)
+    let className = this.upperFirst(name)
+
+    window.location.hash = \`#\${className}\`
+
+    let view= eval(\`new \${className}()\`)
     this.view = view
 
     this.content.innerHTML = ""
@@ -49,10 +53,25 @@ class Thermal {
     view.animate()
   }
 
+  upperFirst(text) {
+    let value = text[0].toUpperCase() +  text.slice(1).toLowerCase()
+
+    return value
+  }
+
 }
 
 let thermal = new Thermal()
 thermal.switchView(thermal.config.defaultView)
+
+// Detect hash change
+window.onhashchange = () => {
+  let viewName = thermal.view.name.toLowerCase()
+  let locationName = location.hash.replace('#', '').toLowerCase()
+  if(viewName != locationName) {
+    thermal.switchView(locationName)
+  }
+}
 `
       fs.writeFileSync(this.outputFile, code)
 
