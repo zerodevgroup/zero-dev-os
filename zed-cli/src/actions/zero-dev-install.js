@@ -21,6 +21,7 @@ class ZeroDevInstall {
       "limitSwap",
       "lxd",
       "postgres",
+      "swift",
       "vimrc",
     ]
 
@@ -235,6 +236,15 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
   postgres() {
     utils.title("installing postgres")
     utils.shell("apt install --yes postgresql postgresql-contrib postgresql-client")
+  }
+
+  swift() {
+    utils.title("installing swift")
+    utils.shell("cd /tmp")
+    utils.shell("wget https://packagecloud.io/install/repositories/swift-arm/release/script.deb.sh")
+    utils.shell("chmod +x script.deb.sh")
+    utils.shell("os=ubuntu dist=focal ./script.deb.sh")
+    utils.shwll("sudo apt-get install swiftlang")
   }
 
   vimrc() {
