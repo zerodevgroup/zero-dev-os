@@ -250,74 +250,67 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
   vimrc() {
     utils.title("Installing Zero Dev OS Vimrc")
 
-    utils.shell(`sudo --user=${this.options.user} git clone https://github.com/VundleVim/Vundle.vim.git ${this.options.home}/.vim/bundle/Vundle.vim`)
-
     let vimrcContent = `\
-set nocompatible              " be iMproved, required
-filetype off                  " required
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-"
-:set expandtab
-:set shiftwidth=2
-:set softtabstop=2
-:set tabstop=2
-:set directory=/tmp
-:set nobackup
-:set nowb
-:set noswapfile
-:noh
-:syntax on
-:set wildmode=list:longest
-:set hidden
-:set wildmenu
-:set showcmd
-:set smartcase
-:set backspace=indent,eol,start
-:set autoindent
-:set ruler
-:set laststatus=2
-:set mouse=a
-:set number
+" You want Vim, not vi. When Vim finds a vimrc, 'nocompatible' is set anyway.
+" We set it explicitely to make our position clear!
+set nocompatible
+
+filetype plugin indent on  " Load plugins according to detected filetype.
+syntax on                  " Enable syntax highlighting.
+
+set autoindent             " Indent according to previous line.
+set expandtab              " Use spaces instead of tabs.
+set softtabstop=2          " Tab key indents by 2 spaces.
+set shiftwidth=2           " >> indents by 2 spaces.
+set shiftround             " >> indents to next multiple of 'shiftwidth'.
+
+set backspace=indent,eol,start  " Make backspace work as you would expect.
+set hidden                 " Switch between buffers without having to save first.
+set laststatus=2           " Always show statusline.
+set display=lastline       " Show as much as possible of the last line.
+
+set showmode               " Show current mode in command-line.
+set showcmd                " Show already typed keys when more are expected.
+
+set incsearch              " Highlight while searching with / or ?.
+set hlsearch               " Turn on search highlighting
+
+set ttyfast                " Faster redrawing.
+set lazyredraw             " Only redraw when necessary.
+
+set splitbelow             " Open new windows below the current window.
+set splitright             " Open new windows right of the current window.
+
+set cursorline             " Find the current line quickly.
+set wrapscan               " Searches wrap around end-of-file.
+set report=0               " Always report changed lines.
+set synmaxcol=200          " Only highlight the first 200 columns.
+
+set list                   " Show non-printable characters.
+if has('multi_byte') && &encoding ==# 'utf-8'
+  let &listchars = 'tab:▸ ,extends:❯,precedes:❮,nbsp:±'
+else
+  let &listchars = 'tab:> ,extends:>,precedes:<,nbsp:.'
+endif
+
+set nobackup
+set noswapfile
+set directory=/tmp
+set viminfo='100,n$HOME/.vim/files/info/viminfo
+
+" Use new regular expression engine
+set re=0
+set number
+
 let mapleader = "-"
-:map Y y$
-let NERDTreeShowHidden=1
-:map <Leader>p :set mouse=<CR><bar>:set paste<CR><bar>:set nonumber<CR><bar><plug>NERDTreeTabsClose<CR>
-:map <Leader>np :set mouse=a<CR><bar>:set nopaste<CR><bar>:set number<CR><bar><plug>NERDTreeTabsOpen<CR><C-w><C-w>
-:map <Leader>n <plug>NERDTreeTabsToggle<CR>
-:map <Leader>no  <plug>NERDTreeTabsOpen
-:map <Leader>nc  <plug>NERDTreeTabsClose
-:map <Leader>ntoggle  <plug>NERDTreeTabsToggle
-:map <Leader>nf  <plug>NERDTreeTabsFind
-:map <Leader>mir  <plug>NERDTreeMirrorOpen
-:map <Leader>mirt  <plug>NERDTreeMirrorToggle
-:map <Leader>ntopen  <plug>NERDTreeSteppedOpen
-:map <Leader>ntclose  <plug>NERDTreeSteppedClose
-:set clipboard^=unnamed
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-filetype plugin indent on
+map <Leader>e :Explore<Enter>
+
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | Explore | endif
 `
 
     fs.writeFileSync("/tmp/vimrc", vimrcContent)
     utils.shell(`cp /tmp/vimrc ${this.options.home}/.vimrc`)
-
-    utils.shell(`sudo --user=${this.options.user} vi -c "PluginInstall" ${this.options.home}/.vimrc -c "qa"`)
   }
 
   //
