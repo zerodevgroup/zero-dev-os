@@ -11,31 +11,13 @@ class PostProcessor extends GenerateBase {
     let promise = new Promise((resolve, reject) => {
       this.utils.title("PostProcessor")
 
+      this.utils.cd(`${this.project.options.workDir}/${this.project.name}`)
+
       if(this.project.postProcesses) {
         this.project.postProcesses.forEach((process) => {
           this.utils.shell(process.name)
         })
       }
-
-      this.utils.cd(`${this.project.options.workDir}/${this.project.name}`)
-
-      if(!fs.existsSync(`node_modules`)) {
-        this.utils.shell("npm install")
-      }
-
-      if(!fs.existsSync(`www`)) {
-        this.utils.shell("ionic build")
-      }
-
-      if(!fs.existsSync(`ios`)) {
-        this.utils.shell("ionic capacitor add ios")
-      }
-
-      if(!fs.existsSync(`android`)) {
-        this.utils.shell("ionic capacitor add android")
-      }
-
-      this.utils.shell("chmod +x build.sh")
 
       this.utils.cd(this.project.options.workDir)
        
