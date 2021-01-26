@@ -281,7 +281,6 @@ set lazyredraw             " Only redraw when necessary.
 set splitbelow             " Open new windows below the current window.
 set splitright             " Open new windows right of the current window.
 
-set cursorline             " Find the current line quickly.
 set wrapscan               " Searches wrap around end-of-file.
 set report=0               " Always report changed lines.
 set synmaxcol=200          " Only highlight the first 200 columns.
