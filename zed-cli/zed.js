@@ -109,6 +109,7 @@ program
   .option("--limit-swap", "limit swappiness")
   .option("--lxd", "install lxd")
   .option("--postgres", "install postgresql db")
+  .option("--postgres-client", "install postgresql db client")
   .option("--swift", "install swift")
   .option("--vimrc", "install zero-dev-os vimrc")
   .description("install zero-dev-os")
@@ -124,6 +125,7 @@ program
       lxd: options.lxd,
       limitSwap: options.limitSwap,
       postgres: options.postgres,
+      postgresClient: options.postgresClient,
       swift: options.swift,
       vimrc: options.vimrc,
     })

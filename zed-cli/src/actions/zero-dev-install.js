@@ -21,6 +21,7 @@ class ZeroDevInstall {
       "limitSwap",
       "lxd",
       "postgres",
+      "postgresClient",
       "swift",
       "vimrc",
     ]
@@ -236,6 +237,11 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
   postgres() {
     utils.title("installing postgres")
     utils.shell("apt install --yes postgresql postgresql-contrib postgresql-client")
+  }
+
+  postgresClient() {
+    this.utils.title("installing postgres client")
+    this.utils.shell("apt install --yes postgresql-client")
   }
 
   swift() {
