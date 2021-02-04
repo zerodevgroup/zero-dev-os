@@ -58,7 +58,8 @@ class GeneratePackageJson extends GenerateBase {
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "pg": "^8.5.1",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "uuid": "^8.3.2"
   }
 }
 `
