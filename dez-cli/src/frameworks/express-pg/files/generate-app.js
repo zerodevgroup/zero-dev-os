@@ -33,7 +33,9 @@ const express = require("express")
 
 // Read config into env
 const config = require("../config.json")
-process.env = Object.assign(process.env, config)
+const nodeEnvironment = process.env.NODE_ENV || "dev"
+const env = config[nodeEnvironment]
+process.env = Object.assign(process.env, env)
 
 const AppRoutes = require("./routes/app-routes")
 const ModelRoutes = require("./routes/model-routes")
