@@ -1,0 +1,31 @@
+{
+  "name": "wave-light",
+  "version": "1.0.0",
+  "description": "Wave Light",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zerodevgroup/zero-dev-os.git"
+  },
+  "keywords": [
+    "zero-dev-os",
+    "automation",
+    "cli"
+  ],
+  "author": "zerodevgroup",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zerodevgroup/zero-dev-os/issues"
+  },
+  "homepage": "https://github.com/zerodevgroup/zero-dev-os#readme",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^7.0.0",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "pluralize": "^8.0.0",
+    "shelljs": "^0.8.4"
+  }
+}

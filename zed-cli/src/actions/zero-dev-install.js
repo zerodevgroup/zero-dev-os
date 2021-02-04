@@ -240,8 +240,8 @@ developer ALL=(ALL:ALL) NOPASSWD: ALL
   }
 
   postgresClient() {
-    this.utils.title("installing postgres client")
-    this.utils.shell("apt install --yes postgresql-client")
+    utils.title("installing postgres client")
+    utils.shell("apt install --yes postgresql-client")
   }
 
   swift() {
