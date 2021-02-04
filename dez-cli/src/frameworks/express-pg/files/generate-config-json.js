@@ -1,12 +1,11 @@
-const fs = require("fs")
+const fs = require('fs')
 const shell = require("shelljs")
 const GenerateBase = require("../../../base/generate-base.js")
 
-class GenerateUtils extends GenerateBase {
+class GenerateConfigJson extends GenerateBase {
   constructor(project) {
-    super(project)
-
-    this.outputFile = `./${this.project.name}/public/thermal/utils.js`
+    super(project);
+    this.outputFile = `./${this.project.name}/config.json`
   }
 
   exec() {
@@ -26,21 +25,8 @@ class GenerateUtils extends GenerateBase {
 
   generate() {
     let promise = new Promise((resolve, reject) => {
-      let description = this.project.description ? this.project.description : ""
+      let code = JSON.stringify(this.project.config, null, 2)
 
-      let code = `\
-class Utils {
-  // Convert from degrees to radians.
-  static radians(degrees) {
-    return degrees * Math.PI / 180
-  }
-
-  // Convert from radians to degrees.
-  static degrees(radians) {
-    return radians * 180 / Math.PI
-  }
-}\
-`
       fs.writeFileSync(this.outputFile, code)
 
       resolve()
@@ -54,4 +40,4 @@ class Utils {
   }
 }
 
-module.exports = GenerateUtils
+module.exports = GenerateConfigJson

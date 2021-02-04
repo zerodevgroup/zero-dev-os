@@ -6,7 +6,6 @@ const GenerateBase = require("../../../base/generate-base.js")
 class GenerateLicense extends GenerateBase {
   constructor(project) {
     super(project);
-
     this.outputFile = `./${this.project.name}/LICENSE`
   }
 

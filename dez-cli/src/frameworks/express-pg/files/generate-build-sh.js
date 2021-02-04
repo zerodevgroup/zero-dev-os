@@ -6,7 +6,6 @@ const GenerateBase = require("../../../base/generate-base.js")
 class GenerateBuildSh extends GenerateBase {
   constructor(project) {
     super(project);
-
     this.outputFile = `./${this.project.name}/build.sh`
   }
 
@@ -34,6 +33,7 @@ date
 
 npm install\
 `
+
       fs.writeFileSync(this.outputFile, code)
 
       resolve()

@@ -11,10 +11,9 @@ class PostProcessor extends GenerateBase {
     let promise = new Promise((resolve, reject) => {
       this.utils.title("PostProcessor")
 
-      if(this.project.postProcesses) {
-        this.project.postProcesses.forEach((process) => {
-          this.utils.shell(process.name)
-        })
+      // Get project assets
+      if(this.project.assets) {
+        this.utils.shell(`cp -r  ${this.project.assets}/* ./${this.project.name}`)
       }
 
       this.utils.cd(`${this.project.options.workDir}/${this.project.name}`)
@@ -26,6 +25,12 @@ class PostProcessor extends GenerateBase {
       this.utils.shell("chmod +x build.sh deploy.sh undeploy.sh")
 
       this.utils.cd(this.project.options.workDir)
+
+      if(this.project.processes) {
+        this.project.processes.forEach((process) => {
+          this.utils.shell(process.name)
+        })
+      }
        
       resolve()
     })

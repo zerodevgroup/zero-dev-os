@@ -5,7 +5,6 @@ const GenerateBase = require("../../../base/generate-base.js")
 class GenerateReadme extends GenerateBase {
   constructor(project) {
     super(project);
-
     this.outputFile = `./${this.project.name}/README.md`
   }
 
@@ -30,14 +29,7 @@ class GenerateReadme extends GenerateBase {
 
       let code = `\
 # ${this.project.name}
-${description}
-
-\`\`\`
-npm install
-npm start
-\`\`\`
-
-http://localhost:3000/
+${description}\
 `
       fs.writeFileSync(this.outputFile, code)
 

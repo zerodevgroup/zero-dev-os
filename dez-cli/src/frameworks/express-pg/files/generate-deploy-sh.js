@@ -6,7 +6,6 @@ const GenerateBase = require("../../../base/generate-base.js")
 class GenerateDeploySh extends GenerateBase {
   constructor(project) {
     super(project);
-
     this.outputFile = `./${this.project.name}/deploy.sh`
   }
 
@@ -43,6 +42,7 @@ echo "building ..."
 pm2 start
 pm2 save\
 `
+
       fs.writeFileSync(this.outputFile, code)
 
       resolve()

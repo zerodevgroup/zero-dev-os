@@ -10,28 +10,11 @@ class Initializer extends GenerateBase {
   exec() {
     let promise = new Promise((resolve, reject) => {
       this.utils.title("Initializer")
+      this.utils.message(`Initializing ${this.project.name}`)
 
-      if(!fs.existsSync(`${this.project.name}`)) {
-        this.utils.message(`Initializing ${this.project.name}`)
-
-        this.utils.shell(`mkdir -p ./${this.project.name}/src`)
-        this.utils.shell(`mkdir -p ./${this.project.name}/public/libs`)
-        this.utils.shell(`mkdir -p ./${this.project.name}/public/images`)
-        this.utils.shell(`mkdir -p ./${this.project.name}/public/css`)
-        this.utils.shell(`mkdir -p ./${this.project.name}/public/thermal/components`)
-        this.utils.shell(`mkdir -p ./${this.project.name}/public/thermal/core`)
-
-        this.utils.cd(this.project.options.workDir)
-      }
-
-      if(this.project.assets && fs.existsSync(`${this.project.assets}`)) {
-        this.utils.shell(`cp -r ${this.project.assets}/* ./${this.project.name}/public`)
-      }
-
-      if(this.project.framework.config && fs.existsSync(`${this.project.framework.config}`)) {
-        this.utils.shell(`cp ${this.project.framework.config} ./${this.project.name}/public/thermal/thermal-config.js`)
-      }
-
+      this.createDirectory(`./${this.project.name}/src/routes`)
+      this.createDirectory(`./${this.project.name}/src/components`)
+      this.createDirectory(`./${this.project.name}/src/actions`)
       resolve()
     })
     .catch((error) => {
@@ -40,6 +23,13 @@ class Initializer extends GenerateBase {
     })
 
     return promise
+  }
+
+  createDirectory(directoryName) {
+    if(!fs.existsSync(directoryName)) {
+      this.utils.message(`Creating ${directoryName}`)
+      shell.mkdir("-p", directoryName)
+    }
   }
 }
 

@@ -5,7 +5,6 @@ const GenerateBase = require("../../../base/generate-base.js")
 class GeneratePackageJson extends GenerateBase {
   constructor(project) {
     super(project);
-
     this.outputFile = `./${this.project.name}/package.json`
   }
 
@@ -56,7 +55,10 @@ class GeneratePackageJson extends GenerateBase {
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "pg": "^8.5.1",
+    "request": "^2.88.0"
   }
 }
 `

@@ -6,7 +6,6 @@ const GenerateBase = require("../../../base/generate-base.js")
 class GenerateEcosystemConfig extends GenerateBase {
   constructor(project) {
     super(project);
-
     this.outputFile = `./${this.project.name}/ecosystem.config.js`
   }
 
@@ -28,19 +27,22 @@ class GenerateEcosystemConfig extends GenerateBase {
   generate() {
     let promise = new Promise((resolve, reject) => {
 
+      let instances = this.project.instances ? this.project.instances : 5
+
       let code = `\
 module.exports = {
   apps : [{
     name: "${this.project.name}",
     script: "src/app.js",
     args: "",
-    instances: 5,
+    instances: ${instances},
     autorestart: true,
     watch: false,
     max_memory_restart: "1G"
   }]
 }\
 `
+
       fs.writeFileSync(this.outputFile, code)
 
       resolve()

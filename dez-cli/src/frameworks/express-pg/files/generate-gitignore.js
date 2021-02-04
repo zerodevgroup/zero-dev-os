@@ -5,7 +5,6 @@ const GenerateBase = require("../../../base/generate-base.js")
 class GenerateGitignore extends GenerateBase {
   constructor(project) {
     super(project);
-
     this.outputFile = `./${this.project.name}/.gitignore`
   }
 
@@ -27,8 +26,9 @@ class GenerateGitignore extends GenerateBase {
   generate() {
     let promise = new Promise((resolve, reject) => {
       let code = `\
-node_modules
+node_modules\
 `
+
       fs.writeFileSync(this.outputFile, code)
 
       resolve()
