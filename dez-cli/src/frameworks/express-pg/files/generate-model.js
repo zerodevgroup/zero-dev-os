@@ -28,353 +28,203 @@ class GenerateModel extends GenerateBase {
 
       let code = `\
 const fs = require("fs")
-const ObjectId = require("mongodb").ObjectID
-const mongo = require("mongodb")
+const _ = require("lodash")
+const uuid = require("uuid/v1")
+const { Client } = require("pg")
 
 class Model {
   constructor(options) {
     this.options = options
+    this.fields = JSON.parse(fs.readFileSync("../tools/migrate-data/fields.json"))
   }
 
   list(callback) {
-    // DB Connection
-    mongo.connect(process.env.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true }).then((client) => {
-      let db = client.db(process.env.mongoDatabase)
+    let statement = this.options.statement;
 
-      let modelName = this.options.modelName
-      let options = this.options.data
-
-      try {
-        // Get the documents collection
-        var collection = db.collection(modelName)
-
-        let idFind = {}
-        if(options.hasOwnProperty("find") && options.find.hasOwnProperty("_id")) {
-
-          let objectId = new ObjectId(options.find._id)
-          idFind = {
-            _id: { $in: [ options.find._id, objectId ] }
-          }
-        }
-
-        let regexFind = {}
-        // Enable regex if requested
-        if(options.hasOwnProperty("find")) {
-          Object.keys(options.find).forEach((key) => {
-            if(key !== "_id") {
-              regexFind[key] = { 
-                $regex: options.find[key],
-                $options: "i" 
-              }
-            }
-          })
-        }
-
-        let textSearch = {}
-        // Enable text search if requested
-        if(options.search && options.search.value && options.search.value.length > 0) {
-          textSearch["$text"] = { 
-            $search: \`"\${options.search.value}"\`
-          }
-        }
-
-        let findOptions = Object.assign({}, idFind, regexFind, textSearch)
-
-        let pageIndex = 0
-        if(options.hasOwnProperty("page")) {
-          pageIndex = parseInt(options.page - 1)
-        }
-
-        let sortOptions = {}
-        if(options.hasOwnProperty("sort")) {
-          sortOptions = options.sort
-        }
-
-        console.log({
-          findOptions: findOptions,
-          sortOptions: sortOptions
-        })
-
-        let data = collection.find(findOptions, {sort: sortOptions})
-
-        data.count((countError, count) => {
-          //let limit = process.env.pagination.itemsPerPage
-          let limit = 10
-
-          if(options.hasOwnProperty("limit")) {
-            limit = options.limit
-          }
-
-          let numberOfPages = Math.ceil(count / limit)
-          let skipCount = limit * pageIndex
-
-          let returnData = {
-            page: options.page,
-            totalCount: count,
-            skipCount: skipCount,
-            numberOfPages: numberOfPages,
-            itemsPerPage: limit
-          }
-
-          data.skip(skipCount).limit(limit).toArray((err, result) => {
-            returnData.docs = result
-            client.close()
-            callback(returnData)
-          })
-        })
-      }
-      catch(error) {
-        console.log({
-          error: error,
-          find: options.find
-        })
-
+    const client = new Client()
+    client.connect()
+    client.query(statement, (error, result) => {
+      if(error) {
         callback({
-          error: error.message
-        })
-
-        if(client != null) {
-          client.close()
-        }
-      }
-    })
-  }
-
-  find(callback) {
-    // DB Connection
-    mongo.connect(process.env.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true }).then((client) => {
-      let db = client.db(process.env.mongoDatabase)
-
-      let modelName = this.options.modelName
-      let options = this.options.data
-
-      try {
-        // Get the documents collection
-        var collection = db.collection(modelName)
-
-        let findOptions = options.find
-
-        if(options.hasOwnProperty("find") && options.find.hasOwnProperty("_id")) {
-          let objectId = new ObjectId(options.find._id)
-          let idFind = {
-            _id: { $in: [ options.find._id, objectId ] }
-          }
-
-          findOptions = idFind
-        }
-
-        let pageIndex = 0
-        if(options.hasOwnProperty("page")) {
-          pageIndex = parseInt(options.page - 1)
-        }
-
-        let sortOptions = {}
-        if(options.hasOwnProperty("sort")) {
-          sortOptions = options.sort
-        }
-
-        console.log({
-          findOptions: findOptions,
-          sortOptions: sortOptions
-        })
-
-        let data = collection.find(findOptions, {sort: sortOptions})
-
-        data.count((countError, count) => {
-          //let limit = process.env.pagination.itemsPerPage
-          let limit = 10
-
-          if(options.hasOwnProperty("limit")) {
-            limit = options.limit
-          }
-
-          let numberOfPages = Math.ceil(count / limit)
-          let skipCount = limit * pageIndex
-
-          let returnData = {
-            page: options.page,
-            totalCount: count,
-            skipCount: skipCount,
-            numberOfPages: numberOfPages,
-            itemsPerPage: limit
-          }
-
-          data.skip(skipCount).limit(limit).toArray((err, result) => {
-            returnData.docs = result
-            client.close()
-            callback(returnData)
-          })
+          count: 0,
+          data: [],
+          error: error
         })
       }
-      catch(error) {
-        console.log({
-          error: error,
-          find: options.find
-        })
-
+      else {
         callback({
-          error: error.message
+          count: result.rowCount,
+          data: result.rows
         })
-
-        if(client != null) {
-          client.close()
-        }
       }
+      client.end()
     })
   }
 
   create(callback) {
-    // DB Connection
-    mongo.connect(process.env.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true }).then((client) => {
-      let db = client.db(process.env.mongoDatabase)
+    let data = this.options.data
+    let createFields = _.keyBy(this.fields[this.options.modelName], "name")
 
-      try {
-        // Get the documents collection
-        let collection = db.collection(this.options.modelName)
+    console.log("Create...")
+    console.log(this.options.modelName)
+    console.log(data)
+    console.log(createFields)
 
-        // Insert data
-        collection.insertMany(this.options.data, (err, data) => {
-          if(err) {
-            console.log(err)
-          }
+    if(data.data && data.data.length > 0) {
+      let item = data.data[0]
+      item.id = uuid()
 
-          callback(data)
-        })
-      }
-      catch(error) {
-        console.log({
-          error: error
-        })
-
-        callback({
-          error: error.message
-        })
-
-        if(client != null) {
-          client.close()
+      let columns = []
+      Object.keys(item).forEach((key) => {
+        let fieldName = _.camelCase(key)
+        if(!key.match(/^undefined$/) && createFields[fieldName]) {
+          columns.push(key)
         }
-      }
-    })
+      });
+
+      console.log(columns)
+
+      let statement = \`INSERT INTO \${this.options.modelName} (\${columns.join(",")}) VALUES(\`
+      let fieldCount = 0
+      columns.forEach((column) => {
+        let fieldName = _.camelCase(column)
+        let dataType = createFields[fieldName].type
+        if(fieldCount > 0) {
+          statement += ", "
+        }
+
+        if(dataType.match(/(varchar|date)/)) {
+          statement += "$__$" + item[column] + "$__$"
+        }
+        else if(dataType.match(/(numeric|boolean)/)) {
+          statement += \`\${item[column]}\`
+        }
+
+        fieldCount++
+      })
+
+      statement += ")"
+      console.log(statement)
+
+      const client = new Client()
+      client.connect()
+      client.query(statement, (error, result) => {
+        if(error) {
+          callback({
+            count: 0,
+            data: [],
+            error: error
+          })
+        }
+        else {
+          callback({
+            count: result.rowCount,
+            data: item,
+            statement: statement
+          })
+        }
+        client.end()
+      })
+    }
   }
 
   update(callback) {
-    let modelName = this.options.modelName
-    let options = this.options
+    let data = this.options.data
+    let updateFields = _.keyBy(this.fields[this.options.modelName], "name")
 
-    // DB Connection
-    mongo.connect(process.env.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true }).then((client) => {
-      let db = client.db(process.env.mongoDatabase)
+    console.log("Update...")
+    console.log(this.options.modelName)
+    console.log(data)
+    console.log(updateFields)
 
-      try {
-        // Get the documents collection
-        var collection = db.collection(modelName)
-
-        if(options.hasOwnProperty("data") && options.data.hasOwnProperty("_id")) {
-          let objectId = ObjectId(options.data._id)
-
-          let updateOptions = {
-            _id: objectId
+    if(data.data && data.data.length > 0) {
+      let item = data.data[0]
+      let statement = \`UPDATE \${this.options.modelName} SET \`
+      let fieldCount = 0
+      Object.keys(item).forEach((key) => {
+        let fieldName = _.camelCase(key)
+        if(!fieldName.match(/(id|undefined)/) && updateFields[fieldName]) {
+          let dataType = updateFields[fieldName].type
+          if(fieldCount > 0) {
+            statement += ", "
           }
 
-          // Delete _id in the data for the update
-          if(options.data.hasOwnProperty("_id")) {
-            delete options.data._id
+          if(dataType.match(/(varchar|date)/)) {
+            statement += key + " = " + "$__$" + item[key] + "$__$"
+          }
+          else if(dataType.match(/(numeric|boolean)/)) {
+            statement += \`\${key} = \${item[key]}\`
           }
 
-          collection.findOneAndUpdate(updateOptions, { $set: options.data }, (err, data) => {
-            if(err) {
-              console.log(err)
+          fieldCount++
+        }
+      })
 
-              client.close()
-              callback({
-                error: err
-              })
-            }
-            else {
-              client.close()
-              callback(data)
-            }
+      statement += \` WHERE id = '\${item.id}'\`
+      console.log(statement)
+
+      const client = new Client()
+      client.connect()
+      client.query(statement, (error, result) => {
+        if(error) {
+          callback({
+            count: 0,
+            data: [],
+            error: error
           })
         }
         else {
-          client.close()
-          callback(null)
+          callback({
+            count: result.rowCount,
+            data: item,
+            statement: statement
+          })
         }
-      }
-      catch(error) {
-        console.log({
-          error: error.message
-        })
-
-        callback({
-          error: error.message
-        })
-
-        if(client != null) {
-          client.close()
-        }
-      }
-    })
+        client.end()
+      })
+    }
   }
 
   delete(callback) {
-    let modelName = this.options.modelName
-    let options = this.options
+    let data = this.options.data
 
-    // DB Connection
-    mongo.connect(process.env.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true }).then((client) => {
-      let db = client.db(process.env.mongoDatabase)
+    console.log("Delete...")
+    console.log(this.options.modelName)
+    console.log(data)
 
-      try {
-        // Get the documents collection
-        var collection = db.collection(modelName)
+    if(data.data && data.data.length > 0) {
+      let item = data.data[0]
+      let statement = \`DELETE FROM \${this.options.modelName} WHERE id = '\${item.id}'\`
 
-        if(options.hasOwnProperty("data") && options.data.hasOwnProperty("_id")) {
-          let objectId = ObjectId(options.data._id)
+      console.log(statement)
 
-          let deleteOptions = {
-            _id: objectId
-          }
-
-          // Remove and return a document
-          collection.findOneAndDelete(deleteOptions, (err, data) => {
-            if(err) {
-              client.close()
-              callback({
-                error: err
-              })
-            }
-            else {
-              client.close()
-              callback(data)
-            }
+      const client = new Client()
+      client.connect()
+      client.query(statement, (error, result) => {
+        if(error) {
+          callback({
+            count: 0,
+            data: [],
+            error: error
           })
         }
         else {
-          client.close()
-          callback(null)
+          callback({
+            count: result.rowCount,
+            data: result.rows,
+            statement: statement
+          })
         }
-      }
-      catch(error) {
-        console.log({
-          error: error,
-          options: options
-        })
-
-        callback({
-          error: error.message
-        })
-
-        if(client != null) {
-          client.close()
-        }
-      }
-    })
+        client.end()
+      })
+    }
   }
+
 }
 
 module.exports = Model
 `
+
       fs.writeFileSync(this.outputFile, code)
 
       resolve()
