@@ -12,9 +12,11 @@ class Initializer extends GenerateBase {
       this.utils.title("Initializer")
       this.utils.message(`Initializing ${this.project.name}`)
 
+      this.createDirectory(`./${this.project.name}/schemas`)
+
       this.createDirectory(`./${this.project.name}/src/routes`)
       this.createDirectory(`./${this.project.name}/src/components`)
-      this.createDirectory(`./${this.project.name}/src/actions`)
+
       resolve()
     })
     .catch((error) => {

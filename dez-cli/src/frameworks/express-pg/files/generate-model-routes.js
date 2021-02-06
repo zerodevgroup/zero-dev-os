@@ -28,9 +28,7 @@ class GenerateAppRoutes extends GenerateBase {
 
       let code = `\
 const fs = require("fs")
-let MongoClient = require("mongodb").MongoClient
 let assert = require("assert")
-let ObjectId = require("mongodb").ObjectID
 let Model = require("../components/model")
 
 class ModelRoutes {

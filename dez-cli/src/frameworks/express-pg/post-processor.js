@@ -16,6 +16,11 @@ class PostProcessor extends GenerateBase {
         this.utils.shell(`cp -r  ${this.project.assets}/* ./${this.project.name}`)
       }
 
+      // Get project schemas
+      if(this.project.schemas) {
+        this.utils.shell(`cp -r  ${this.project.schemas}/* ./${this.project.name}/schemas`)
+      }
+
       this.utils.cd(`${this.project.options.workDir}/${this.project.name}`)
 
       if(!fs.existsSync(`node_modules`)) {

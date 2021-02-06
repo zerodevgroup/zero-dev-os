@@ -29,17 +29,17 @@ class GenerateModel extends GenerateBase {
       let code = `\
 const fs = require("fs")
 const _ = require("lodash")
-const uuid = require("uuid/v1")
+const { v1: uuidv1 } = require('uuid');
 const { Client } = require("pg")
 
 class Model {
   constructor(options) {
     this.options = options
-    this.fields = JSON.parse(fs.readFileSync("../tools/migrate-data/fields.json"))
+    this.schema = JSON.parse(fs.readFileSync(\`./schemas/\${this.options.modelName}.json\`))
   }
 
   list(callback) {
-    let statement = this.options.statement;
+    let statement = this.options.data.statement;
 
     const client = new Client()
     client.connect()
@@ -63,6 +63,91 @@ class Model {
 
   create(callback) {
     let data = this.options.data
+    let schemaFields = _.keyBy(this.schema.fields, "name")
+
+    let totalCount = 0
+    if(data && data.length > 0) {
+      try {
+        const client = new Client()
+        client.connect()
+
+        let queries = []
+        data.forEach((item) => {
+          // let item = data[0]
+          item.id = uuidv1()
+
+          let createSchema = {
+            fields: [],
+            columns: []
+          }
+
+          Object.keys(item).forEach((fieldName) => {
+            if(!fieldName.match(/^undefined$/) && schemaFields[fieldName]) {
+              createSchema.fields.push(schemaFields[fieldName])
+              createSchema.columns.push(schemaFields[fieldName].field)
+            }
+          });
+
+          let statement = \`INSERT INTO \${this.schema.table} (\${createSchema.columns.join(",")}) VALUES(\`
+          let fieldCount = 0
+          createSchema.fields.forEach((field) => {
+            let column = field.field
+            let fieldName = field.name
+            let dataType = field.type
+            if(fieldCount > 0) {
+              statement += ", "
+            }
+
+            if(dataType.match(/(varchar|date)/)) {
+              statement += "$__$" + item[column] + "$__$"
+            }
+            else if(dataType.match(/(numeric|boolean)/)) {
+              statement += \`\${item[column]}\`
+            }
+
+            fieldCount++
+          })
+
+          statement += ")"
+
+          queries.push(client.query(statement))
+        })
+
+        Promise.all(queries).then((results) => {
+          results.forEach((result) => {
+            totalCount += result.rowCount
+          })
+
+          callback({
+            count: totalCount
+          })
+
+          client.end()
+        }).catch((error) => {
+          callback({
+            count: totalCount,
+            error: error
+          })
+        })
+      }
+      catch(ex) {
+        callback({
+          count: totalCount,
+          error: ex
+        })
+      }
+    }
+    else {
+      callback({
+        count: totalCount,
+        error: "mising data attribute"
+      })
+    }
+  }
+
+  /*
+  _create(callback) {
+    let data = this.options.data
     let createFields = _.keyBy(this.fields[this.options.modelName], "name")
 
     console.log("Create...")
@@ -70,9 +155,9 @@ class Model {
     console.log(data)
     console.log(createFields)
 
-    if(data.data && data.data.length > 0) {
-      let item = data.data[0]
-      item.id = uuid()
+    if(data && data.length > 0) {
+      let item = data[0]
+      item.id = uuidv1()
 
       let columns = []
       Object.keys(item).forEach((key) => {
@@ -127,6 +212,7 @@ class Model {
       })
     }
   }
+  */
 
   update(callback) {
     let data = this.options.data
