@@ -27,6 +27,8 @@ class PostProcessor extends GenerateBase {
         this.utils.shell("ionic build")
       }
 
+      /*
+      // TODO: Use this.project.options to determine if the following should be executed (i.e. default to web only)
       if(!fs.existsSync(`ios`)) {
         this.utils.shell("ionic capacitor add ios")
       }
@@ -34,6 +36,7 @@ class PostProcessor extends GenerateBase {
       if(!fs.existsSync(`android`)) {
         this.utils.shell("ionic capacitor add android")
       }
+      */
 
       this.utils.shell("chmod +x build.sh")
 
