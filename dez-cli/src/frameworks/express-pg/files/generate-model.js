@@ -98,11 +98,15 @@ class Model {
               statement += ", "
             }
 
-            if(dataType.match(/(varchar|date)/)) {
-              statement += "$__$" + item[column] + "$__$"
+            let value = item[column] ? item[column] : null
+            if(value === null) {
+              statement += value
+            }
+            else if(dataType.match(/(varchar|date)/)) {
+              statement += "$__$" + value + "$__$"
             }
             else if(dataType.match(/(numeric|boolean)/)) {
-              statement += \`\${item[column]}\`
+              statement += value
             }
 
             fieldCount++
