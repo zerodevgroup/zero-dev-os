@@ -137,10 +137,11 @@ program
   .command("nginx")
   .description("configure nginx")
   .option("--container", "configure nginx for a container")
-  .option("--port", "application port")
+  .option("--port [port]", "application port")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
       container: options.container,
+      port: options.port,
     })
 
     zeroDevOS.nginx()

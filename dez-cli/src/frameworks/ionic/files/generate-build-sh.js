@@ -33,6 +33,7 @@ class GenerateBuildSh extends GenerateBase {
 date
 
 npm install
+ionic build
 ionic capacitor sync\
 `
       fs.writeFileSync(this.outputFile, code)
