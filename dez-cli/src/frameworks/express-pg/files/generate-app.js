@@ -78,6 +78,13 @@ app.use("/:action/:modelName", (request, response, next) => {
     })
   }
   else {
+    if(action === "create") {
+      console.log("Increasing timeout for create request")
+
+      // 300 seconds
+      request.setTimeout(300000)
+    }
+
     next()
   }
 })
