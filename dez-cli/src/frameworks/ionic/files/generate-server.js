@@ -1,14 +1,14 @@
 const fs = require('fs')
-const moment = require("moment")
 const shell = require("shelljs")
 const _ = require("lodash")
+
 const GenerateBase = require("../../../base/generate-base.js")
 
-class GenerateBuildSh extends GenerateBase {
+class GenerateApp extends GenerateBase {
   constructor(project) {
-    super(project);
+    super(project)
 
-    this.outputFile = `./${this.project.name}/build.sh`
+    this.outputFile = `./${this.project.name}/server.js`
   }
 
   exec() {
@@ -28,17 +28,27 @@ class GenerateBuildSh extends GenerateBase {
 
   generate() {
     let promise = new Promise((resolve, reject) => {
+      let description = this.project.description ? this.project.description : ""
 
       let appName = _.upperFirst(_.camelCase(this.project.name))
+      let appWebDir = `${appName}/www`
 
       let code = `\
-#!/bin/bash
-date
+const express = require("express")
+const cors = require("cors")
+const app = express()
 
-npm install
-cd ${appName}
-npm install
-ionic capacitor sync\
+// Read config into env
+const config = require("./config.json")
+process.env = Object.assign(process.env, config)
+
+const port = process.env.port
+
+app.use(cors())
+
+app.use(express.static("${appWebDir}"))
+
+app.listen(port, () => console.log(\`app listening on port \${port}!\`))\
 `
       fs.writeFileSync(this.outputFile, code)
 
@@ -53,4 +63,4 @@ ionic capacitor sync\
   }
 }
 
-module.exports = GenerateBuildSh
+module.exports = GenerateApp

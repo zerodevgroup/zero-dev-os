@@ -1,14 +1,13 @@
 const fs = require('fs')
 const moment = require("moment")
 const shell = require("shelljs")
-const _ = require("lodash")
 const GenerateBase = require("../../../base/generate-base.js")
 
-class GenerateBuildSh extends GenerateBase {
+class GenerateUndeploySh extends GenerateBase {
   constructor(project) {
     super(project);
 
-    this.outputFile = `./${this.project.name}/build.sh`
+    this.outputFile = `./${this.project.name}/undeploy.sh`
   }
 
   exec() {
@@ -28,18 +27,13 @@ class GenerateBuildSh extends GenerateBase {
 
   generate() {
     let promise = new Promise((resolve, reject) => {
-
-      let appName = _.upperFirst(_.camelCase(this.project.name))
-
       let code = `\
 #!/bin/bash
 date
 
-npm install
-cd ${appName}
-npm install
-ionic capacitor sync\
+pm2 delete ${this.project.name}\
 `
+
       fs.writeFileSync(this.outputFile, code)
 
       resolve()
@@ -53,4 +47,4 @@ ionic capacitor sync\
   }
 }
 
-module.exports = GenerateBuildSh
+module.exports = GenerateUndeploySh

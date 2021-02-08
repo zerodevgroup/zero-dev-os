@@ -1,5 +1,6 @@
 const fs = require("fs")
 const shell = require("shelljs")
+const _ = require("lodash")
 const GenerateBase = require("../../base/generate-base.js")
 
 class Initializer extends GenerateBase {
@@ -12,7 +13,11 @@ class Initializer extends GenerateBase {
       this.utils.title("Initializer")
 
       if(!fs.existsSync(`${this.project.name}`)) {
-        this.utils.shell(`ionic start ${this.project.name} tabs --type=angular --capacitor`)
+        this.utils.shell(`mkdir -p ${this.project.name}`)
+
+        this.utils.cd(this.project.name)
+        let appName = _.upperFirst(_.camelCase(this.project.name))
+        this.utils.shell(`ionic start ${appName} sidemenu --type=angular --capacitor`)
 
         this.utils.cd(this.project.options.workDir)
       }

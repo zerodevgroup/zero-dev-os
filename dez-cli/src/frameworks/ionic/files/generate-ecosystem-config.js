@@ -1,14 +1,13 @@
 const fs = require('fs')
 const moment = require("moment")
 const shell = require("shelljs")
-const _ = require("lodash")
 const GenerateBase = require("../../../base/generate-base.js")
 
-class GenerateBuildSh extends GenerateBase {
+class GenerateEcosystemConfig extends GenerateBase {
   constructor(project) {
     super(project);
 
-    this.outputFile = `./${this.project.name}/build.sh`
+    this.outputFile = `./${this.project.name}/ecosystem.config.js`
   }
 
   exec() {
@@ -29,16 +28,20 @@ class GenerateBuildSh extends GenerateBase {
   generate() {
     let promise = new Promise((resolve, reject) => {
 
-      let appName = _.upperFirst(_.camelCase(this.project.name))
+      let instances = this.project.instances ? this.project.instances : 5
 
       let code = `\
-#!/bin/bash
-date
-
-npm install
-cd ${appName}
-npm install
-ionic capacitor sync\
+module.exports = {
+  apps : [{
+    name: "${this.project.name}",
+    script: "server.js",
+    args: "",
+    instances: ${instances},
+    autorestart: true,
+    watch: false,
+    max_memory_restart: "1G"
+  }]
+}\
 `
       fs.writeFileSync(this.outputFile, code)
 
@@ -53,4 +56,4 @@ ionic capacitor sync\
   }
 }
 
-module.exports = GenerateBuildSh
+module.exports = GenerateEcosystemConfig

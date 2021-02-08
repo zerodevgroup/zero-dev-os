@@ -1,5 +1,6 @@
 const fs = require("fs")
 const shell = require("shelljs")
+const _ = require("lodash")
 const GenerateBase = require("../../base/generate-base.js")
 
 class PostProcessor extends GenerateBase {
@@ -23,6 +24,16 @@ class PostProcessor extends GenerateBase {
         this.utils.shell("npm install")
       }
 
+      this.utils.shell("chmod +x build.sh deploy.sh undeploy.sh")
+
+      const appName = _.upperFirst(_.camelCase(this.project.name))
+
+      this.utils.cd(`${this.project.options.workDir}/${this.project.name}/${appName}`)
+
+      if(!fs.existsSync(`node_modules`)) {
+        this.utils.shell("npm install")
+      }
+
       if(!fs.existsSync(`www`)) {
         this.utils.shell("ionic build")
       }
@@ -37,8 +48,6 @@ class PostProcessor extends GenerateBase {
         this.utils.shell("ionic capacitor add android")
       }
       */
-
-      this.utils.shell("chmod +x build.sh")
 
       this.utils.cd(this.project.options.workDir)
        
