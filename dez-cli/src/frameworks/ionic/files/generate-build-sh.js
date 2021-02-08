@@ -29,14 +29,12 @@ class GenerateBuildSh extends GenerateBase {
   generate() {
     let promise = new Promise((resolve, reject) => {
 
-      let appName = _.upperFirst(_.camelCase(this.project.name))
-
       let code = `\
 #!/bin/bash
 date
 
 npm install
-cd ${appName}
+cd ${this.project.appName}
 npm install
 ionic capacitor sync\
 `

@@ -6,7 +6,7 @@ class GenerateGitignore extends GenerateBase {
   constructor(project) {
     super(project);
 
-    this.outputFile = `./${this.project.name}/capacitor.config.json`
+    this.outputFile = `./${this.project.name}/${this.project.appName}/capacitor.config.json`
   }
 
   exec() {

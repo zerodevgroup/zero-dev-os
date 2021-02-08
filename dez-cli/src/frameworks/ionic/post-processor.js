@@ -26,9 +26,7 @@ class PostProcessor extends GenerateBase {
 
       this.utils.shell("chmod +x build.sh deploy.sh undeploy.sh")
 
-      const appName = _.upperFirst(_.camelCase(this.project.name))
-
-      this.utils.cd(`${this.project.options.workDir}/${this.project.name}/${appName}`)
+      this.utils.cd(`${this.project.options.workDir}/${this.project.name}/${this.project.appName}`)
 
       if(!fs.existsSync(`node_modules`)) {
         this.utils.shell("npm install")

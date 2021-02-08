@@ -6,6 +6,7 @@ const GenerateBase = require("../../base/generate-base.js")
 class Initializer extends GenerateBase {
   constructor(project) {
     super(project)
+    this.project.appName = _.upperFirst(_.camelCase(this.project.name))
   }
 
   exec() {
@@ -16,8 +17,7 @@ class Initializer extends GenerateBase {
         this.utils.shell(`mkdir -p ${this.project.name}`)
 
         this.utils.cd(this.project.name)
-        let appName = _.upperFirst(_.camelCase(this.project.name))
-        this.utils.shell(`ionic start ${appName} sidemenu --type=angular --capacitor`)
+        this.utils.shell(`ionic start ${this.project.appName} sidemenu --type=angular --capacitor`)
 
         this.utils.cd(this.project.options.workDir)
       }
