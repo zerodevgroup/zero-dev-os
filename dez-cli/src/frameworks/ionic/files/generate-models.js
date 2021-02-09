@@ -1,5 +1,6 @@
 const fs = require("fs")
 const path = require("path")
+const pluralize = require("pluralize")
 const shell = require("shelljs")
 const _ = require("lodash")
 
@@ -57,8 +58,9 @@ class GenerateServices extends GenerateBase {
       this.utils.shell(`mkdir -p ${outputDirectory}`)
     }
     
-    let fileName = _.kebabCase(schema.model)
-    let className = _.upperFirst(_.camelCase(schema.model))
+    let modelName = pluralize.singular(schema.model)
+    let fileName = _.kebabCase(modelName)
+    let className = _.upperFirst(_.camelCase(modelName))
     let outputFile = `${outputDirectory}/${fileName}.ts`
     this.utils.subTitle(outputFile)
 
