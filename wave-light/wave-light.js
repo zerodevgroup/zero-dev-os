@@ -47,11 +47,13 @@ class WaveLight {
 
 program
   .command("events")
-  .option("--list [millis]", "list events")
+  .option("--list", "list events")
+  .option("--limit [limit]", "limit events")
   .description("event operations")
   .action((options) => {
     let waveLight = new WaveLight({
       list: options.list,
+      limit: options.limit,
     })
 
     waveLight.events()

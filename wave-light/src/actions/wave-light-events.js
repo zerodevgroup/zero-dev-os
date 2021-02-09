@@ -43,11 +43,19 @@ class WaveLightEvents {
     let now = moment()
     utils.title(`Time: ${now.format("YYYY-MM-DD HH:mm:ss")}`)
 
-    events.forEach((event) => {
+    let activeEventCount = 0
+    for(let i = 0; i < events.length; i++) {
+      let event = events[i]
       let eventStart = moment(new Date(event.startTime))
       let eventEnd = moment(new Date(event.endTime))
 
       if(eventEnd.isAfter(now)) {
+        activeEventCount++
+
+        if(this.options.limit && (activeEventCount > this.options.limit)) {
+          break;
+        }
+
         utils.subTitle(event.name)
 
         if(eventStart.isBefore(now)) {
@@ -60,7 +68,7 @@ class WaveLightEvents {
         utils.message(eventStart.format("YYYY-MM-DD HH:mm:ss"))
         utils.message(eventEnd.format("YYYY-MM-DD HH:mm:ss"))
       }
-    })
+    }
   }
 
   //
