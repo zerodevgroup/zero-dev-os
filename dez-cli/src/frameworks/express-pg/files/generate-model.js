@@ -63,10 +63,7 @@ class Model {
           resultData.push(resultItem)
         })
 
-        callback({
-          count: resultData.length,
-          data: resultData
-        })
+        callback(resultData)
       }
 
       client.end()
@@ -160,75 +157,6 @@ class Model {
       })
     }
   }
-
-  /*
-  _create(callback) {
-    let data = this.options.data
-    let createFields = _.keyBy(this.fields[this.options.modelName], "name")
-
-    console.log("Create...")
-    console.log(this.options.modelName)
-    console.log(data)
-    console.log(createFields)
-
-    if(data && data.length > 0) {
-      let item = data[0]
-      item.id = uuidv1()
-
-      let columns = []
-      Object.keys(item).forEach((key) => {
-        let fieldName = _.camelCase(key)
-        if(!key.match(/^undefined$/) && createFields[fieldName]) {
-          columns.push(key)
-        }
-      });
-
-      console.log(columns)
-
-      let statement = \`INSERT INTO \${this.options.modelName} (\${columns.join(",")}) VALUES(\`
-      let fieldCount = 0
-      columns.forEach((column) => {
-        let fieldName = _.camelCase(column)
-        let dataType = createFields[fieldName].type
-        if(fieldCount > 0) {
-          statement += ", "
-        }
-
-        if(dataType.match(/(varchar|date)/)) {
-          statement += "$__$" + item[column] + "$__$"
-        }
-        else if(dataType.match(/(numeric|boolean)/)) {
-          statement += \`\${item[column]}\`
-        }
-
-        fieldCount++
-      })
-
-      statement += ")"
-      console.log(statement)
-
-      const client = new Client()
-      client.connect()
-      client.query(statement, (error, result) => {
-        if(error) {
-          callback({
-            count: 0,
-            data: [],
-            error: error
-          })
-        }
-        else {
-          callback({
-            count: result.rowCount,
-            data: item,
-            statement: statement
-          })
-        }
-        client.end()
-      })
-    }
-  }
-  */
 
   update(callback) {
     let data = this.options.data
