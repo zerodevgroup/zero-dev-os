@@ -73,6 +73,8 @@ class GenerateServices extends GenerateBase {
     let code = `\
 import { Injectable } from '@angular/core';
 
+import { Observable, of } from 'rxjs';
+
 import { ${className} } from '../models/${fileName}';
 import { ${pluralUpperName} } from '../data/mock/${pluralFileName}';
 
@@ -84,8 +86,8 @@ export class ${className}Service {
   constructor() {
   }
 
-  get${pluralClassName}(): ${className}[] {
-    return ${pluralUpperName};
+  get${pluralClassName}(): Observable<${className}[]> {
+    return of(${pluralUpperName});
   }
 }\
 `
