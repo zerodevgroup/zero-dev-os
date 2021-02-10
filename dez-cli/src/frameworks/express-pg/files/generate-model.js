@@ -52,11 +52,23 @@ class Model {
         })
       }
       else {
+        let resultData = []
+        result.rows.forEach((item) => {
+          let resultItem = {}
+
+          this.schema.fields.forEach((field) => {
+            resultItem[field.name] = item[field.field] ? item[field.field] : ""
+          })
+
+          resultData.push(resultItem)
+        })
+
         callback({
-          count: result.rowCount,
-          data: result.rows
+          count: resultData.length,
+          data: resultData
         })
       }
+
       client.end()
     })
   }
