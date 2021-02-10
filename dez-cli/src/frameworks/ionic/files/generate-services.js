@@ -59,11 +59,13 @@ class GenerateServices extends GenerateBase {
     }
 
     // schema.model = "users"
-    let pluralUpperName = _.toUpper(schema.model)
-    let pluralFileName = _.kebabCase(schema.model)
-    let pluralClassName = _.upperFirst(_.camelCase(schema.model))
+    let pluralModelName = schema.model
+    let pluralUpperName = _.toUpper(pluralModelName)
+    let pluralFileName = _.kebabCase(pluralModelName)
+    let pluralTableName = _.snakeCase(pluralModelName)
+    let pluralClassName = _.upperFirst(_.camelCase(pluralModelName))
 
-    let modelName = pluralize.singular(schema.model)
+    let modelName = pluralize.singular(pluralModelName)
     let fileName = _.kebabCase(modelName)
     let className = _.upperFirst(_.camelCase(modelName))
 
@@ -72,8 +74,10 @@ class GenerateServices extends GenerateBase {
 
     let code = `\
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { ${className} } from '../models/${fileName}';
 import { ${pluralUpperName} } from '../data/mock/${pluralFileName}';
@@ -82,12 +86,53 @@ import { ${pluralUpperName} } from '../data/mock/${pluralFileName}';
   providedIn: 'root'
 })
 export class ${className}Service {
+  private apiUrl = '/goldenyears-api';
 
-  constructor() {
+  httpOptions = {
+    headers: new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'TOKEN': 'e4d98d50-6741-11eb-9cee-6d38aabde3c0',
+    })
+  };
+
+  constructor(private http: HttpClient) {
   }
 
+  /*
   get${pluralClassName}(): Observable<${className}[]> {
     return of(${pluralUpperName});
+  }
+  */
+
+  get${pluralClassName}(): Observable<${className}[]> {
+    let url = '/goldenyears-api/list/${pluralModelName}';
+    let listOptions = {
+      statement: 'select * from ${pluralTableName}'
+    };
+    return this.http.post<${className}[]>(url, listOptions, this.httpOptions).pipe(
+      catchError(this.handleError<${className}[]>('get${className}'))
+    );
+  }
+
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      console.log(\`\${operation} failed: \${error.message}\`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 }\
 `
