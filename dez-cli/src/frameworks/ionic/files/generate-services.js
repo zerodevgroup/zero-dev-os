@@ -50,10 +50,12 @@ class GenerateServices extends GenerateBase {
   }
 
   generateService(file) {
-    let schema = JSON.parse(fs.readFileSync(file))
-    let appName = _.upperFirst(_.camelCase(this.project.name))
+    const schema = JSON.parse(fs.readFileSync(file))
+    const appName = _.upperFirst(_.camelCase(this.project.name))
+    const token = this.project.config.token
+    const apiUrl = this.project.config.apiUrl
 
-    let outputDirectory = `${this.project.name}/${appName}/src/app/services`
+    const outputDirectory = `${this.project.name}/${appName}/src/app/services`
     if(!fs.existsSync(outputDirectory)) {
       this.utils.shell(`mkdir -p ${outputDirectory}`)
     }
@@ -86,27 +88,19 @@ import { ${pluralUpperName} } from '../data/mock/${pluralFileName}';
   providedIn: 'root'
 })
 export class ${className}Service {
-  private apiUrl = '/goldenyears-api';
-
   httpOptions = {
     headers: new HttpHeaders({ 
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'TOKEN': 'e4d98d50-6741-11eb-9cee-6d38aabde3c0',
+      'TOKEN': '${token}',
     })
   };
 
   constructor(private http: HttpClient) {
   }
 
-  /*
   get${pluralClassName}(): Observable<${className}[]> {
-    return of(${pluralUpperName});
-  }
-  */
-
-  get${pluralClassName}(): Observable<${className}[]> {
-    let url = '/goldenyears-api/list/${pluralModelName}';
+    let url = '${apiUrl}/list/${pluralModelName}';
     let listOptions = {
       statement: 'select * from ${pluralTableName}'
     };
