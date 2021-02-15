@@ -42,12 +42,12 @@ class PostProcessor extends GenerateBase {
         this.utils.shell("npm install")
       }
 
+      /*
+      // TODO: Use this.project.options to determine if the following should be executed (i.e. default to web only)
       if(!fs.existsSync(`www`)) {
         this.utils.shell("ionic build")
       }
 
-      /*
-      // TODO: Use this.project.options to determine if the following should be executed (i.e. default to web only)
       if(!fs.existsSync(`ios`)) {
         this.utils.shell("ionic capacitor add ios")
       }
