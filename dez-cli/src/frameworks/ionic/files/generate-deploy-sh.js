@@ -40,8 +40,7 @@ echo "undeploying ..."
 echo "building ..."
 ./build.sh
 
-pm2 start
-pm2 save\
+cp -r ${this.project.appName}/www /var/www/${this.project.name}\
 `
       fs.writeFileSync(this.outputFile, code)
 

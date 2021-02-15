@@ -31,7 +31,7 @@ class GenerateUndeploySh extends GenerateBase {
 #!/bin/bash
 date
 
-pm2 delete ${this.project.name}\
+rm -rf /var/www/${this.project.name}\
 `
 
       fs.writeFileSync(this.outputFile, code)

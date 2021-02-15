@@ -33,9 +33,9 @@ class GenerateBuildSh extends GenerateBase {
 #!/bin/bash
 date
 
-npm install
+# npm install
 cd ${this.project.appName}
-npm install
+# npm install
 ionic capacitor sync\
 `
       fs.writeFileSync(this.outputFile, code)
