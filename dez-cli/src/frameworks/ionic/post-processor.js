@@ -30,10 +30,6 @@ class PostProcessor extends GenerateBase {
 
       this.utils.cd(`${this.project.options.workDir}/${this.project.name}`)
 
-      if(!fs.existsSync(`node_modules`)) {
-        this.utils.shell("npm install")
-      }
-
       this.utils.shell("chmod +x build.sh deploy.sh undeploy.sh")
 
       this.utils.cd(`${this.project.options.workDir}/${this.project.name}/${this.project.appName}`)
