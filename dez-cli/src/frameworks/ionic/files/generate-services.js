@@ -88,22 +88,24 @@ import { ${pluralUpperName} } from '../data/mock/${pluralFileName}';
   providedIn: 'root'
 })
 export class ${className}Service {
-  httpOptions = {
-    headers: new HttpHeaders({ 
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'TOKEN': '${token}',
-    })
-  };
-
   constructor(private http: HttpClient) {
   }
 
-  get${pluralClassName}(): Observable<${className}[]> {
+  get${pluralClassName}(authId): Observable<${className}[]> {
     let url = '${apiUrl}/list/${pluralModelName}';
+
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'authId': authId,
+      })
+    };
+
     let listOptions = {
       statement: 'select * from ${pluralTableName}'
     };
+
     return this.http.post<${className}[]>(url, listOptions, this.httpOptions).pipe(
       catchError(this.handleError<${className}[]>('get${className}'))
     );
