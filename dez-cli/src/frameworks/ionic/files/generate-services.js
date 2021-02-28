@@ -106,7 +106,7 @@ export class ${className}Service {
       statement: 'select * from ${pluralTableName}'
     };
 
-    return this.http.post<${className}[]>(url, listOptions, this.httpOptions).pipe(
+    return this.http.post<${className}[]>(url, listOptions, httpOptions).pipe(
       catchError(this.handleError<${className}[]>('get${className}'))
     );
   }
