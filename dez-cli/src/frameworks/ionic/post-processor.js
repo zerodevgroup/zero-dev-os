@@ -33,25 +33,7 @@ class PostProcessor extends GenerateBase {
       this.utils.shell("chmod +x build.sh deploy.sh undeploy.sh")
 
       this.utils.cd(`${this.project.options.workDir}/${this.project.name}/${this.project.appName}`)
-
-      if(!fs.existsSync(`node_modules`)) {
-        this.utils.shell("npm install")
-      }
-
-      /*
-      // TODO: Use this.project.options to determine if the following should be executed (i.e. default to web only)
-      if(!fs.existsSync(`www`)) {
-        this.utils.shell("ionic build")
-      }
-
-      if(!fs.existsSync(`ios`)) {
-        this.utils.shell("ionic capacitor add ios")
-      }
-
-      if(!fs.existsSync(`android`)) {
-        this.utils.shell("ionic capacitor add android")
-      }
-      */
+      // any post processing goes here
 
       this.utils.cd(this.project.options.workDir)
        
