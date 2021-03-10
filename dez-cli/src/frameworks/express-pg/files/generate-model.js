@@ -132,7 +132,8 @@ class Model {
           })
 
           callback({
-            count: totalCount
+            count: totalCount,
+            results: results,
           })
 
           client.end()
