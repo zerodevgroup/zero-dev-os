@@ -75,6 +75,7 @@ class Model {
     let schemaFields = _.keyBy(this.schema.fields, "name")
 
     let totalCount = 0
+    let createIds = []
     if(data && data.length > 0) {
       try {
         const client = new Client()
@@ -82,8 +83,8 @@ class Model {
 
         let queries = []
         data.forEach((item) => {
-          // let item = data[0]
           item.id = uuidv1()
+          createIds.push(item.id)
 
           let createSchema = {
             fields: [],
@@ -133,7 +134,7 @@ class Model {
 
           callback({
             count: totalCount,
-            results: results,
+            createIds: createIds,
           })
 
           client.end()
