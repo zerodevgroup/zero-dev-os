@@ -108,7 +108,7 @@ class Model {
               statement += ", "
             }
 
-            let value = item[column] ? item[column] : null
+            let value = item[fieldName] ? item[fieldName] : null
             if(value === null) {
               statement += value
             }
