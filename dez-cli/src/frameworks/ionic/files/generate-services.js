@@ -82,7 +82,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { ${className} } from '../models/${fileName}';
-import { ${pluralUpperName} } from '../data/mock/${pluralFileName}';
 
 @Injectable({
   providedIn: 'root'
