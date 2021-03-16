@@ -70,6 +70,55 @@ class Model {
     })
   }
 
+  search(callback) {
+    let searchOptions = this.options.data
+    let statement = "select * from client where"
+
+    let fields = {}
+    this.schema.fields.forEach((field) => {
+      fields[field.name] = field.field
+    })
+
+    Object.keys(searchOptions).forEach((name) => {
+      filters.push(\`\${fields[name]} like '\${searchOptions[name]}%'\`)
+    })
+
+    filters.foreEach((filter, index) => {
+      if(index > 0) {
+        statement += " AND "
+      }
+      statement += filter
+    })
+
+    const client = new Client()
+    client.connect()
+    client.query(statement, (error, result) => {
+      if(error) {
+        callback({
+          count: 0,
+          data: [],
+          error: error
+        })
+      }
+      else {
+        let resultData = []
+        result.rows.forEach((item) => {
+          let resultItem = {}
+
+          this.schema.fields.forEach((field) => {
+            resultItem[field.name] = item[field.field] ? item[field.field] : ""
+          })
+
+          resultData.push(resultItem)
+        })
+
+        callback(resultData)
+      }
+
+      client.end()
+    })
+  }
+
   create(callback) {
     let data = this.options.data
     let schemaFields = _.keyBy(this.schema.fields, "name")

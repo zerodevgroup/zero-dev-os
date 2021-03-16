@@ -49,8 +49,8 @@ class ModelRoutes {
       })
     })
 
-    //  find
-    router.post("/find/:modelName", (request, response) => {
+    //  search
+    router.post("/search/:modelName", (request, response) => {
       let modelName = request.params.modelName
       let data = request.body
 
@@ -60,7 +60,7 @@ class ModelRoutes {
 
       let model = new Model(options)
 
-      model.find((data) => {
+      model.search((data) => {
         response.json(data)
       })
     })
