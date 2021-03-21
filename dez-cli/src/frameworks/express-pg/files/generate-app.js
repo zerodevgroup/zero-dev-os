@@ -2,9 +2,10 @@ const fs = require('fs')
 const shell = require("shelljs")
 const GenerateBase = require("../../../base/generate-base.js")
 
-class GenerateApp extends GenerateBase {
+class GenerateGitignore extends GenerateBase {
   constructor(project) {
-    super(project)
+    super(project);
+
     this.outputFile = `./${this.project.name}/src/app.js`
   }
 
@@ -25,7 +26,6 @@ class GenerateApp extends GenerateBase {
 
   generate() {
     let promise = new Promise((resolve, reject) => {
-
       let code = `\
 const bodyParser = require("body-parser")
 const cors = require("cors")
@@ -38,6 +38,7 @@ const env = config[nodeEnvironment]
 process.env = Object.assign(process.env, env)
 
 const AppRoutes = require("./routes/app-routes")
+const Model = require("./components/model")
 const ModelRoutes = require("./routes/model-routes")
 
 const app = express()
@@ -54,7 +55,7 @@ app.use("/:action/:modelName", (request, response, next) => {
   let modelName = request.params.modelName
   let options = request.body
 
-  let requestToken = request.get("token")
+  let authId = request.get("authId")
 
   console.log({
     "url:": request.originalUrl,
@@ -62,31 +63,47 @@ app.use("/:action/:modelName", (request, response, next) => {
     "modelName": modelName,
     "options": options,
     "token": process.env.token,
-    "requestToken": requestToken,
+    "authId": authId,
   })
 
-  if(requestToken != process.env.token) {
-    response.json({
-      status: "error",
-      message: "invalid token",
-    })
-  }
-  else if(Object.keys(options).length <= 0) {
-    response.json({
-      status: "error",
-      message: "no options provided",
-    })
-  }
-  else {
-    if(action === "create") {
-      console.log("Increasing timeout for create request")
+  const statement = \`select * from users where auth_id = '\${authId}'\`
 
-      // 300 seconds
-      request.setTimeout(300000)
+  let modelOptions = {
+    data: {
+      statement: statement
+    },
+    modelName: "users",
+  }
+
+  let model = new Model(modelOptions)
+
+  model.list((data) => {
+    let authorized = (data && data.length > 0) ? true : false
+
+    if(!authorized) {
+      response.json({
+        status: "error",
+        message: "not authorized",
+      })
     }
+    else if(Object.keys(options).length <= 0) {
+      response.json({
+        status: "error",
+        message: "no options provided",
+      })
+    }
+    else {
+      if(action === "create") {
+        console.log("Increasing timeout for create request")
 
-    next()
-  }
+        // 300 seconds
+        request.setTimeout(300000)
+      }
+
+      next()
+    }
+  })
+
 })
 
 
@@ -116,4 +133,4 @@ app.listen(port, () => {
   }
 }
 
-module.exports = GenerateApp
+module.exports = GenerateGitignore
