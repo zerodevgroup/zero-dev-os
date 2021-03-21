@@ -16,8 +16,8 @@ class Generate {
     let tailTemplate = fs.readFileSync(`${this.moduleDirectory}/assets/code/generate-tail-template.js`).toString()
 
     let content = fs.readFileSync(this.options.inputFile).toString()
-    content = content.replace("`", "\`")
-    content = content.replace("$", "\$")
+    content = content.replace(/\`/g, "\\`")
+    content = content.replace(/\$/g, "\\$")
 
     let output = `${headTemplate}${content}${tailTemplate}`
 

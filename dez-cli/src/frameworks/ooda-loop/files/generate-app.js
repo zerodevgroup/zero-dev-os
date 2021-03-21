@@ -34,10 +34,18 @@ const env = config[nodeEnvironment]
 process.env = Object.assign(process.env, env)
 
 const oodaLoop = () => {
-  console.log("OODA...")
-  setTimeout(oodaLoop, 1000)
+  // Read business rules
+
+  // Query data for matching data
+
+  // Apply decision analytics
+
+  // Take action
+
+  setTimeout(oodaLoop, process.env.waitMilliseconds)
 }
 
+console.log(\`Running oodaLoop with wait of \${process.env.waitMilliseconds}ms\`)
 oodaLoop()
 `
       fs.writeFileSync(this.outputFile, code)
