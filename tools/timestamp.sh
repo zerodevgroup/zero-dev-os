@@ -1,9 +1,9 @@
 #!/bin/bash
-if ! [ -d "$HOME/lock-alpha/tools/timestamp/node_modules" ]; then
-  cd $HOME/lock-alpha/tools/timestamp
+if ! [ -d "/opt/zero-dev-os/tools/timestamp/node_modules" ]; then
+  cd /opt/zero-dev-os/tools/timestamp
   npm install
   cd -
 fi
 
-node $HOME/lock-alpha/tools/timestamp/index.js $*
+node /opt/zero-dev-os/tools/timestamp/index.js $*
 
