@@ -81,6 +81,7 @@ program
   .option("--restart <containerName>", "restart container")
   .option("--create-os-image", "create zero-dev-os image")
   .option("--update-hosts", "update /etc/hosts with container info")
+  .option("--multipass", "let zed know when using multipass")
   .description("container operations")
   .action((options) => {
     let zeroDevOS = new ZeroDevOS({
@@ -92,6 +93,7 @@ program
       restart: options.restart,
       createOSImage: options.createOsImage,
       updateHosts: options.updateHosts,
+      multipass: options.multipass,
     })
 
     zeroDevOS.container()

@@ -167,22 +167,40 @@ class ZeroDevContainer {
 
 `
 
-    let containers = JSON.parse(shell.exec("lxc list --format json", {silent:true}).stdout)
+    if(this.options.multipass) {
+      let containers = JSON.parse(shell.exec("multipass list --format json", {silent:true}).stdout)
 
-    containers.forEach((container) => {
-      if(container.status.match(/running/i)) {
-        console.log(container.name)
+      containers.list.forEach((container) => {
+        if(container.state.match(/running/i)) {
+          console.log(container.name)
 
-        if(container.state && container.state.network && container.state.network.eth0 && container.state.network.eth0.addresses && container.state.network.eth0.addresses.length > 0) {
-          container.state.network.eth0.addresses.forEach((address) => {
-            if(address.family === "inet") {
-              console.log(address)
-              content += `${address.address} ${container.name}\n`
-            }
-          })
+          if(container.ipv4 && container.ipv4.length > 0) {
+            let address = container.ipv4[0]
+            console.log(address)
+            content += `${address} ${container.name}\n`
+          }
         }
-      }
-    })
+      })
+
+    }
+    else {
+      let containers = JSON.parse(shell.exec("lxc list --format json", {silent:true}).stdout)
+
+      containers.forEach((container) => {
+        if(container.status.match(/running/i)) {
+          console.log(container.name)
+
+          if(container.state && container.state.network && container.state.network.eth0 && container.state.network.eth0.addresses && container.state.network.eth0.addresses.length > 0) {
+            container.state.network.eth0.addresses.forEach((address) => {
+              if(address.family === "inet") {
+                console.log(address)
+                content += `${address.address} ${container.name}\n`
+              }
+            })
+          }
+        }
+      })
+    }
 
     content += `
 # The following lines are desirable for IPv6 capable hosts
