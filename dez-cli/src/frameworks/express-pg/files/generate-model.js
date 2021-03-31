@@ -4,7 +4,8 @@ const GenerateBase = require("../../../base/generate-base.js")
 
 class GenerateModel extends GenerateBase {
   constructor(project) {
-    super(project)
+    super(project);
+
     this.outputFile = `./${this.project.name}/src/components/model.js`
   }
 
@@ -25,7 +26,6 @@ class GenerateModel extends GenerateBase {
 
   generate() {
     let promise = new Promise((resolve, reject) => {
-
       let code = `\
 const fs = require("fs")
 const _ = require("lodash")
@@ -141,7 +141,7 @@ class Model {
           }
 
           Object.keys(item).forEach((fieldName) => {
-            if(!fieldName.match(/^undefined$/) && schemaFields[fieldName]) {
+            if(!fieldName.match(/^undefined\$/) && schemaFields[fieldName]) {
               createSchema.fields.push(schemaFields[fieldName])
               createSchema.columns.push(schemaFields[fieldName].field)
             }
@@ -162,7 +162,7 @@ class Model {
               statement += value
             }
             else if(dataType.match(/(varchar|date)/)) {
-              statement += "$__$" + value + "$__$"
+              statement += "\$__\$" + value + "\$__\$"
             }
             else if(dataType.match(/(numeric|boolean)/)) {
               statement += value
@@ -211,34 +211,50 @@ class Model {
 
   update(callback) {
     let data = this.options.data
-    let updateFields = _.keyBy(this.fields[this.options.modelName], "name")
 
-    console.log("Update...")
-    console.log(this.options.modelName)
-    console.log(data)
-    console.log(updateFields)
+    let updateFields = _.keyBy(this.schema.fields[this.options.modelName], "name")
 
-    if(data.data && data.data.length > 0) {
-      let item = data.data[0]
+    if(data) {
+      let item = data
+      let schemaFields = _.keyBy(this.schema.fields, "name")
       let statement = \`UPDATE \${this.options.modelName} SET \`
-      let fieldCount = 0
-      Object.keys(item).forEach((key) => {
-        let fieldName = _.camelCase(key)
-        if(!fieldName.match(/(id|undefined)/) && updateFields[fieldName]) {
-          let dataType = updateFields[fieldName].type
-          if(fieldCount > 0) {
-            statement += ", "
-          }
 
-          if(dataType.match(/(varchar|date)/)) {
-            statement += key + " = " + "$__$" + item[key] + "$__$"
-          }
-          else if(dataType.match(/(numeric|boolean)/)) {
-            statement += \`\${key} = \${item[key]}\`
-          }
+      let updateSchema = {
+        fields: [],
+        columns: []
+      }
 
-          fieldCount++
+      Object.keys(item).forEach((fieldName) => {
+        if(fieldName !== "id") {
+          if(!fieldName.match(/^undefined\$/) && schemaFields[fieldName]) {
+            updateSchema.fields.push(schemaFields[fieldName])
+            updateSchema.columns.push(schemaFields[fieldName].field)
+          }
         }
+      });
+
+      let fieldCount = 0
+      updateSchema.fields.forEach((field) => {
+        let column = field.field
+        let fieldName = field.name
+        let dataType = field.type
+
+        if(fieldCount > 0) {
+          statement += ", "
+        }
+
+        let value = item[fieldName] ? item[fieldName] : null
+        if(value === null) {
+          statement += \`\${column} = \${value}\`
+        }
+        else if(dataType.match(/(varchar|date)/)) {
+          statement += \`\${column} = \$__\$\${value}\$__\$\`
+        }
+        else if(dataType.match(/(numeric|boolean)/)) {
+          statement += \`\${column} = \${value}\`
+        }
+
+        fieldCount++
       })
 
       statement += \` WHERE id = '\${item.id}'\`
@@ -305,7 +321,6 @@ class Model {
 
 module.exports = Model
 `
-
       fs.writeFileSync(this.outputFile, code)
 
       resolve()
