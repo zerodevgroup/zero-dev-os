@@ -2,7 +2,7 @@ const fs = require('fs')
 const shell = require("shelljs")
 const GenerateBase = require("../../../base/generate-base.js")
 
-class GenerateGitignore extends GenerateBase {
+class __CLASS_NAME__ extends GenerateBase {
   constructor(project) {
     super(project);
 

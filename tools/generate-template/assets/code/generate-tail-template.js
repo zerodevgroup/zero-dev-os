@@ -12,4 +12,4 @@
   }
 }
 
-module.exports = GenerateGitignore
+module.exports = __CLASS_NAME__

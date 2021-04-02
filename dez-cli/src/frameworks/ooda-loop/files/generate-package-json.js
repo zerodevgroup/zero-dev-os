@@ -53,8 +53,10 @@ class GeneratePackageJson extends GenerateBase {
   },
   "homepage": "${repo}",
   "dependencies": {
-    "lodash": "^4.17.20",
+    "axios": "^0.21.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
+    "shelljs": "^0.8.4",
     "pg": "^8.5.1",
     "uuid": "^8.3.2"
   }
