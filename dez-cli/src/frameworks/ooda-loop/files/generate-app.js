@@ -29,6 +29,7 @@ class GenerateApp extends GenerateBase {
       let code = `\
 const axios = require("axios")
 const fs = require("fs")
+const moment = require("moment")
 
 // Read config into env
 const config = require("../config.json")
@@ -93,9 +94,25 @@ const oodaLoop = async () => {
 
       for(let memberIndex = 0; memberIndex < matchingMembers.length; memberIndex++) {
         let member = matchingMembers[memberIndex]
+        
         console.log(\`Sending \${rule.name} notification to \${member.email}\`)
 
+        member.webRegistrationNotificationDate = moment().format("YYYY-MM-DD HH:mm:ss")
         member.webRegistrationNotification = true
+
+        let sendEmailResponse = await axios({
+          method: "post",
+          url: "http://channel-service/send-email",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "authId": process.env.TOKEN,
+          },
+          data: {
+            member: member,
+            rule: rule,
+          }
+        })
 
         let memberUpdateResponse = await axios({
           method: "post",
@@ -109,6 +126,7 @@ const oodaLoop = async () => {
         })
       }
 
+      /*
       if(matchingMembers && matchingMembers.length > 0) {
         let sendEmailResponse = await axios({
           method: "post",
@@ -121,6 +139,7 @@ const oodaLoop = async () => {
           data: {}
         })
       }
+      */
     }
 
     // Take action
