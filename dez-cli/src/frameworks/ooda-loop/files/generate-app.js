@@ -85,61 +85,58 @@ const oodaLoop = async () => {
           "authId": process.env.TOKEN,
         },
         data: {
-          statement: "select * from members where enrolled_in_plan = true and COALESCE(web_registration_flag, FALSE) = FALSE and COALESCE(web_registration_notification, FALSE) = FALSE"
+          // statement: "select * from members where enrolled_in_plan = true and COALESCE(web_registration_flag, FALSE) = FALSE and COALESCE(web_registration_notification, FALSE) = FALSE"
+          statement: "select * from members where enrolled_in_plan = true and COALESCE(web_registration_flag, FALSE) = FALSE"
         }
       })
 
-      let matchingMembers = membersResponse.data
-      console.log(\`Found \${matchingMembers.length} for rule \${rule.name}\`)
-
-      for(let memberIndex = 0; memberIndex < matchingMembers.length; memberIndex++) {
-        let member = matchingMembers[memberIndex]
-        
-        console.log(\`Sending \${rule.name} notification to \${member.email}\`)
-
-        member.webRegistrationNotificationDate = moment().format("YYYY-MM-DD HH:mm:ss")
-        member.webRegistrationNotification = true
-
-        let sendEmailResponse = await axios({
-          method: "post",
-          url: "http://channel-service/send-email",
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "authId": process.env.TOKEN,
-          },
-          data: {
-            member: member,
-            rule: rule,
+      if(membersResponse.data && membersResponse.data.length > 0) {
+        let matchingMembers = membersResponse.data.filter((member) => {
+          if(member.webRegistrationNotification !== true || member.webRegistrationNotificationCount < 3) {
+            return member
           }
         })
 
-        let memberUpdateResponse = await axios({
-          method: "post",
-          url: "http://member-service/update/members",
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "authId": process.env.TOKEN,
-          },
-          data: member
-        })
-      }
+        console.log(\`Found \${matchingMembers.length} for rule \${rule.name}\`)
 
-      /*
-      if(matchingMembers && matchingMembers.length > 0) {
-        let sendEmailResponse = await axios({
-          method: "post",
-          url: "http://channel-service/send-email",
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "authId": process.env.TOKEN,
-          },
-          data: {}
-        })
+        for(let memberIndex = 0; memberIndex < matchingMembers.length; memberIndex++) {
+          let member = matchingMembers[memberIndex]
+          
+          console.log(\`Sending \${rule.name} notification to \${member.email}\`)
+
+          member.webRegistrationNotificationDate = moment().format("YYYY-MM-DD HH:mm:ss")
+          member.webRegistrationNotification = true
+
+          let webRegistrationNotificationCount = member.webRegistrationNotificationCount ? parseInt(member.webRegistrationNotificationCount) : 0
+
+          member.webRegistrationNotificationCount = webRegistrationNotificationCount + 1
+
+          let sendEmailResponse = await axios({
+            method: "post",
+            url: "http://channel-service/send-email",
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "authId": process.env.TOKEN,
+            },
+            data: {
+              member: member,
+              rule: rule,
+            }
+          })
+
+          let memberUpdateResponse = await axios({
+            method: "post",
+            url: "http://member-service/update/members",
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "authId": process.env.TOKEN,
+            },
+            data: member
+          })
+        }
       }
-      */
     }
 
     // Take action
