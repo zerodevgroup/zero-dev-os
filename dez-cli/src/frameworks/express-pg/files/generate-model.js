@@ -132,7 +132,9 @@ class Model {
 
         let queries = []
         data.forEach((item) => {
-          item.id = uuidv1()
+          if(!item.id) {
+            item.id = uuidv1()
+          }
           createIds.push(item.id)
 
           let createSchema = {
