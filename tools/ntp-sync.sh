@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ntpdate time.nist.gov
+/usr/sbin/ntpdate time.nist.gov
