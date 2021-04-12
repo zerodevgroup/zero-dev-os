@@ -70,12 +70,13 @@ const oodaLoop = async () => {
 
   for(let ruleIndex = 0; ruleIndex < rules.length; ruleIndex++) {
     let rule = rules[ruleIndex]
-    console.log(\`Executing rule: \${rule.name}\`)
-
-    // Query data for matching data
-    console.log("Finding matching members")
 
     if(rule.condition === "Not Registered - MyBlue Account") {
+      console.log(\`Executing rule: \${rule.name}\`)
+
+      // Query data for matching data
+      console.log("Finding matching members")
+
       let membersResponse = await axios({
         method: "post",
         url: "http://member-service/list/members",
@@ -85,7 +86,6 @@ const oodaLoop = async () => {
           "authId": process.env.TOKEN,
         },
         data: {
-          // statement: "select * from members where enrolled_in_plan = true and COALESCE(web_registration_flag, FALSE) = FALSE and COALESCE(web_registration_notification, FALSE) = FALSE"
           statement: "select * from members where enrolled_in_plan = true and COALESCE(web_registration_flag, FALSE) = FALSE"
         }
       })
@@ -102,7 +102,8 @@ const oodaLoop = async () => {
         for(let memberIndex = 0; memberIndex < matchingMembers.length; memberIndex++) {
           let member = matchingMembers[memberIndex]
           
-          console.log(\`Sending \${rule.name} notification to \${member.email}\`)
+          console.log(\`Sending "\${rule.action}" notification to \${member.email}\`)
+
 
           member.webRegistrationNotificationDate = moment().format("YYYY-MM-DD HH:mm:ss")
           member.webRegistrationNotification = true
@@ -123,6 +124,21 @@ const oodaLoop = async () => {
               member: member,
               rule: rule,
             }
+          })
+
+          let createEventResponse = await axios({
+            method: "post",
+            url: "http://event-stream-service/create/events",
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "authId": process.env.TOKEN,
+            },
+            data: [{
+              message: JSON.stringify(member),
+              type: rule.action,
+              timestamp: \`\${moment().valueOf() + ""}\`,
+            }]
           })
 
           let memberUpdateResponse = await axios({
