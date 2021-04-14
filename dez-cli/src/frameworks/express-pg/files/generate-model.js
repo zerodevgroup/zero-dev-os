@@ -292,8 +292,15 @@ class Model {
     console.log(data)
 
     if(data.data && data.data.length > 0) {
-      let item = data.data[0]
-      let statement = \`DELETE FROM \${this.options.modelName} WHERE id = '\${item.id}'\`
+      let ids = ''
+      data.data.forEach((item, index) => {
+        if(index > 0) {
+          ids += ','
+        }
+        ids += \`'\${item.id}'\` 
+      })
+
+      let statement = \`DELETE FROM \${this.options.modelName} WHERE id IN (\${ids})\`
 
       console.log(statement)
 
