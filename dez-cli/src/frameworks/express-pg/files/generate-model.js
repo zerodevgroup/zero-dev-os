@@ -163,7 +163,7 @@ class Model {
             if(value === null) {
               statement += value
             }
-            else if(dataType.match(/(varchar|date)/)) {
+            else if(dataType.match(/(varchar|date|timestamptz|jsonb)/)) {
               statement += "\$__\$" + value + "\$__\$"
             }
             else if(dataType.match(/(numeric|boolean)/)) {
