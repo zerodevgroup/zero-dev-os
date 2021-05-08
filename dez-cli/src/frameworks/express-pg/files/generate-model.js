@@ -160,6 +160,11 @@ class Model {
             }
 
             let value = item[fieldName] ? item[fieldName] : null
+
+            if(dataType.match(/jsonb/) && typeof value === 'object' && value !== null) {
+              value = JSON.stringify(value)
+            }
+
             if(value === null) {
               statement += value
             }
@@ -246,10 +251,15 @@ class Model {
         }
 
         let value = item[fieldName] ? item[fieldName] : null
+
+        if(dataType.match(/jsonb/) && typeof value === 'object' && value !== null) {
+          value = JSON.stringify(value)
+        }
+
         if(value === null) {
           statement += \`\${column} = \${value}\`
         }
-        else if(dataType.match(/(varchar|date)/)) {
+        else if(dataType.match(/(varchar|date|timestamptz|jsonb)/)) {
           statement += \`\${column} = \$__\$\${value}\$__\$\`
         }
         else if(dataType.match(/(numeric|boolean)/)) {
