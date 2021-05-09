@@ -102,7 +102,7 @@ const oodaLoop = async () => {
         for(let memberIndex = 0; memberIndex < matchingMembers.length; memberIndex++) {
           let member = matchingMembers[memberIndex]
           
-          console.log(\`Sending "\${rule.action}" notification to \${member.email}\`)
+          console.log(\`Sending "\${rule.action}" notification to \${member.email} via \${member.preferences.communication}\`)
 
 
           member.webRegistrationNotificationDate = moment().format("YYYY-MM-DD HH:mm:ss")
@@ -112,19 +112,21 @@ const oodaLoop = async () => {
 
           member.webRegistrationNotificationCount = webRegistrationNotificationCount + 1
 
-          let sendEmailResponse = await axios({
-            method: "post",
-            url: "http://channel-service/send-email",
-            headers: {
-              "Accept": "application/json",
-              "Content-Type": "application/json",
-              "authId": process.env.TOKEN,
-            },
-            data: {
-              member: member,
-              rule: rule,
-            }
-          })
+          if(member.preferences.communication === "EMAIL") {
+            let sendEmailResponse = await axios({
+              method: "post",
+              url: "http://channel-service/send-email",
+              headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "authId": process.env.TOKEN,
+              },
+              data: {
+                member: member,
+                rule: rule,
+              }
+            })
+          }
 
           let createEventResponse = await axios({
             method: "post",
@@ -135,9 +137,12 @@ const oodaLoop = async () => {
               "authId": process.env.TOKEN,
             },
             data: [{
-              message: JSON.stringify(member),
+              message: {
+                member: member,
+                rule: rule
+              },
               type: rule.action,
-              timestamp: \`\${moment().valueOf() + ""}\`,
+              timestamp: \`\${moment().format()}\`,
             }]
           })
 
