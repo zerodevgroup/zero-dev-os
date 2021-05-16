@@ -27,7 +27,7 @@ class GenerateEcosystemConfig extends GenerateBase {
   generate() {
     let promise = new Promise((resolve, reject) => {
 
-      let instances = this.project.instances ? this.project.instances : 5
+      let instances = this.project.instances ? this.project.instances : 1
 
       let code = `\
 module.exports = {
@@ -35,12 +35,12 @@ module.exports = {
     name: "${this.project.name}",
     script: "src/app.js",
     args: "",
-    // instances: ${instances},
+    instances: ${instances},
     autorestart: true,
     watch: false,
     max_memory_restart: "1G"
   }]
-}\
+}
 `
 
       fs.writeFileSync(this.outputFile, code)

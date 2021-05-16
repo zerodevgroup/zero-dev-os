@@ -5,6 +5,7 @@ const GenerateBase = require("../../../base/generate-base.js")
 class GenerateRadio extends GenerateBase {
   constructor(project) {
     super(project)
+
     this.outputFile = `./${this.project.name}/src/components/radio.js`
   }
 
@@ -25,32 +26,29 @@ class GenerateRadio extends GenerateBase {
 
   generate() {
     let promise = new Promise((resolve, reject) => {
-
-      let port = this.project.config.port ? this.project.config.port : 4000
-      let redisHost = this.project.config.redis.host ? this.project.config.redis.host : "localhost"
-      let redisPort = this.project.config.redis.port ? this.project.config.redis.port : 6379
-
       let code = `\
 const sockets = require("socket.io");
 const redis = require("socket.io-redis");
  
 class Radio {
   constructor(options) {
+    console.log(options)
     const server = require("http").createServer()
 
     const io = sockets(server, {
-      transports: ["websocket", "polling"],
-      path: '/radio/socket.io'
+      transports: [ "websocket", "polling" ]
     })
 
-    if(options.USE_REDIS) {
-      io.adapter(redis({ host: "${redisHost}", port: ${redisPort} }));
+    if(options.useRedis) {
+      io.adapter(redis({ host: options.redisServer, port: options.redisPort }));
     }
 
     this.io = io
+    this.port = process.env.PORT || 4000
 
-    server.listen(${port})
-    console.log(\`listening on port ${port}\`)
+    server.listen(this.port)
+
+    console.log(\`listening on port \${this.port}\`)
   }
 }
 
