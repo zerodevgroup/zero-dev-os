@@ -35,7 +35,7 @@ module.exports = {
     name: "${this.project.name}",
     script: "src/app.js",
     args: "",
-    instances: ${instances},
+    // instances: ${instances},
     autorestart: true,
     watch: false,
     max_memory_restart: "1G"

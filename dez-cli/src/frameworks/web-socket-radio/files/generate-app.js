@@ -4,7 +4,7 @@ const GenerateBase = require("../../../base/generate-base.js")
 
 class GenerateApp extends GenerateBase {
   constructor(project) {
-    super(project)
+    super(project);
 
     this.outputFile = `./${this.project.name}/src/app.js`
   }
@@ -36,16 +36,19 @@ let radio = new Radio({
 })
 
 radio.io.on("connection", (socket) => {
-  console.log(\`\${socket.id} connected\`)
+  console.log(\`\${socket.id} connected\`);
 
-  /*
-  console.log("Clients:")
-  console.log("-----------------")
-  radio.io.fetchSockets().forEach((socket) => {
-    console.log(socket.id)
+  (async () => {
+    const sockets = await radio.io.fetchSockets()
+    console.log("Clients:")
+    console.log("-----------------")
+    sockets.forEach((socket) => {
+      console.log(socket.id)
+    })
+    console.log("-----------------")
+  })().catch(err => {
+    console.error(err);
   })
-  console.log("-----------------")
-  */
 
   socket.emit("system", JSON.stringify({"system": 
     {
@@ -60,18 +63,21 @@ radio.io.on("connection", (socket) => {
     socket.broadcast.emit("message", dataJSON)
   })
 
-  socket.on("disconnect", (socket) => {
-    console.log(\`\${socket.id} disconnected\`)
+  socket.on("disconnect", () => {
+    console.log(\`\${socket.id} disconnected\`);
 
-    /*
-    console.log("Clients:")
-    console.log("-----------------")
-    radio.io.fetchSockets().forEach((socket) => {
-      console.log(socket.id)
+    (async () => {
+      const sockets = await radio.io.fetchSockets()
+      console.log("Clients:")
+      console.log("-----------------")
+      sockets.forEach((socket) => {
+        console.log(socket.id)
+      })
+      console.log("-----------------")
+    })().catch(err => {
+      console.error(err);
     })
-    console.log("-----------------")
-    */
-   })
+  })
 })
 `
       fs.writeFileSync(this.outputFile, code)
