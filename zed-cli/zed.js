@@ -5,6 +5,7 @@ const _ = require("lodash")
 const fs = require("fs")
 
 const ZeroDevContainer = require("./src/actions/zero-dev-container")
+const ZeroDevHost = require("./src/actions/zero-dev-host")
 const ZeroDevInstall = require("./src/actions/zero-dev-install")
 const ZeroDevNginx = require("./src/actions/zero-dev-nginx")
 const ZeroDevUpdate = require("./src/actions/zero-dev-update")
@@ -47,6 +48,13 @@ class ZeroDevOS {
     })
   }
 
+  host() {
+    let zeroDevHost = new ZeroDevHost(this.options)
+    zeroDevHost.exec().then(() => {
+      utils.message("done.")
+    })
+  }
+
   install() {
     this.options.install = true
 
@@ -80,7 +88,7 @@ program
   .option("--stop <containerName>", "stop container")
   .option("--restart <containerName>", "restart container")
   .option("--create-os-image", "create zero-dev-os image")
-  .option("--update-hosts", "update /etc/hosts with container info")
+  .option("--update-hosts <containerName>", "update container /etc/hosts with container info")
   .option("--multipass", "let zed know when using multipass")
   .description("container operations")
   .action((options) => {
@@ -97,6 +105,20 @@ program
     })
 
     zeroDevOS.container()
+  })
+
+program
+  .command("host")
+  .option("--update-hosts", "update /etc/hosts with container info")
+  .option("--multipass", "let zed know when using multipass")
+  .description("host operations")
+  .action((options) => {
+    let zeroDevOS = new ZeroDevOS({
+      updateHosts: options.updateHosts,
+      multipass: options.multipass,
+    })
+
+    zeroDevOS.host()
   })
 
 program

@@ -161,9 +161,11 @@ class ZeroDevContainer {
   }
 
   updateHosts() {
+    let containerName = this.options.updateHosts
+
     let content = `\
 127.0.0.1	localhost
-127.0.0.1	${os.hostname()}
+127.0.0.1	${containerName}
 
 `
 
@@ -181,7 +183,6 @@ class ZeroDevContainer {
           }
         }
       })
-
     }
     else {
       let containers = JSON.parse(shell.exec("lxc list --format json", {silent:true}).stdout)
@@ -211,10 +212,12 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 `
 
-    utils.message("updating /etc/hosts")
-    fs.writeFileSync("/etc/hosts", content)
-  }
+    utils.message("updating /tmp/hosts")
+    fs.writeFileSync("/tmp/hosts", content)
 
+    // write /tmp/hosts to container /etc/hosts
+    shell.exec(`scp /tmp/hosts root@${containerName}:/etc/hosts`)
+  }
 
   validate() {
     let validOptions = false
