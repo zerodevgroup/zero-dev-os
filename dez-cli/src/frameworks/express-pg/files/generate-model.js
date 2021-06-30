@@ -81,8 +81,33 @@ class Model {
 
     let filters = []
     Object.keys(searchOptions).forEach((key) => {
-      if(searchOptions[key].value) {
-        filters.push(\`\${_.snakeCase(key)} ilike '\${searchOptions[key].value}%'\`)
+      let searchOption = searchOptions[key]
+      if(searchOption.value) {
+        if(searchOption.filterOption === "startsWith") {
+          filters.push(\`\${_.snakeCase(key)} ilike '\${searchOption.value}%'\`)
+        }
+
+        if(searchOption.filterOption === "endsWith") {
+          filters.push(\`\${_.snakeCase(key)} ilike '%\${searchOption.value}'\`)
+        }
+
+        if(searchOption.filterOption === "group.endsWith") {
+          let groupFilters = []
+          searchOption.groupAttributes.forEach((groupAttribute) => {
+            groupFilters.push(\`\${_.snakeCase(groupAttribute)} ilike '%\${searchOption.value}'\`)
+          })
+
+          let groupFilterStatement = "("
+          groupFilters.forEach((groupFilter, index) => {
+            if(index > 0) {
+              groupFilterStatement += " or "
+            }
+            groupFilterStatement += groupFilter
+          })
+          groupFilterStatement += ")"
+
+          filters.push(groupFilterStatement)
+        }
       }
     })
 
@@ -92,6 +117,8 @@ class Model {
       }
       statement += filter
     })
+
+    console.log(statement)
 
     const client = new Client()
     client.connect()
