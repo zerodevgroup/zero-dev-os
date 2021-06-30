@@ -72,20 +72,23 @@ class Model {
 
   search(callback) {
     let searchOptions = this.options.data
-    let statement = "select * from client where"
+    let statement = \`select * from \${this.options.modelName} where \`
 
     let fields = {}
     this.schema.fields.forEach((field) => {
       fields[field.name] = field.field
     })
 
-    Object.keys(searchOptions).forEach((name) => {
-      filters.push(\`\${fields[name]} like '\${searchOptions[name]}%'\`)
+    let filters = []
+    Object.keys(searchOptions).forEach((key) => {
+      if(searchOptions[key].value) {
+        filters.push(\`\${_.snakeCase(key)} ilike '\${searchOptions[key].value}%'\`)
+      }
     })
 
-    filters.foreEach((filter, index) => {
+    filters.forEach((filter, index) => {
       if(index > 0) {
-        statement += " AND "
+        statement += " and "
       }
       statement += filter
     })
