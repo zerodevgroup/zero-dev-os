@@ -80,15 +80,15 @@ class Model {
     })
 
     let filters = []
-    Object.keys(searchOptions).forEach((key) => {
-      let searchOption = searchOptions[key]
+    Object.keys(searchOptions.filters).forEach((filterKey) => {
+      let searchOption = searchOptions.filters[filterKey]
       if(searchOption.value) {
         if(searchOption.filterOption === "startsWith") {
-          filters.push(\`\${_.snakeCase(key)} ilike '\${searchOption.value}%'\`)
+          filters.push(\`\${_.snakeCase(filterKey)} ilike '\${searchOption.value}%'\`)
         }
 
         if(searchOption.filterOption === "endsWith") {
-          filters.push(\`\${_.snakeCase(key)} ilike '%\${searchOption.value}'\`)
+          filters.push(\`\${_.snakeCase(filterKey)} ilike '%\${searchOption.value}'\`)
         }
 
         if(searchOption.filterOption === "group.endsWith") {
@@ -111,12 +111,32 @@ class Model {
       }
     })
 
+    let sortItems = []
+    Object.keys(searchOptions.sortItems).forEach((sortItemKey) => {
+      let sortItem = searchOptions.sortItems[sortItemKey]
+      sortItems.push(\`\${_.snakeCase(sortItemKey)} \${sortItem.order}\`)
+    })
+
     filters.forEach((filter, index) => {
       if(index > 0) {
         statement += " and "
       }
       statement += filter
     })
+
+    if(sortItems.length > 0) {
+      statement += ' order by '
+      sortItems.forEach((sortItem, index) => {
+        if(index > 0) {
+          statement += ", "
+        }
+        statement += sortItem
+      })
+    }
+
+    let limit = searchOptions.limit ? searchOptions.limit : 100
+
+    statement += \` limit \${limit}\`
 
     console.log(statement)
 
